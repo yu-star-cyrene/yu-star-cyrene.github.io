@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <title>白白毛毛</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/main.js" defer></script>
+  <link rel="stylesheet" href="/css/_custom.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+
+<div class="sidebar">
+    <img src="/images/avatar.jpg" class="avatar" alt="avatar">
+    <h1 class="site-title">白白毛毛</h1>
+
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/archives">归档</a>
+    </nav>
+
+    
+<!-- ===== Custom Contact Section ===== -->
+<div class="contact-section">
+    <p class="contact-intro">If you want find me, please:</p>
+    <div class="contact-item">
+        <img src="/images/qq.png" alt="QQ" class="contact-icon">
+        <span>729626523</span>
+    </div>
+    <div class="contact-item">
+        <img src="/images/GitHub.png" alt="GitHub" class="contact-icon">
+        <span>yu-star-cyrene</span>
+    </div>
+    <div class="contact-item">
+        <img src="/images/email.jpg" alt="Gmail" class="contact-icon">
+        <span>y19350026593@gmail.com</span>
+    </div>
+</div>
+<!-- ===== End Custom Contact Section ===== -->
+<div id="post-list">
+        <article>
+    <h1>buuctf之路</h1>
+    <p class="date">2025-11-11</p>
+    <div class="article-content"><p>个人的刷题之旅，尽量的写的清晰明了一些，也是一种对知识回顾和学习的方法。<br>1.假如给我三天光明<br><img src="/images/QQ20251111-153946.png" alt="alt text"><br>题目所给的附件内有两个文件，一张图片，一个压缩包文件，打开图片<br><img src="/images/QQ20251111-153946.png" alt="alt text"><br>很明显图片中存在盲文，上网随便搜一个盲文表，解密一下，得到kmdonowg。<br>压缩包直接打开提示错误，说明有问题，拉到010editor一看<br><img src="/images/QQ20251111-161425.png" alt="alt text"><br>原来压缩包是rar格式的，改个后缀就可以了。<br>打开压缩包输入一下我们刚才解密的密码，压缩成功，是一个wav的音频文件，而且一听就知道是莫斯密码，用audacity打开<br><img src="/images/QQ20251111-161732-1.png" alt="alt text"><br>手敲一波，-.-.  -  ..-.  .–  .–.  .  ..  —–  —..  –…  …–  ..—  ..–..  ..—  …–  -..  –..<br>然后解码，得到CTFWPEI08732?23DZ<br>最后根据题目的用flag包裹，再加上试了一次大写字母不行，得到flag<br>flag{wpei08732?23dz}</p>
+<hr>
+<p>2.[SWPU2019]神奇的二维码<br>附件给了一个二维码，用qr扫一下<br><img src="/images/QQ20251111-192300.png" alt="alt text"><br>swpuctf{flag_is_not_here} 虽然它都说不在这里了，但我还是试了一试，wrong！<br>所以直接扫是不对的，扔到随波逐流里面看看<br><img src="/images/QQ20251111-193617.png" alt="alt text"><br>隐藏文件，一般要binwalk，但我懒得开wsl了，提取一下<br><img src="/images/QQ20251111-193843.png" alt="alt text"><br>四个包，都看看<br><img src="/images/QQ20251111-193942.png" alt="alt text"><br><img src="/images/QQ20251111-193950.png" alt="alt text"><br>要密码<br><img src="/images/QQ20251111-194100.png" alt="alt text"><br>一眼base64 解码得到asdfghjkl1234567890 扔到上面那个加密的看看<br><img src="/images/QQ20251111-194251.png" alt="alt text"><br>又假，看看第三个包，<br>“C:\Users\G1731\Downloads\神奇的二维码_BitcoinPay.png.extracted\flag.doc” 是一个doc文件，里面是一串长的要死的字符串，先不管，看看第四个包<br><img src="/images/QQ20251111-194405.png" alt="alt text"><br>一个音频 ，需要密码，那估计就是第三个包的字符串了，<br>虽然不想说，但看着很像base64，估计是多次加密的，所以那么长，一顿解密后得到comEON_YOuAreSOSoS0great<br>还被调侃了，解压一下那个音频 ，一听，又是莫斯，手敲得到– — .-. … . .. … …- . .-. -.– …- . .-. -.– . .- … -.–<br>解密一下，MORSEISVERYVERYEASY<br>试了几次，得到flag{morseisveryveryeasy}<br>也不知道为什么大写不行。</p>
+<p>3.Java逆向解密<br>题目给了一个class文件，是java编译后的，我们用jadx反编译一下<br>即打开jadx，然后打开一下题目给的class文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">package defpackage;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line">/* loaded from: Reverse.class */</span><br><span class="line">public class Reverse &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Scanner s = new Scanner(System.in);</span><br><span class="line">        System.out.println(&quot;Please input the flag ：&quot;);</span><br><span class="line">        String str = s.next();</span><br><span class="line">        System.out.println(&quot;Your input is ：&quot;);</span><br><span class="line">        System.out.println(str);</span><br><span class="line">        char[] stringArr = str.toCharArray();</span><br><span class="line">        Encrypt(stringArr);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void Encrypt(char[] arr) &#123;</span><br><span class="line">        ArrayList&lt;Integer&gt; Resultlist = new ArrayList&lt;&gt;();</span><br><span class="line">        for (char c : arr) &#123;</span><br><span class="line">            int result = (c + &#x27;@&#x27;) ^ 32;</span><br><span class="line">            Resultlist.add(Integer.valueOf(result));</span><br><span class="line">        &#125;</span><br><span class="line">        int[] KEY = &#123;180, 136, 137, 147, 191, 137, 147, 191, 148, 136, 133, 191, 134, 140, 129, 135, 191, 65&#125;;</span><br><span class="line">        ArrayList&lt;Integer&gt; KEYList = new ArrayList&lt;&gt;();</span><br><span class="line">        for (int i : KEY) &#123;</span><br><span class="line">            KEYList.add(Integer.valueOf(i));</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(&quot;Result:&quot;);</span><br><span class="line">        if (Resultlist.equals(KEYList)) &#123;</span><br><span class="line">            System.out.println(&quot;Congratulations！&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            System.err.println(&quot;Error！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>得到代码这样<br>分析一下<br>result &#x3D; (c + ‘@’) ^ 32<br>@的ascll码为64，输入的先加64 然后跟32异或<br>即 c &#x3D; (result ^ 32) - 64<br>将180, 136, 137, 147, 191, 137, 147, 191, 148, 136, 133, 191, 134, 140, 129, 135, 191, 65这些均操作一番，得到This_is_the_flag_!<br>所以flag为flag{This_is_the_flag_!}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">3.[GXYCTF2019]luck_guy</span><br><span class="line">题目给了一个附件，&quot;C:\Users\G1731\Downloads\attachment\luck_guy&quot;</span><br><span class="line">先用pe看一下</span><br><span class="line">![alt text](/images/QQ20251111-205049.png)</span><br><span class="line">很正常，没壳，打开ida，扔进去</span><br><span class="line">![alt text](/images/QQ20251111-205216.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```int __fastcall main(int argc, const char **argv, const char **envp)</span><br><span class="line">&#123;</span><br><span class="line">  int v4; // [rsp+14h] [rbp-Ch] BYREF</span><br><span class="line">  unsigned __int64 v5; // [rsp+18h] [rbp-8h]</span><br><span class="line"></span><br><span class="line">  v5 = __readfsqword(0x28u);</span><br><span class="line">  welcome();</span><br><span class="line">  puts(&quot;_________________&quot;);</span><br><span class="line">  puts(&quot;try to patch me and find flag&quot;);</span><br><span class="line">  v4 = 0;</span><br><span class="line">  puts(&quot;please input a lucky number&quot;);</span><br><span class="line">  __isoc99_scanf(&quot;%d&quot;, &amp;v4);</span><br><span class="line">  patch_me(v4);</span><br><span class="line">  puts(&quot;OK,see you again&quot;);</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有个比较，patch_me，点点看</p>
+<pre><code>int __fastcall patch_me(int a1)
+{
+  if ( a1 % 2 == 1 )
+    return puts(&quot;just finished&quot;);
+  else
+    return get_flag();
+}```
+
+又有一个get_flag，再点点看
+
+```unsigned __int64 get_flag()
+{
+  unsigned int v0; // eax
+  int i; // [rsp+4h] [rbp-3Ch]
+  int j; // [rsp+8h] [rbp-38h]
+  __int64 s; // [rsp+10h] [rbp-30h] BYREF
+  char v5; // [rsp+18h] [rbp-28h]
+  unsigned __int64 v6; // [rsp+38h] [rbp-8h]
+
+  v6 = __readfsqword(0x28u);
+  v0 = time(0);
+  srand(v0);
+  for ( i = 0; i &lt;= 4; ++i )
+  {
+    switch ( rand() % 200 )
+    {
+      case 1:
+        puts(&quot;OK, it&#39;s flag:&quot;);
+        memset(&amp;s, 0, 0x28u);
+        strcat((char *)&amp;s, f1);
+        strcat((char *)&amp;s, &amp;f2);
+        printf(&quot;%s&quot;, (const char *)&amp;s);
+        break;
+      case 2:
+        printf(&quot;Solar not like you&quot;);
+        break;
+      case 3:
+        printf(&quot;Solar want a girlfriend&quot;);
+        break;
+      case 4:
+        s = 0x7F666F6067756369LL;
+        v5 = 0;
+        strcat(&amp;f2, (const char *)&amp;s);
+        break;
+      case 5:
+        for ( j = 0; j &lt;= 7; ++j )
+        {
+          if ( j % 2 == 1 )
+            *(&amp;f2 + j) -= 2;
+          else
+            --*(&amp;f2 + j);
+        }
+        break;
+      default:
+        puts(&quot;emmm,you can&#39;t find flag 23333&quot;);
+        break;
+    }
+  }
+  return __readfsqword(0x28u) ^ v6;
+}```
+              
+
+三个代码只要看一个就好了，最后一个。
+rand() % 200 == 1，看到这个了吧，随机case，只有先4，后5，再1，才有flag，真是考验运气。
+所以我选择直接静态分析，case4的初值为0x7F666F6067756369LL，反编译这个要反着看，然后转化成字符，得到icugof\x7F
+```在通过case 5:
+        for ( j = 0; j &lt;= 7; ++j )
+        {
+          if ( j % 2 == 1 )
+            *(&amp;f2 + j) -= 2;
+          else
+            --*(&amp;f2 + j);
+        }
+</code></pre>
+<p>奇数-2,偶数-1，对刚才的字符进行操作，得到hate_me}，少一半，如果题目狠点心就只能动态分析了，但是它还是太善良了，我翻了翻ida，成功在<br><img src="/images/QQ20251111-205246.png" alt="alt text"><br>这里，太直接了，根据buuctf的要求，最后得到flag，为flag{do_not_hate_me}</p>
+<hr>
+<ol start="4">
+<li></li>
+</ol>
+<hr>
+<ol start="5">
+<li></li>
+</ol>
+<hr>
+<p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
+</div>
+</article>
+
+    </div>
+</div>
+
+<div class="content-area">
+    <div class="content-wrapper">
+        <div id="post-content">
+            <p class="hint">点击左侧文章标题查看内容</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
