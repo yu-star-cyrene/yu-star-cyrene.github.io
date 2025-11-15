@@ -1,0 +1,150 @@
+
+/* 背景与基础 */
+body {
+    margin: 0;
+    padding: 0;
+    background: url('/images/home-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: "Microsoft YaHei", sans-serif;
+    overflow-x: hidden; /* ✅ 禁止横向滚动 */
+    color: #333;
+}
+
+/* 左侧栏固定 */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 0 8px rgba(0,0,0,0.3);
+    padding: 20px;
+    overflow-y: auto;
+    color: #fff;
+}
+
+.avatar {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    display: block;
+    margin: 10px auto;
+}
+
+.site-title {
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+}
+
+/* 导航 */
+.nav {
+    text-align: center;
+    margin: 15px 0;
+}
+.nav a {
+    color: #ddd;
+    margin: 0 10px;
+    text-decoration: none;
+}
+.nav a:hover {
+    color: #ffb7f5;
+}
+
+/* 文章列表 */
+.post-item {
+    cursor: pointer;
+    margin: 15px 0;
+    padding: 8px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+.post-item:hover {
+    background: rgba(255,255,255,0.1);
+}
+.post-item h2 {
+    margin: 0;
+    font-size: 16px;
+    color: #fff;
+}
+.post-item:hover h2 {
+    color: #ffb7f5;
+}
+.post-item .date {
+    font-size: 13px;
+    color: #ccc;
+}
+
+/* 右侧内容区 */
+.content-area {
+    margin-left: 280px; /* ✅ 预留给左栏 */
+    padding: 40px;
+    box-sizing: border-box;
+    min-height: 100vh;
+}
+
+.content-wrapper {
+    background: rgba(255,255,255,0.9);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hint {
+    color: #888;
+    text-align: center;
+    margin-top: 150px;
+    font-size: 18px;
+}
+
+/* 文章内容样式 */
+#post-content article {
+    color: #000;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+#post-content h1 {
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+#post-content img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 20px auto;
+    display: block;
+    background-color: #fff;
+}
+
+pre {
+    background: #f2f2f2;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+}
+
+/* ✅ 响应式优化 */
+@media (max-width: 900px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        text-align: center;
+    }
+
+    .content-area {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .content-wrapper {
+        padding: 20px;
+    }
+}

