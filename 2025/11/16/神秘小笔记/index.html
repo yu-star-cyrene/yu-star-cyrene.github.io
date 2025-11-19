@@ -45,7 +45,7 @@
 <p>今天这个笔记，主要是记录一个新的题目，CTFSHOW菜狗杯的迅疾响应，这一题给我整傻了，还是看了wp才懂。</p>
 <p>这道题的附件是一张二维码，扫不出来，虽然有隐藏文件，那只是调侃flag不在这。</p>
 <p>这边要引入一个新的工具 ，叫QRazyBox。</p>
-<p><img src="C:\Users\G1731\Desktop\my-blog\source\images\QQ20251118-165610.png" alt="QQ20251118-165610"></p>
+<p><img src="/%5Cimages%5CQQ20251118-165610.png" alt="alt text"></p>
 <p>二维码编辑器，你看它就能扫出来信息。</p>
 <p>*QR version : *<em>9 (53x53)</em></p>
 <p>*Error correction level : *<em>L</em></p>
@@ -61,7 +61,7 @@
 <p><em>Decoded data : Capture the Flag (CTF) in computer security is an exercise in which “flags” are secretly hidden in purposefully-vulnerable programs or websdTes. ctfshow{11451419-1981-</em></p>
 <p>*Final Decoded string : *<em>Capture the Flag (CTF) in computer security is an exercise in which “flags” are secretly hidden in purposefully-vulnerable programs or websdTes. ctfshow{11451419-1981</em>-</p>
 <p>这边用这个就能得到一半的flag了，那么另一半呢，我们需要编辑二维码。</p>
-<p><img src="C:\Users\G1731\Desktop\my-blog\source\images\QQ20251118-170215.png" alt="QQ20251118-170215"></p>
+<p><img src="/%5Cimages%5CQQ20251118-170215.png" alt="alt text"></p>
 <p>这个工具能纠错我们错误的二维码， 我虽然没有按照纠错涂白完，但已经有另一半了。</p>
 <p><em>QR version : 9 (53x53)</em>**</p>
 <p><em>Error correction level :L</em>**</p>
@@ -80,11 +80,11 @@
 <p>是一个很有用的工具，相信以后也会用到的。</p>
 <hr>
 <h1 id="2-Hackber"><a href="#2-Hackber" class="headerlink" title="2.Hackber"></a>2.Hackber</h1><p>Hackber,一个在做web题很好用的工具，传参，post，改cookie啊，等等，有了这个工具，我就不要再傻乎乎的搁那curl这，curl -X那的了，我曾经两次下载它，第一次载入谷歌失败，第二次即便装了也不会用，本以为就此失败，没想到偶然间，竟得到了高人指点，大师，我悟了，话不多说，开始我的故事。</p>
-<p><img src="C:\Users\G1731\Desktop\my-blog\source\images\QQ20251119-193301.png" alt="QQ20251119-193301"></p>
+<p><img src="/%5Cimages%5CQQ20251119-193301.png" alt="alt text"></p>
 <p>事情的起因是这题，我依稀还记得这是我刚开始接触web做过的题，当时的我是个fw，根本没用头绪，而现在我有头绪了，但还是个fw，也是刚才才做出来的。</p>
-<p><img src="C:\Users\G1731\Desktop\my-blog\source\images\QQ20251119-193442.png" alt="QQ20251119-193442"></p>
+<p><img src="/%5Cimages%5CQQ20251119-193442.png" alt="alt text"></p>
 <p>打开 题目，显示方式不对，这边就是get方式不行，要改为post。</p>
-<p><img src="C:\Users\G1731\Desktop\my-blog\source\images\QQ20251119-193547.png" alt="QQ20251119-193547"></p>
+<p><img src="/%5Cimages%5CQQ20251119-193547.png" alt="alt text"></p>
 <p>hackbor工具一招搞定，马上就看到题目源码了，之前还是傻乎乎的curl -X POST  呢，</p>
 <p>题目要求一个Cookie:flag&#x3D;1 然后传参web&#x3D;like ,最后一个POST CNSS&#x3D;join </p>
 <p>我真是服我自己了，怎么这么简单的题都卡。</p>
