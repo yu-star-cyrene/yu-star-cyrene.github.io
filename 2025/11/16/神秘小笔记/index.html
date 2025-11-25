@@ -6,41 +6,107 @@
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/main.js" defer></script>
   <link rel="stylesheet" href="/css/_custom.css">
+  <style>
+    /* 侧边栏样式保持 V5 的完美状态 */
+    .sidebar .post-list-container ul { list-style: none !important; padding: 0 !important; margin: 0 !important; }
+    .sidebar .post-list-container li { padding: 10px 15px !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
+    .sidebar .post-list-container a.post-title-link { 
+        text-decoration: none !important; 
+        color: #eee !important;
+        font-weight: bold !important;
+        font-size: 14px !important;
+        display: block !important;
+    }
+    .sidebar .post-list-container .post-date { font-size: 12px !important; color: #999 !important; margin-top: 4px !important; }
+    .sidebar .contact-section { display: block !important; margin: 20px 0 !important; }
+    
+    /* 折叠组件样式 (为了防止你以后想用 layout 里的样式，这里保留着) */
+    details.auto-collapse { margin-bottom: 15px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
+    details.auto-collapse summary { cursor: pointer; padding: 15px; background: #f8f9fa; font-weight: bold; color: #333; list-style: none; position: relative; border-left: 5px solid #007bff; display: flex; align-items: center; }
+    details.auto-collapse summary:hover { background: #e9ecef; }
+    details.auto-collapse summary::-webkit-details-marker { display: none; }
+    details.auto-collapse summary::after { content: '➕'; margin-left: auto; font-size: 0.8em; opacity: 0.6; }
+    details.auto-collapse[open] summary::after { content: '➖'; }
+    .collapse-content { padding: 20px; background: #fff; border-top: 1px solid #eee; }
+  </style>
 <meta name="generator" content="Hexo 8.1.1"></head>
 <body>
 
-<div class="sidebar">
-    <img src="/images/avatar.jpg" class="avatar" alt="avatar">
-    <h1 class="site-title">白白毛毛</h1>
+<div class="container">
+    <div class="sidebar">
+        <div class="header-info">
+            <img src="/images/avatar.jpg" class="avatar" alt="avatar">
+            <h1 class="site-title">白白毛毛</h1>
+            <nav class="nav">
+                <a href="/">首页</a>
+                <a href="/archives">归档</a>
+            </nav>
+        </div>
 
-    <nav class="nav">
-        <a href="/">首页</a>
-        <a href="/archives">归档</a>
-    </nav>
+        <div class="contact-section">
+            <p class="contact-intro">If you want find me:</p>
+            <div class="contact-item"><img src="/images/qq.png" class="contact-icon" style="width:20px;"><span>729626523</span></div>
+            <div class="contact-item"><img src="/images/GitHub.png" class="contact-icon" style="width:20px;"><span>yu-star-cyrene</span></div>
+            <div class="contact-item"><img src="/images/email.jpg" class="contact-icon" style="width:20px;"><span>y19350026593@gmail.com</span></div>
+        </div>
 
+        <div class="post-list-container" style="flex: 1; overflow-y: auto; border-top: 1px solid rgba(255,255,255,0.1);">
+            <ul>
+            
+                <li>
+                    <a href="/2025/11/11/PS-%E6%84%9F%E8%A7%89%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%B8%AA/" class="post-title-link">PS:感觉可以做一个</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/11/nssctf%E5%AD%A6%E4%B9%A0%E4%B8%AD/" class="post-title-link">nssctf学习中</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/16/%E7%A5%9E%E7%A7%98%E5%B0%8F%E7%AC%94%E8%AE%B0/" class="post-title-link">神秘小笔记</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/11/buuctf%E4%B9%8B%E8%B7%AF/" class="post-title-link">buuctf之路</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="content-wrapper">
+            
+<style>
+    .article-content img, .article-content iframe {
+        max-width: 100% !important;
+        height: auto !important;
+        display: block;
+        margin: 20px auto;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    pre, code {
+        white-space: pre-wrap !important; 
+        word-wrap: break-word !important;
+    }
+</style>
+
+<article class="post-article" style="padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05);">
+    <h1 class="post-title" style="font-size: 2.2em; margin-bottom: 15px; color: #333;">神秘小笔记</h1>
+    <div class="post-meta" style="color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+        📅 发布于: 2025-11-16 14:01
+    </div>
     
-<!-- ===== Custom Contact Section ===== -->
-<div class="contact-section">
-    <p class="contact-intro">If you want find me, please:</p>
-    <div class="contact-item">
-        <img src="/images/qq.png" alt="QQ" class="contact-icon">
-        <span>729626523</span>
-    </div>
-    <div class="contact-item">
-        <img src="/images/GitHub.png" alt="GitHub" class="contact-icon">
-        <span>yu-star-cyrene</span>
-    </div>
-    <div class="contact-item">
-        <img src="/images/email.jpg" alt="Gmail" class="contact-icon">
-        <span>y19350026593@gmail.com</span>
-    </div>
-</div>
-<!-- ===== End Custom Contact Section ===== -->
-<div id="post-list">
-        <article>
-    <h1>神秘小笔记</h1>
-    <p class="date">2025-11-16</p>
-    <div class="article-content"><h1 id="1-二维码"><a href="#1-二维码" class="headerlink" title="1.二维码"></a>1.二维码</h1><p>之所以写这个，是因为之前做题看见二维码，就用手机直接扫，直接被学长狠狠的拷打了，所以之后我就改掉这个习惯用了QR。</p>
+    <div class="article-content" id="article-content">
+        <h1 id="1-二维码"><a href="#1-二维码" class="headerlink" title="#1.二维码"></a>#1.二维码</h1><p>之所以写这个，是因为之前做题看见二维码，就用手机直接扫，直接被学长狠狠的拷打了，所以之后我就改掉这个习惯用了QR。</p>
 <p>但是，在二维码这上面，还是有很多知识是我不知道的，这边点名批评京华杯签到题，不会ps，压根不会做。</p>
 <p>今天这个笔记，主要是记录一个新的题目，CTFSHOW菜狗杯的迅疾响应，这一题给我整傻了，还是看了wp才懂。</p>
 <p>这道题的附件是一张二维码，扫不出来，虽然有隐藏文件，那只是调侃flag不在这。</p>
@@ -79,7 +145,7 @@
 <p>ctfshow{11451419-1981-landexiangle}</p>
 <p>是一个很有用的工具，相信以后也会用到的。</p>
 <hr>
-<h1 id="2-Hackber"><a href="#2-Hackber" class="headerlink" title="2.Hackber"></a>2.Hackber</h1><p>Hackber,一个在做web题很好用的工具，传参，post，改cookie啊，等等，有了这个工具，我就不要再傻乎乎的搁那curl这，curl -X那的了，我曾经两次下载它，第一次载入谷歌失败，第二次即便装了也不会用，本以为就此失败，没想到偶然间，竟得到了高人指点，大师，我悟了，话不多说，开始我的故事。</p>
+<h1 id="2-Hackber"><a href="#2-Hackber" class="headerlink" title="##2.Hackber"></a>##2.Hackber</h1><p>Hackber,一个在做web题很好用的工具，传参，post，改cookie啊，等等，有了这个工具，我就不要再傻乎乎的搁那curl这，curl -X那的了，我曾经两次下载它，第一次载入谷歌失败，第二次即便装了也不会用，本以为就此失败，没想到偶然间，竟得到了高人指点，大师，我悟了，话不多说，开始我的故事。</p>
 <p><img src="/images/QQ20251119-193301.png" alt="alt text"></p>
 <p>事情的起因是这题，我依稀还记得这是我刚开始接触web做过的题，当时的我是个fw，根本没用头绪，而现在我有头绪了，但还是个fw，也是刚才才做出来的。</p>
 <p><img src="/images/QQ20251119-193442.png" alt="alt text"></p>
@@ -90,21 +156,98 @@
 <p>我真是服我自己了，怎么这么简单的题都卡。</p>
 <p>吐槽之余也是收获了一个好工具的用法，唉。</p>
 <hr>
-<ol start="3">
-<li></li>
-</ol>
-<hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
-</div>
-</article>
 
     </div>
-</div>
+</article>
 
-<div class="content-area">
-    <div class="content-wrapper">
-        <div id="post-content">
-            <p class="hint">点击左侧文章标题查看内容</p>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const contentDiv = document.getElementById('article-content');
+    if (!contentDiv) return;
+
+    const children = Array.from(contentDiv.children);
+    if (children.length === 0) return;
+
+    const newContainer = document.createDocumentFragment();
+    let currentDetails = null;
+    let currentContentDiv = null;
+
+    // === V5 核心判定逻辑 ===
+    const getHeaderInfo = (el) => {
+        const text = el.innerText.trim();
+        const tagName = el.tagName.toLowerCase();
+        
+        // 1. 如果是 H1-H6 标签（说明 Markdown 里写了 # 且加了空格，如 "# 1. 题目"）
+        // 我们认为这肯定是标题
+        if (['h1','h2','h3','h4','h5','h6'].includes(tagName)) {
+             // 只有当它是数字开头时才折叠，避免把 "小结" 这种副标题也折叠了
+             // 如果你想折叠所有 H 标签，可以去掉这个正则判断
+             if (/^\d+/.test(text) || text.startsWith('#')) {
+                 return { isHeader: true, text: text };
+             }
+             return { isHeader: true, text: text };
+        }
+
+        // 2. 如果是 P 或 DIV 标签（说明 Markdown 写法不规范，如 "####4.题目" 没加空格）
+        // 关键点：只有以 # 开头的才算！这能完美避开正文里的 "1.if(...)"
+        if ((tagName === 'p' || tagName === 'div') && text.startsWith('#')) {
+            // 必须包含数字，防止误伤普通强调文本
+            if (/^#+\s*\d+/.test(text)) {
+                const cleanText = text.replace(/^#+\s*/, ''); // 去掉 # 号
+                return { isHeader: true, text: cleanText };
+            }
+        }
+        
+        return { isHeader: false };
+    };
+
+    children.forEach(el => {
+        const info = getHeaderInfo(el);
+
+        if (info.isHeader) {
+            // 🛑 遇到新标题：打包上一个
+            if (currentDetails) {
+                currentDetails.appendChild(currentContentDiv);
+                newContainer.appendChild(currentDetails);
+            }
+
+            // 创建新折叠框
+            currentDetails = document.createElement('details');
+            currentDetails.className = 'auto-collapse';
+            
+            // 标题
+            const summary = document.createElement('summary');
+            summary.innerText = info.text;
+            currentDetails.appendChild(summary);
+
+            // 内容区
+            currentContentDiv = document.createElement('div');
+            currentContentDiv.className = 'collapse-content';
+        } else {
+            // 📄 正文内容（包括你的 1.if(...)）
+            if (currentContentDiv) {
+                currentContentDiv.appendChild(el);
+            } else {
+                newContainer.appendChild(el);
+            }
+        }
+    });
+
+    // 处理最后一个
+    if (currentDetails) {
+        currentDetails.appendChild(currentContentDiv);
+        newContainer.appendChild(currentDetails);
+    }
+
+    // 更新页面
+    if (newContainer.children.length > 0) {
+        contentDiv.innerHTML = '';
+        contentDiv.appendChild(newContainer);
+    }
+});
+</script>
+
         </div>
     </div>
 </div>

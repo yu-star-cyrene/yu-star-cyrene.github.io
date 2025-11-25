@@ -6,42 +6,108 @@
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/main.js" defer></script>
   <link rel="stylesheet" href="/css/_custom.css">
+  <style>
+    /* 侧边栏样式保持 V5 的完美状态 */
+    .sidebar .post-list-container ul { list-style: none !important; padding: 0 !important; margin: 0 !important; }
+    .sidebar .post-list-container li { padding: 10px 15px !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
+    .sidebar .post-list-container a.post-title-link { 
+        text-decoration: none !important; 
+        color: #eee !important;
+        font-weight: bold !important;
+        font-size: 14px !important;
+        display: block !important;
+    }
+    .sidebar .post-list-container .post-date { font-size: 12px !important; color: #999 !important; margin-top: 4px !important; }
+    .sidebar .contact-section { display: block !important; margin: 20px 0 !important; }
+    
+    /* 折叠组件样式 (为了防止你以后想用 layout 里的样式，这里保留着) */
+    details.auto-collapse { margin-bottom: 15px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
+    details.auto-collapse summary { cursor: pointer; padding: 15px; background: #f8f9fa; font-weight: bold; color: #333; list-style: none; position: relative; border-left: 5px solid #007bff; display: flex; align-items: center; }
+    details.auto-collapse summary:hover { background: #e9ecef; }
+    details.auto-collapse summary::-webkit-details-marker { display: none; }
+    details.auto-collapse summary::after { content: '➕'; margin-left: auto; font-size: 0.8em; opacity: 0.6; }
+    details.auto-collapse[open] summary::after { content: '➖'; }
+    .collapse-content { padding: 20px; background: #fff; border-top: 1px solid #eee; }
+  </style>
 <meta name="generator" content="Hexo 8.1.1"></head>
 <body>
 
-<div class="sidebar">
-    <img src="/images/avatar.jpg" class="avatar" alt="avatar">
-    <h1 class="site-title">白白毛毛</h1>
+<div class="container">
+    <div class="sidebar">
+        <div class="header-info">
+            <img src="/images/avatar.jpg" class="avatar" alt="avatar">
+            <h1 class="site-title">白白毛毛</h1>
+            <nav class="nav">
+                <a href="/">首页</a>
+                <a href="/archives">归档</a>
+            </nav>
+        </div>
 
-    <nav class="nav">
-        <a href="/">首页</a>
-        <a href="/archives">归档</a>
-    </nav>
+        <div class="contact-section">
+            <p class="contact-intro">If you want find me:</p>
+            <div class="contact-item"><img src="/images/qq.png" class="contact-icon" style="width:20px;"><span>729626523</span></div>
+            <div class="contact-item"><img src="/images/GitHub.png" class="contact-icon" style="width:20px;"><span>yu-star-cyrene</span></div>
+            <div class="contact-item"><img src="/images/email.jpg" class="contact-icon" style="width:20px;"><span>y19350026593@gmail.com</span></div>
+        </div>
 
+        <div class="post-list-container" style="flex: 1; overflow-y: auto; border-top: 1px solid rgba(255,255,255,0.1);">
+            <ul>
+            
+                <li>
+                    <a href="/2025/11/11/PS-%E6%84%9F%E8%A7%89%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%B8%AA/" class="post-title-link">PS:感觉可以做一个</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/11/nssctf%E5%AD%A6%E4%B9%A0%E4%B8%AD/" class="post-title-link">nssctf学习中</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/16/%E7%A5%9E%E7%A7%98%E5%B0%8F%E7%AC%94%E8%AE%B0/" class="post-title-link">神秘小笔记</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/11/buuctf%E4%B9%8B%E8%B7%AF/" class="post-title-link">buuctf之路</a>
+                    <div class="post-date">2025-11-25</div>
+                </li>
+            
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="content-wrapper">
+            
+<style>
+    .article-content img, .article-content iframe {
+        max-width: 100% !important;
+        height: auto !important;
+        display: block;
+        margin: 20px auto;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    pre, code {
+        white-space: pre-wrap !important; 
+        word-wrap: break-word !important;
+    }
+</style>
+
+<article class="post-article" style="padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05);">
+    <h1 class="post-title" style="font-size: 2.2em; margin-bottom: 15px; color: #333;">ctfshow的试炼</h1>
+    <div class="post-meta" style="color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+        📅 发布于: 2025-11-16 16:01
+    </div>
     
-<!-- ===== Custom Contact Section ===== -->
-<div class="contact-section">
-    <p class="contact-intro">If you want find me, please:</p>
-    <div class="contact-item">
-        <img src="/images/qq.png" alt="QQ" class="contact-icon">
-        <span>729626523</span>
-    </div>
-    <div class="contact-item">
-        <img src="/images/GitHub.png" alt="GitHub" class="contact-icon">
-        <span>yu-star-cyrene</span>
-    </div>
-    <div class="contact-item">
-        <img src="/images/email.jpg" alt="Gmail" class="contact-icon">
-        <span>y19350026593@gmail.com</span>
-    </div>
-</div>
-<!-- ===== End Custom Contact Section ===== -->
-<div id="post-list">
-        <article>
-    <h1>ctfshow的试炼</h1>
-    <p class="date">2025-11-16</p>
-    <div class="article-content"><p>ctfshow的做题之路，这边我会把我感觉对自己很有帮助的题目以及wp写出来。</p>
-<h1 id="1-签到·好玩的PHP"><a href="#1-签到·好玩的PHP" class="headerlink" title="1.签到·好玩的PHP"></a>1.签到·好玩的PHP</h1><p>这题目特别简洁但又难做，上代码</p>
+    <div class="article-content" id="article-content">
+        <p>ctfshow的做题之路，这边我会把我感觉对自己很有帮助的题目以及wp写出来。</p>
+<h1 id="1-签到·好玩的PHP"><a href="#1-签到·好玩的PHP" class="headerlink" title="#1.签到·好玩的PHP"></a>#1.签到·好玩的PHP</h1><p>这题目特别简洁但又难做，上代码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">  error_reporting(0);</span><br><span class="line">  highlight_file(__FILE__);</span><br><span class="line"></span><br><span class="line">  class ctfshow &#123;</span><br><span class="line">    private $d = &#x27;&#x27;;</span><br><span class="line">    private $s = &#x27;&#x27;;</span><br><span class="line">    private $b = &#x27;&#x27;;</span><br><span class="line">    private $ctf = &#x27;&#x27;;</span><br><span class="line"></span><br><span class="line">​    public function __destruct() &#123;</span><br><span class="line">​      $this-&gt;d = (string)$this-&gt;d;</span><br><span class="line">​      $this-&gt;s = (string)$this-&gt;s;</span><br><span class="line">​      $this-&gt;b = (string)$this-&gt;b;</span><br><span class="line"></span><br><span class="line">​      if (($this-&gt;d != $this-&gt;s) &amp;&amp; ($this-&gt;d != $this-&gt;b) &amp;&amp; ($this-&gt;s != $this-&gt;b)) &#123;</span><br><span class="line">​        $dsb = $this-&gt;d.$this-&gt;s.$this-&gt;b;</span><br><span class="line"></span><br><span class="line">​        if ((strlen($dsb) &lt;= 3) &amp;&amp; (strlen($this-&gt;ctf) &lt;= 3)) &#123;</span><br><span class="line">​          if (($dsb !== $this-&gt;ctf) &amp;&amp; ($this-&gt;ctf !== $dsb)) &#123;</span><br><span class="line">​            if (md5($dsb) === md5($this-&gt;ctf)) &#123;</span><br><span class="line">​              echo file_get_contents(&quot;/flag.txt&quot;);</span><br><span class="line">​            &#125;</span><br><span class="line">​          &#125;</span><br><span class="line">​        &#125;</span><br><span class="line">​      &#125;</span><br><span class="line">​    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  unserialize($_GET[&quot;dsbctf&quot;]);</span><br></pre></td></tr></table></figure>
 
 <p><strong>if (($this-&gt;d !&#x3D; $this-&gt;s) &amp;&amp; ($this-&gt;d !&#x3D; $this-&gt;b) &amp;&amp; ($this-&gt;s !&#x3D; $this-&gt;b))</strong></p>
@@ -63,7 +129,7 @@
 <p>传参后得到flag，ctfshow{e29728f4-86f4-49d0-bbd7-03c5e383f4e6}</p>
 <p>这一题的关键点在于序列化的过程，必须严格符合要求，否则一切都没用。</p>
 <hr>
-<h1 id="2-算力升级"><a href="#2-算力升级" class="headerlink" title="2.算力升级"></a>2.算力升级</h1><p>其实一开始我以为这题应该跟上一题的算力超群的难度差不多，只要看一下题目是怎么计算的，然后用指令读取flag，没想到还是卡了一段时间，此题出自菜狗杯的web题算力升级。</p>
+<h1 id="2-算力升级"><a href="#2-算力升级" class="headerlink" title="##2.算力升级"></a>##2.算力升级</h1><p>其实一开始我以为这题应该跟上一题的算力超群的难度差不多，只要看一下题目是怎么计算的，然后用指令读取flag，没想到还是卡了一段时间，此题出自菜狗杯的web题算力升级。</p>
 <p><img src="/images/QQ20251121-175940.png" alt="alt text"></p>
 <p><img src="/images/QQ20251121-180042.png" alt="alt text"></p>
 <ol>
@@ -93,7 +159,7 @@
 <p>总体无伤大雅。</p>
 <p>至于为什么不用16进制，我也不知道，问了ai，说是16进制有0x，会出问题，说不定以后就会遇到16进制转化的题目呢，学费了。</p>
 <hr>
-<h1 id="3-base47"><a href="#3-base47" class="headerlink" title="3.base47"></a>3.base47</h1><p>这题我应该写在神秘小笔记里的，但是想到这是ctfshow菜狗杯的密码题，还是写在这里了。</p>
+<h1 id="3-base47"><a href="#3-base47" class="headerlink" title="###3.base47"></a>###3.base47</h1><p>这题我应该写在神秘小笔记里的，但是想到这是ctfshow菜狗杯的密码题，还是写在这里了。</p>
 <p>先看题目。</p>
 <p><img src="/images/QQ20251121-210922.png" alt="alt text"></p>
 <p>神必字符： <code>E9CV^T+HT5#X36RF4@LAU703+F$E-0N$@68LMXCVDRJJD5@MP#7MUZDTE?WWLG1S#L@+^66H@59KTWYK8TW0RV</code></p>
@@ -128,7 +194,7 @@
 <p>然后得密文。</p>
 <p>base体系还有其他的，这边我就不全介绍了。</p>
 <hr>
-<h1 id="4-这个不好听"><a href="#4-这个不好听" class="headerlink" title="4.这个不好听"></a>4.这个不好听</h1><p>这一题我是没做出来的，所以，这一篇的文章并非wp类型，算是记录我在认真学习官方wp的日记吧。</p>
+<h1 id="4-这个不好听"><a href="#4-这个不好听" class="headerlink" title="#####4.这个不好听"></a>#####4.这个不好听</h1><p>这一题我是没做出来的，所以，这一篇的文章并非wp类型，算是记录我在认真学习官方wp的日记吧。</p>
 <p><img src="/images/QQ20251124-190629.png" alt="alt text"></p>
 <p>题目给的附件是一个wav类型的音频。”C:\Users\G1731\Downloads\flag\flag.wav”</p>
 <p>如题目而言听是不能听的，完全是没有任何信息的。</p>
@@ -273,16 +339,97 @@ flag_list.append(val)
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 </li>
 </ol>
-</div>
-</article>
 
     </div>
-</div>
+</article>
 
-<div class="content-area">
-    <div class="content-wrapper">
-        <div id="post-content">
-            <p class="hint">点击左侧文章标题查看内容</p>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const contentDiv = document.getElementById('article-content');
+    if (!contentDiv) return;
+
+    const children = Array.from(contentDiv.children);
+    if (children.length === 0) return;
+
+    const newContainer = document.createDocumentFragment();
+    let currentDetails = null;
+    let currentContentDiv = null;
+
+    // === V5 核心判定逻辑 ===
+    const getHeaderInfo = (el) => {
+        const text = el.innerText.trim();
+        const tagName = el.tagName.toLowerCase();
+        
+        // 1. 如果是 H1-H6 标签（说明 Markdown 里写了 # 且加了空格，如 "# 1. 题目"）
+        // 我们认为这肯定是标题
+        if (['h1','h2','h3','h4','h5','h6'].includes(tagName)) {
+             // 只有当它是数字开头时才折叠，避免把 "小结" 这种副标题也折叠了
+             // 如果你想折叠所有 H 标签，可以去掉这个正则判断
+             if (/^\d+/.test(text) || text.startsWith('#')) {
+                 return { isHeader: true, text: text };
+             }
+             return { isHeader: true, text: text };
+        }
+
+        // 2. 如果是 P 或 DIV 标签（说明 Markdown 写法不规范，如 "####4.题目" 没加空格）
+        // 关键点：只有以 # 开头的才算！这能完美避开正文里的 "1.if(...)"
+        if ((tagName === 'p' || tagName === 'div') && text.startsWith('#')) {
+            // 必须包含数字，防止误伤普通强调文本
+            if (/^#+\s*\d+/.test(text)) {
+                const cleanText = text.replace(/^#+\s*/, ''); // 去掉 # 号
+                return { isHeader: true, text: cleanText };
+            }
+        }
+        
+        return { isHeader: false };
+    };
+
+    children.forEach(el => {
+        const info = getHeaderInfo(el);
+
+        if (info.isHeader) {
+            // 🛑 遇到新标题：打包上一个
+            if (currentDetails) {
+                currentDetails.appendChild(currentContentDiv);
+                newContainer.appendChild(currentDetails);
+            }
+
+            // 创建新折叠框
+            currentDetails = document.createElement('details');
+            currentDetails.className = 'auto-collapse';
+            
+            // 标题
+            const summary = document.createElement('summary');
+            summary.innerText = info.text;
+            currentDetails.appendChild(summary);
+
+            // 内容区
+            currentContentDiv = document.createElement('div');
+            currentContentDiv.className = 'collapse-content';
+        } else {
+            // 📄 正文内容（包括你的 1.if(...)）
+            if (currentContentDiv) {
+                currentContentDiv.appendChild(el);
+            } else {
+                newContainer.appendChild(el);
+            }
+        }
+    });
+
+    // 处理最后一个
+    if (currentDetails) {
+        currentDetails.appendChild(currentContentDiv);
+        newContainer.appendChild(currentDetails);
+    }
+
+    // 更新页面
+    if (newContainer.children.length > 0) {
+        contentDiv.innerHTML = '';
+        contentDiv.appendChild(newContainer);
+    }
+});
+</script>
+
         </div>
     </div>
 </div>
