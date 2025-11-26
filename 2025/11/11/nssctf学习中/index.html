@@ -7,7 +7,7 @@
   <script src="/js/main.js" defer></script>
   <link rel="stylesheet" href="/css/_custom.css">
   <style>
-    /* 侧边栏样式保持 V5 的完美状态 */
+    /* 侧边栏样式 */
     .sidebar .post-list-container ul { list-style: none !important; padding: 0 !important; margin: 0 !important; }
     .sidebar .post-list-container li { padding: 10px 15px !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
     .sidebar .post-list-container a.post-title-link { 
@@ -20,9 +20,9 @@
     .sidebar .post-list-container .post-date { font-size: 12px !important; color: #999 !important; margin-top: 4px !important; }
     .sidebar .contact-section { display: block !important; margin: 20px 0 !important; }
     
-    /* 折叠组件样式 (为了防止你以后想用 layout 里的样式，这里保留着) */
-    details.auto-collapse { margin-bottom: 15px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
-    details.auto-collapse summary { cursor: pointer; padding: 15px; background: #f8f9fa; font-weight: bold; color: #333; list-style: none; position: relative; border-left: 5px solid #007bff; display: flex; align-items: center; }
+    /* 自动折叠组件样式 */
+    details.auto-collapse { margin-bottom: 15px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    details.auto-collapse summary { cursor: pointer; padding: 15px; background: #f8f9fa; font-weight: bold; color: #333; font-size: 1.1em; list-style: none; position: relative; transition: all 0.2s; border-left: 5px solid #007bff; display: flex; align-items: center; }
     details.auto-collapse summary:hover { background: #e9ecef; }
     details.auto-collapse summary::-webkit-details-marker { display: none; }
     details.auto-collapse summary::after { content: '➕'; margin-left: auto; font-size: 0.8em; opacity: 0.6; }
@@ -54,27 +54,27 @@
             <ul>
             
                 <li>
-                    <a href="/2025/11/11/PS-%E6%84%9F%E8%A7%89%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%B8%AA/" class="post-title-link">PS:感觉可以做一个</a>
-                    <div class="post-date">2025-11-25</div>
+                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
+                    <div class="post-date">2025-11-26</div>
                 </li>
             
                 <li>
                     <a href="/2025/11/11/nssctf%E5%AD%A6%E4%B9%A0%E4%B8%AD/" class="post-title-link">nssctf学习中</a>
-                    <div class="post-date">2025-11-25</div>
-                </li>
-            
-                <li>
-                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
-                    <div class="post-date">2025-11-25</div>
+                    <div class="post-date">2025-11-26</div>
                 </li>
             
                 <li>
                     <a href="/2025/11/16/%E7%A5%9E%E7%A7%98%E5%B0%8F%E7%AC%94%E8%AE%B0/" class="post-title-link">神秘小笔记</a>
-                    <div class="post-date">2025-11-25</div>
+                    <div class="post-date">2025-11-26</div>
                 </li>
             
                 <li>
                     <a href="/2025/11/11/buuctf%E4%B9%8B%E8%B7%AF/" class="post-title-link">buuctf之路</a>
+                    <div class="post-date">2025-11-26</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/11/PS-%E6%84%9F%E8%A7%89%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%B8%AA/" class="post-title-link">PS:感觉可以做一个</a>
                     <div class="post-date">2025-11-25</div>
                 </li>
             
@@ -97,19 +97,24 @@
         white-space: pre-wrap !important; 
         word-wrap: break-word !important;
     }
+    /* 给识别到的标题强制加一个深色背景，让你一眼看出来是否生效 */
+    details.auto-collapse summary {
+        background-color: #e3f2fd !important; /* 明显的浅蓝色 */
+    }
 </style>
 
 <article class="post-article" style="padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05);">
     <h1 class="post-title" style="font-size: 2.2em; margin-bottom: 15px; color: #333;">nssctf学习中</h1>
     <div class="post-meta" style="color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-        📅 发布于: 2025-11-11 13:27
+        📅 发布于: 2025-11-11 13:27 
+        | 📝 更新于: 2025-11-26 18:30
     </div>
     
     <div class="article-content" id="article-content">
         <p>这是一个基于nssctf做题的wp，本人纯新手。<br>做题没有顺序，基本是看我自己写哪一题，就写这题的wp，不分难度的。</p>
 <h1 id="1-NSSCTF-2022-Spring-Recruit-babyphp"><a href="#1-NSSCTF-2022-Spring-Recruit-babyphp" class="headerlink" title="#1.[NSSCTF 2022 Spring Recruit]babyphp"></a>#1.[NSSCTF 2022 Spring Recruit]babyphp</h1><p>题目内容:<br>&lt;?php<br>highlight_file(<strong>FILE</strong>);<br>include_once(‘flag.php’);<br>if(isset($_POST[‘a’])&amp;&amp;!preg_match(‘&#x2F;[0-9]&#x2F;‘,$_POST[‘a’])&amp;&amp;intval($_POST[‘a’])){<br>    if(isset($_POST[‘b1’])&amp;&amp;$_POST[‘b2’]){<br>        if($_POST[‘b1’]!&#x3D;$_POST[‘b2’]&amp;&amp;md5($_POST[‘b1’])&#x3D;&#x3D;&#x3D;md5($_POST[‘b2’])){<br>            if($_POST[‘c1’]!&#x3D;$_POST[‘c2’]&amp;&amp;is_string($_POST[‘c1’])&amp;&amp;is_string($_POST[‘c2’])&amp;&amp;md5($_POST[‘c1’])&#x3D;&#x3D;md5($_POST[‘c2’])){<br>                echo $flag;<br>            }else{<br>                echo “yee”;<br>            }<br>        }else{<br>            echo “nop”;<br>        }<br>    }else{<br>        echo “go on”;<br>    }<br>}else{<br>    echo “let’s get some php”;<br>}<br>?&gt; let’s get some php<br>分析代码<br>首先，isset($_POST[‘a’]) &amp;&amp; !preg_match(‘&#x2F;[0-9]&#x2F;‘, $_POST[‘a’]) &amp;&amp; intval($_POST[‘a’])<br>存在a，a不含0-9的数字，intval($_POST[‘a’]) 必须为真<br>查询代码，intval() 在转换时会尝试从字符串开头提取数字，直到遇到非数字字符。<br>preg_match 是 PHP 中用于执行正则表达式匹配的函数。<br>所有a可以用数组a[]&#x3D;1<br>这样均满足 所有条件<br>第二，isset($_POST[‘b1’]) &amp;&amp; $_POST[‘b2’]<br>b1，b2有值且非空，然后比较md5<br>同样数组，MD5返回null<br>b1[]&#x3D;2,b2[]&#x3D;3<br>最后，$_POST[‘c1’] !&#x3D; $_POST[‘c2’] &amp;&amp; is_string($_POST[‘c1’]) &amp;&amp; is_string($_POST[‘c2’]) &amp;&amp; md5($_POST[‘c1’]) &#x3D;&#x3D; md5($_POST[‘c2’])<br>c1与c2均为字符串，且不同，又比较md5还是若比较，上网随便查一下，用科学计数法MD5，0e被当成0，随便找md5为0e开头的字符串。<br>所以 C:\Users\G1731&gt;curl -X POST -d “a[]&#x3D;1&amp;b1[]&#x3D;1&amp;b2[]&#x3D;2&amp;c1&#x3D;240610708&amp;c2&#x3D;QNKCDZO” <a target="_blank" rel="noopener" href="http://node4.anna.nssctf.cn:28382/">http://node4.anna.nssctf.cn:28382/</a><br>用curl执行post，<br>得到flag，NSSCTF{2fd7b1ec-41c5-4895-a5d3-bc56cb172231}</p>
 <hr>
-<h1 id="2-HUBUCTF-2022-新生赛-checkin"><a href="#2-HUBUCTF-2022-新生赛-checkin" class="headerlink" title="##2.[HUBUCTF 2022 新生赛]checkin"></a>##2.[HUBUCTF 2022 新生赛]checkin</h1><?php
+<h1 id="2-HUBUCTF-2022-新生赛-checkin"><a href="#2-HUBUCTF-2022-新生赛-checkin" class="headerlink" title="#2.[HUBUCTF 2022 新生赛]checkin"></a>#2.[HUBUCTF 2022 新生赛]checkin</h1><?php
 show_source(__FILE__);
 $username  = "this_is_secret"; 
 $password  = "this_is_not_known_to_you"; 
@@ -127,7 +132,7 @@ if ($data_unserialize['username']==$username&&$data_unserialize['password']==$pa
 <p>get传参，分析一下代码<br>$username &#x3D; “this_is_secret”;<br>$password &#x3D; “this_is_not_known_to_you”;<br>定义账号，密码，然后又here I changed those two ，那直接就进入猜测阶段了，因为这用户名和密码要是有具体值，那不给其他提示就是猜了，又加上这是新生赛的题，初步猜测是空的吧。<br>$data_unserialize &#x3D; unserialize($_GET[‘info’]);<br>反序列化，去查一下作用，unserialize() 函数会将用户通过 GET 参数 info 传入的字符串，还原为 PHP 中的变量。<br>if ($data_unserialize[‘username’]&#x3D;&#x3D;$username&amp;&amp;$data_unserialize[‘password’]&#x3D;&#x3D;$password){<br>    echo $flag;<br>}else{<br>    echo “username or password error!”;<br>这一段要求弱比较我们传入的是否与服务器相等。<br>大抵思路就这样了，反序列化我不是很懂，所以问了一下ai</p>
 <p>一、先明确序列化字符串的通用格式（数组类型）<br>PHP 中数组序列化后的格式是：a:数组长度:{键1的类型:键1长度:”键1值”;值1的类型:值1长度:值1内容;键2的类型:键2长度:”键2值”;值2的类型:值2长度:值2内容;}<br>a：表示变量类型是 array（数组）<br>i：表示变量类型是 integer（整数）<br>s：表示变量类型是 string（字符串）<br>冒号后的数字：表示 “长度”（数组长度 &#x2F; 字符串长度，整数无长度属性）<br>仔细看看后，我们就能推出我们要传参的值了，info&#x3D;a:2:{s:8:”username”;i:0;s:8:”password”;i:0;}<br><a target="_blank" rel="noopener" href="http://node5.anna.nssctf.cn:26551/?info=a:2:%7Bs:8:%22username%22;i:0;s:8:%22password%22;i:0;%7D">http://node5.anna.nssctf.cn:26551/?info=a:2:{s:8:%22username%22;i:0;s:8:%22password%22;i:0;}</a><br>拿下flag<br>NSSCTF{ecd62ebd-98ea-4a71-aded-efab0995f71d}<br>也是运气好一点，弱比较成立了，不然又要卡一会了。</p>
 <hr>
-<h1 id="3-羊城杯-2020-easycon"><a href="#3-羊城杯-2020-easycon" class="headerlink" title="###3.[羊城杯 2020]easycon"></a>###3.[羊城杯 2020]easycon</h1><p><a target="_blank" rel="noopener" href="http://node4.anna.nssctf.cn:28048/%EF%BC%8C%E7%BB%99%E4%BA%86%E4%B8%AA%E9%9D%B6%E6%9C%BA%E7%82%B9%E8%BF%9B%E5%8E%BB%E4%B8%80%E7%9C%8B">http://node4.anna.nssctf.cn:28048/，给了个靶机点进去一看</a><br><img src="/images/QQ20251114-185817.png" alt="alt text"><br>看到这个，我还以为我开错网站，看得跟什么软件的官方网站一样，确认几次后，才肯定这是我们题目的网站，嗯，没什么具体的思路，扫一扫</p>
+<h1 id="3-羊城杯-2020-easycon"><a href="#3-羊城杯-2020-easycon" class="headerlink" title="#3.[羊城杯 2020]easycon"></a>#3.[羊城杯 2020]easycon</h1><p><a target="_blank" rel="noopener" href="http://node4.anna.nssctf.cn:28048/%EF%BC%8C%E7%BB%99%E4%BA%86%E4%B8%AA%E9%9D%B6%E6%9C%BA%E7%82%B9%E8%BF%9B%E5%8E%BB%E4%B8%80%E7%9C%8B">http://node4.anna.nssctf.cn:28048/，给了个靶机点进去一看</a><br><img src="/images/QQ20251114-185817.png" alt="alt text"><br>看到这个，我还以为我开错网站，看得跟什么软件的官方网站一样，确认几次后，才肯定这是我们题目的网站，嗯，没什么具体的思路，扫一扫</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">开始扫描......</span><br><span class="line">http://node4.anna.nssctf.cn:28048/index.php</span><br><span class="line">http://node4.anna.nssctf.cn:28048/.htaccess-local</span><br><span class="line">http://node4.anna.nssctf.cn:28048/.htaccess.txt</span><br><span class="line">http://node4.anna.nssctf.cn:28048/.htaccess/</span><br><span class="line">http://node4.anna.nssctf.cn:28048/.htaccess.BAK</span><br></pre></td></tr></table></figure>
 <p>没什么特别明显的东西，看一下robot</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">http://node4.anna.nssctf.cn:28048/robots.txt</span><br><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;&lt;head&gt;</span><br><span class="line">&lt;title&gt;404 Not Found&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;&lt;body&gt;</span><br><span class="line">&lt;h1&gt;Not Found&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;The requested URL was not found on this server.&lt;/p&gt;</span><br><span class="line">&lt;hr&gt;</span><br><span class="line">&lt;address&gt;Apache/2.4.41 (Ubuntu) Server at node4.anna.nssctf.cn Port 28048&lt;/address&gt;</span><br><span class="line">&lt;/body&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
@@ -143,7 +148,7 @@ if ($data_unserialize['username']==$username&&$data_unserialize['password']==$pa
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;/script&gt;/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYJ..........................................</span><br></pre></td></tr></table></figure>
 <p>很长很长，我就不贴出来了，我放出来的不足千分之一，稍微研究了一下，发现这是图片base64解码的结果，我们扔给随波逐流，让它解码一下，最后得到这么一张图片<br><img src="/images/image_1.jpg" alt="alt text"><br>这图片上是什么人我不知道，但flag来了<br><strong>GWHT{do_u_kn0w_c@idao}</strong><br><strong>改成nssctf形式，NSSCTF{do_u_kn0w_c@idao}</strong></p>
 <hr>
-<h1 id="4-GDOUCTF-2023-受不了一点"><a href="#4-GDOUCTF-2023-受不了一点" class="headerlink" title="####4.[GDOUCTF 2023]受不了一点"></a>####4.[GDOUCTF 2023]受不了一点</h1><p>给了一个靶机，点开看一下</p>
+<h1 id="4-GDOUCTF-2023-受不了一点"><a href="#4-GDOUCTF-2023-受不了一点" class="headerlink" title="#4.[GDOUCTF 2023]受不了一点"></a>#4.[GDOUCTF 2023]受不了一点</h1><p>给了一个靶机，点开看一下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">error_reporting(0);</span><br><span class="line">header(&quot;Content-type:text/html;charset=utf-8&quot;);</span><br><span class="line">if(isset($_POST[&#x27;gdou&#x27;])&amp;&amp;isset($_POST[&#x27;ctf&#x27;]))&#123;</span><br><span class="line">    $b=$_POST[&#x27;ctf&#x27;];</span><br><span class="line">    $a=$_POST[&#x27;gdou&#x27;];</span><br><span class="line">    if($_POST[&#x27;gdou&#x27;]!=$_POST[&#x27;ctf&#x27;] &amp;&amp; md5($a)===md5($b))&#123;</span><br><span class="line">        if(isset($_COOKIE[&#x27;cookie&#x27;]))&#123;</span><br><span class="line">           if ($_COOKIE[&#x27;cookie&#x27;]==&#x27;j0k3r&#x27;)&#123;</span><br><span class="line">               if(isset($_GET[&#x27;aaa&#x27;]) &amp;&amp; isset($_GET[&#x27;bbb&#x27;]))&#123;</span><br><span class="line">                  $aaa=$_GET[&#x27;aaa&#x27;];</span><br><span class="line">                  $bbb=$_GET[&#x27;bbb&#x27;];</span><br><span class="line">                 if($aaa==114514 &amp;&amp; $bbb==114514 &amp;&amp; $aaa!=$bbb)&#123;</span><br><span class="line">                   $give = &#x27;cancanwordflag&#x27;;</span><br><span class="line">                   $get =&#x27;hacker!&#x27;;</span><br><span class="line">                   if(isset($_GET[&#x27;flag&#x27;]) &amp;&amp; isset($_POST[&#x27;flag&#x27;]))&#123;</span><br><span class="line">                         die($give);</span><br><span class="line">                    &#125;</span><br><span class="line">                   if($_POST[&#x27;flag&#x27;] === &#x27;flag&#x27; || $_GET[&#x27;flag&#x27;] === &#x27;flag&#x27;)&#123;</span><br><span class="line">                       die($get);</span><br><span class="line">                    &#125;</span><br><span class="line">                    foreach ($_POST as $key =&gt; $value) &#123;</span><br><span class="line">                        $$key = $value;</span><br><span class="line">                   &#125;</span><br><span class="line">                    foreach ($_GET as $key =&gt; $value) &#123;</span><br><span class="line">                         $$key = $$value;</span><br><span class="line">                    &#125;</span><br><span class="line">                   echo $flag;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                  echo &quot;洗洗睡吧&quot;;</span><br><span class="line">                 &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        echo &quot;行不行啊细狗&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">else &#123;</span><br><span class="line">  echo &#x27;菜菜&#x27;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">  echo &quot;就这?&quot;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">  echo &quot;别来沾边&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br><span class="line">别来沾边</span><br></pre></td></tr></table></figure>
 <p>想要获得flag，要过5关。</p>
 <p>1.<code>if($_POST[&#39;gdou&#39;]!=$_POST[&#39;ctf&#39;] &amp;&amp; md5($a)===md5($b)){</code></p>
@@ -170,90 +175,91 @@ if ($data_unserialize['username']==$username&&$data_unserialize['password']==$pa
 </article>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const contentDiv = document.getElementById('article-content');
-    if (!contentDiv) return;
+(function() {
+    function applyFolding() {
+        const contentDiv = document.getElementById('article-content');
+        // 防止重复执行
+        if (!contentDiv || contentDiv.dataset.processed === "true") return;
+        contentDiv.dataset.processed = "true";
 
-    const children = Array.from(contentDiv.children);
-    if (children.length === 0) return;
+        const children = Array.from(contentDiv.children);
+        if (children.length === 0) return;
 
-    const newContainer = document.createDocumentFragment();
-    let currentDetails = null;
-    let currentContentDiv = null;
+        const newContainer = document.createDocumentFragment();
+        let currentDetails = null;
+        let currentContentDiv = null;
 
-    // === V5 核心判定逻辑 ===
-    const getHeaderInfo = (el) => {
-        const text = el.innerText.trim();
-        const tagName = el.tagName.toLowerCase();
-        
-        // 1. 如果是 H1-H6 标签（说明 Markdown 里写了 # 且加了空格，如 "# 1. 题目"）
-        // 我们认为这肯定是标题
-        if (['h1','h2','h3','h4','h5','h6'].includes(tagName)) {
-             // 只有当它是数字开头时才折叠，避免把 "小结" 这种副标题也折叠了
-             // 如果你想折叠所有 H 标签，可以去掉这个正则判断
-             if (/^\d+/.test(text) || text.startsWith('#')) {
-                 return { isHeader: true, text: text };
-             }
-             return { isHeader: true, text: text };
-        }
-
-        // 2. 如果是 P 或 DIV 标签（说明 Markdown 写法不规范，如 "####4.题目" 没加空格）
-        // 关键点：只有以 # 开头的才算！这能完美避开正文里的 "1.if(...)"
-        if ((tagName === 'p' || tagName === 'div') && text.startsWith('#')) {
-            // 必须包含数字，防止误伤普通强调文本
-            if (/^#+\s*\d+/.test(text)) {
-                const cleanText = text.replace(/^#+\s*/, ''); // 去掉 # 号
-                return { isHeader: true, text: cleanText };
-            }
-        }
-        
-        return { isHeader: false };
-    };
-
-    children.forEach(el => {
-        const info = getHeaderInfo(el);
-
-        if (info.isHeader) {
-            // 🛑 遇到新标题：打包上一个
-            if (currentDetails) {
-                currentDetails.appendChild(currentContentDiv);
-                newContainer.appendChild(currentDetails);
-            }
-
-            // 创建新折叠框
-            currentDetails = document.createElement('details');
-            currentDetails.className = 'auto-collapse';
+        // === 判别函数 V11 ===
+        const isHeader = (el) => {
+            const text = el.innerText.trim();
+            const tagName = el.tagName.toLowerCase();
             
-            // 标题
-            const summary = document.createElement('summary');
-            summary.innerText = info.text;
-            currentDetails.appendChild(summary);
-
-            // 内容区
-            currentContentDiv = document.createElement('div');
-            currentContentDiv.className = 'collapse-content';
-        } else {
-            // 📄 正文内容（包括你的 1.if(...)）
-            if (currentContentDiv) {
-                currentContentDiv.appendChild(el);
-            } else {
-                newContainer.appendChild(el);
+            // 规则1: 只要是 H1-H6，就是标题 (不管里面写啥)
+            if (/^h[1-6]$/.test(tagName)) {
+                return { match: true, text: text.replace(/^[#＃\s]+/, '') };
             }
+
+            // 规则2: 【核心修改】不看标签类型了！
+            // 只要这一行的文字是 "#" 开头，且包含数字，就认为是标题！
+            // 匹配: #1. / ## 2. / ###3.base47 / ＃4.
+            if (/^[#＃]+\s*\d/.test(text)) {
+                // 安全检查：如果这行字特别长(比如代码里的一行注释)，忽略它
+                // 标题一般不会超过80个字
+                if (text.length < 80) {
+                     return { match: true, text: text.replace(/^[#＃\s]+/, '') };
+                }
+            }
+            
+            return { match: false };
+        };
+
+        children.forEach(el => {
+            const check = isHeader(el);
+
+            if (check.match) {
+                // 🛑 命中！是标题！
+                if (currentDetails) {
+                    currentDetails.appendChild(currentContentDiv);
+                    newContainer.appendChild(currentDetails);
+                }
+
+                // 创建折叠框
+                currentDetails = document.createElement('details');
+                currentDetails.className = 'auto-collapse';
+                
+                // 标题栏
+                const summary = document.createElement('summary');
+                summary.innerText = check.text; // 去掉 # 后的干净文字
+                currentDetails.appendChild(summary);
+
+                // 内容区
+                currentContentDiv = document.createElement('div');
+                currentContentDiv.className = 'collapse-content';
+            } else {
+                // 📄 普通内容
+                if (currentContentDiv) {
+                    currentContentDiv.appendChild(el);
+                } else {
+                    newContainer.appendChild(el);
+                }
+            }
+        });
+
+        if (currentDetails) {
+            currentDetails.appendChild(currentContentDiv);
+            newContainer.appendChild(currentDetails);
         }
-    });
 
-    // 处理最后一个
-    if (currentDetails) {
-        currentDetails.appendChild(currentContentDiv);
-        newContainer.appendChild(currentDetails);
+        if (newContainer.children.length > 0) {
+            contentDiv.innerHTML = '';
+            contentDiv.appendChild(newContainer);
+        }
     }
 
-    // 更新页面
-    if (newContainer.children.length > 0) {
-        contentDiv.innerHTML = '';
-        contentDiv.appendChild(newContainer);
-    }
-});
+    // 暴力监听：页面加载、内容变化都尝试触发
+    window.addEventListener("load", applyFolding);
+    document.addEventListener("DOMContentLoaded", applyFolding);
+})();
 </script>
 
         </div>

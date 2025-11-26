@@ -7,7 +7,7 @@
   <script src="/js/main.js" defer></script>
   <link rel="stylesheet" href="/css/_custom.css">
   <style>
-    /* 侧边栏样式保持 V5 的完美状态 */
+    /* 侧边栏样式 */
     .sidebar .post-list-container ul { list-style: none !important; padding: 0 !important; margin: 0 !important; }
     .sidebar .post-list-container li { padding: 10px 15px !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
     .sidebar .post-list-container a.post-title-link { 
@@ -20,9 +20,9 @@
     .sidebar .post-list-container .post-date { font-size: 12px !important; color: #999 !important; margin-top: 4px !important; }
     .sidebar .contact-section { display: block !important; margin: 20px 0 !important; }
     
-    /* 折叠组件样式 (为了防止你以后想用 layout 里的样式，这里保留着) */
-    details.auto-collapse { margin-bottom: 15px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
-    details.auto-collapse summary { cursor: pointer; padding: 15px; background: #f8f9fa; font-weight: bold; color: #333; list-style: none; position: relative; border-left: 5px solid #007bff; display: flex; align-items: center; }
+    /* 自动折叠组件样式 */
+    details.auto-collapse { margin-bottom: 15px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    details.auto-collapse summary { cursor: pointer; padding: 15px; background: #f8f9fa; font-weight: bold; color: #333; font-size: 1.1em; list-style: none; position: relative; transition: all 0.2s; border-left: 5px solid #007bff; display: flex; align-items: center; }
     details.auto-collapse summary:hover { background: #e9ecef; }
     details.auto-collapse summary::-webkit-details-marker { display: none; }
     details.auto-collapse summary::after { content: '➕'; margin-left: auto; font-size: 0.8em; opacity: 0.6; }
@@ -54,27 +54,27 @@
             <ul>
             
                 <li>
-                    <a href="/2025/11/11/PS-%E6%84%9F%E8%A7%89%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%B8%AA/" class="post-title-link">PS:感觉可以做一个</a>
-                    <div class="post-date">2025-11-25</div>
+                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
+                    <div class="post-date">2025-11-26</div>
                 </li>
             
                 <li>
                     <a href="/2025/11/11/nssctf%E5%AD%A6%E4%B9%A0%E4%B8%AD/" class="post-title-link">nssctf学习中</a>
-                    <div class="post-date">2025-11-25</div>
-                </li>
-            
-                <li>
-                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
-                    <div class="post-date">2025-11-25</div>
+                    <div class="post-date">2025-11-26</div>
                 </li>
             
                 <li>
                     <a href="/2025/11/16/%E7%A5%9E%E7%A7%98%E5%B0%8F%E7%AC%94%E8%AE%B0/" class="post-title-link">神秘小笔记</a>
-                    <div class="post-date">2025-11-25</div>
+                    <div class="post-date">2025-11-26</div>
                 </li>
             
                 <li>
                     <a href="/2025/11/11/buuctf%E4%B9%8B%E8%B7%AF/" class="post-title-link">buuctf之路</a>
+                    <div class="post-date">2025-11-26</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/11/PS-%E6%84%9F%E8%A7%89%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%B8%AA/" class="post-title-link">PS:感觉可以做一个</a>
                     <div class="post-date">2025-11-25</div>
                 </li>
             
@@ -97,12 +97,17 @@
         white-space: pre-wrap !important; 
         word-wrap: break-word !important;
     }
+    /* 给识别到的标题强制加一个深色背景，让你一眼看出来是否生效 */
+    details.auto-collapse summary {
+        background-color: #e3f2fd !important; /* 明显的浅蓝色 */
+    }
 </style>
 
 <article class="post-article" style="padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05);">
     <h1 class="post-title" style="font-size: 2.2em; margin-bottom: 15px; color: #333;">PS:感觉可以做一个</h1>
     <div class="post-meta" style="color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-        📅 发布于: 2025-11-11 17:51
+        📅 发布于: 2025-11-11 17:51 
+        | 📝 更新于: 2025-11-25 21:43
     </div>
     
     <div class="article-content" id="article-content">
@@ -209,90 +214,91 @@ pre, pre code, .highlight, .hljs {
 </article>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const contentDiv = document.getElementById('article-content');
-    if (!contentDiv) return;
+(function() {
+    function applyFolding() {
+        const contentDiv = document.getElementById('article-content');
+        // 防止重复执行
+        if (!contentDiv || contentDiv.dataset.processed === "true") return;
+        contentDiv.dataset.processed = "true";
 
-    const children = Array.from(contentDiv.children);
-    if (children.length === 0) return;
+        const children = Array.from(contentDiv.children);
+        if (children.length === 0) return;
 
-    const newContainer = document.createDocumentFragment();
-    let currentDetails = null;
-    let currentContentDiv = null;
+        const newContainer = document.createDocumentFragment();
+        let currentDetails = null;
+        let currentContentDiv = null;
 
-    // === V5 核心判定逻辑 ===
-    const getHeaderInfo = (el) => {
-        const text = el.innerText.trim();
-        const tagName = el.tagName.toLowerCase();
-        
-        // 1. 如果是 H1-H6 标签（说明 Markdown 里写了 # 且加了空格，如 "# 1. 题目"）
-        // 我们认为这肯定是标题
-        if (['h1','h2','h3','h4','h5','h6'].includes(tagName)) {
-             // 只有当它是数字开头时才折叠，避免把 "小结" 这种副标题也折叠了
-             // 如果你想折叠所有 H 标签，可以去掉这个正则判断
-             if (/^\d+/.test(text) || text.startsWith('#')) {
-                 return { isHeader: true, text: text };
-             }
-             return { isHeader: true, text: text };
-        }
-
-        // 2. 如果是 P 或 DIV 标签（说明 Markdown 写法不规范，如 "####4.题目" 没加空格）
-        // 关键点：只有以 # 开头的才算！这能完美避开正文里的 "1.if(...)"
-        if ((tagName === 'p' || tagName === 'div') && text.startsWith('#')) {
-            // 必须包含数字，防止误伤普通强调文本
-            if (/^#+\s*\d+/.test(text)) {
-                const cleanText = text.replace(/^#+\s*/, ''); // 去掉 # 号
-                return { isHeader: true, text: cleanText };
-            }
-        }
-        
-        return { isHeader: false };
-    };
-
-    children.forEach(el => {
-        const info = getHeaderInfo(el);
-
-        if (info.isHeader) {
-            // 🛑 遇到新标题：打包上一个
-            if (currentDetails) {
-                currentDetails.appendChild(currentContentDiv);
-                newContainer.appendChild(currentDetails);
-            }
-
-            // 创建新折叠框
-            currentDetails = document.createElement('details');
-            currentDetails.className = 'auto-collapse';
+        // === 判别函数 V11 ===
+        const isHeader = (el) => {
+            const text = el.innerText.trim();
+            const tagName = el.tagName.toLowerCase();
             
-            // 标题
-            const summary = document.createElement('summary');
-            summary.innerText = info.text;
-            currentDetails.appendChild(summary);
-
-            // 内容区
-            currentContentDiv = document.createElement('div');
-            currentContentDiv.className = 'collapse-content';
-        } else {
-            // 📄 正文内容（包括你的 1.if(...)）
-            if (currentContentDiv) {
-                currentContentDiv.appendChild(el);
-            } else {
-                newContainer.appendChild(el);
+            // 规则1: 只要是 H1-H6，就是标题 (不管里面写啥)
+            if (/^h[1-6]$/.test(tagName)) {
+                return { match: true, text: text.replace(/^[#＃\s]+/, '') };
             }
+
+            // 规则2: 【核心修改】不看标签类型了！
+            // 只要这一行的文字是 "#" 开头，且包含数字，就认为是标题！
+            // 匹配: #1. / ## 2. / ###3.base47 / ＃4.
+            if (/^[#＃]+\s*\d/.test(text)) {
+                // 安全检查：如果这行字特别长(比如代码里的一行注释)，忽略它
+                // 标题一般不会超过80个字
+                if (text.length < 80) {
+                     return { match: true, text: text.replace(/^[#＃\s]+/, '') };
+                }
+            }
+            
+            return { match: false };
+        };
+
+        children.forEach(el => {
+            const check = isHeader(el);
+
+            if (check.match) {
+                // 🛑 命中！是标题！
+                if (currentDetails) {
+                    currentDetails.appendChild(currentContentDiv);
+                    newContainer.appendChild(currentDetails);
+                }
+
+                // 创建折叠框
+                currentDetails = document.createElement('details');
+                currentDetails.className = 'auto-collapse';
+                
+                // 标题栏
+                const summary = document.createElement('summary');
+                summary.innerText = check.text; // 去掉 # 后的干净文字
+                currentDetails.appendChild(summary);
+
+                // 内容区
+                currentContentDiv = document.createElement('div');
+                currentContentDiv.className = 'collapse-content';
+            } else {
+                // 📄 普通内容
+                if (currentContentDiv) {
+                    currentContentDiv.appendChild(el);
+                } else {
+                    newContainer.appendChild(el);
+                }
+            }
+        });
+
+        if (currentDetails) {
+            currentDetails.appendChild(currentContentDiv);
+            newContainer.appendChild(currentDetails);
         }
-    });
 
-    // 处理最后一个
-    if (currentDetails) {
-        currentDetails.appendChild(currentContentDiv);
-        newContainer.appendChild(currentDetails);
+        if (newContainer.children.length > 0) {
+            contentDiv.innerHTML = '';
+            contentDiv.appendChild(newContainer);
+        }
     }
 
-    // 更新页面
-    if (newContainer.children.length > 0) {
-        contentDiv.innerHTML = '';
-        contentDiv.appendChild(newContainer);
-    }
-});
+    // 暴力监听：页面加载、内容变化都尝试触发
+    window.addEventListener("load", applyFolding);
+    document.addEventListener("DOMContentLoaded", applyFolding);
+})();
 </script>
 
         </div>

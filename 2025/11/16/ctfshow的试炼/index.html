@@ -7,7 +7,7 @@
   <script src="/js/main.js" defer></script>
   <link rel="stylesheet" href="/css/_custom.css">
   <style>
-    /* 侧边栏样式保持 V5 的完美状态 */
+    /* 侧边栏样式 */
     .sidebar .post-list-container ul { list-style: none !important; padding: 0 !important; margin: 0 !important; }
     .sidebar .post-list-container li { padding: 10px 15px !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
     .sidebar .post-list-container a.post-title-link { 
@@ -20,9 +20,9 @@
     .sidebar .post-list-container .post-date { font-size: 12px !important; color: #999 !important; margin-top: 4px !important; }
     .sidebar .contact-section { display: block !important; margin: 20px 0 !important; }
     
-    /* 折叠组件样式 (为了防止你以后想用 layout 里的样式，这里保留着) */
-    details.auto-collapse { margin-bottom: 15px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
-    details.auto-collapse summary { cursor: pointer; padding: 15px; background: #f8f9fa; font-weight: bold; color: #333; list-style: none; position: relative; border-left: 5px solid #007bff; display: flex; align-items: center; }
+    /* 自动折叠组件样式 */
+    details.auto-collapse { margin-bottom: 15px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    details.auto-collapse summary { cursor: pointer; padding: 15px; background: #f8f9fa; font-weight: bold; color: #333; font-size: 1.1em; list-style: none; position: relative; transition: all 0.2s; border-left: 5px solid #007bff; display: flex; align-items: center; }
     details.auto-collapse summary:hover { background: #e9ecef; }
     details.auto-collapse summary::-webkit-details-marker { display: none; }
     details.auto-collapse summary::after { content: '➕'; margin-left: auto; font-size: 0.8em; opacity: 0.6; }
@@ -54,27 +54,27 @@
             <ul>
             
                 <li>
-                    <a href="/2025/11/11/PS-%E6%84%9F%E8%A7%89%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%B8%AA/" class="post-title-link">PS:感觉可以做一个</a>
-                    <div class="post-date">2025-11-25</div>
+                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
+                    <div class="post-date">2025-11-26</div>
                 </li>
             
                 <li>
                     <a href="/2025/11/11/nssctf%E5%AD%A6%E4%B9%A0%E4%B8%AD/" class="post-title-link">nssctf学习中</a>
-                    <div class="post-date">2025-11-25</div>
-                </li>
-            
-                <li>
-                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
-                    <div class="post-date">2025-11-25</div>
+                    <div class="post-date">2025-11-26</div>
                 </li>
             
                 <li>
                     <a href="/2025/11/16/%E7%A5%9E%E7%A7%98%E5%B0%8F%E7%AC%94%E8%AE%B0/" class="post-title-link">神秘小笔记</a>
-                    <div class="post-date">2025-11-25</div>
+                    <div class="post-date">2025-11-26</div>
                 </li>
             
                 <li>
                     <a href="/2025/11/11/buuctf%E4%B9%8B%E8%B7%AF/" class="post-title-link">buuctf之路</a>
+                    <div class="post-date">2025-11-26</div>
+                </li>
+            
+                <li>
+                    <a href="/2025/11/11/PS-%E6%84%9F%E8%A7%89%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%B8%AA/" class="post-title-link">PS:感觉可以做一个</a>
                     <div class="post-date">2025-11-25</div>
                 </li>
             
@@ -97,12 +97,17 @@
         white-space: pre-wrap !important; 
         word-wrap: break-word !important;
     }
+    /* 给识别到的标题强制加一个深色背景，让你一眼看出来是否生效 */
+    details.auto-collapse summary {
+        background-color: #e3f2fd !important; /* 明显的浅蓝色 */
+    }
 </style>
 
 <article class="post-article" style="padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05);">
     <h1 class="post-title" style="font-size: 2.2em; margin-bottom: 15px; color: #333;">ctfshow的试炼</h1>
     <div class="post-meta" style="color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-        📅 发布于: 2025-11-16 16:01
+        📅 发布于: 2025-11-16 16:01 
+        | 📝 更新于: 2025-11-26 18:47
     </div>
     
     <div class="article-content" id="article-content">
@@ -129,7 +134,7 @@
 <p>传参后得到flag，ctfshow{e29728f4-86f4-49d0-bbd7-03c5e383f4e6}</p>
 <p>这一题的关键点在于序列化的过程，必须严格符合要求，否则一切都没用。</p>
 <hr>
-<h1 id="2-算力升级"><a href="#2-算力升级" class="headerlink" title="##2.算力升级"></a>##2.算力升级</h1><p>其实一开始我以为这题应该跟上一题的算力超群的难度差不多，只要看一下题目是怎么计算的，然后用指令读取flag，没想到还是卡了一段时间，此题出自菜狗杯的web题算力升级。</p>
+<h1 id="2-算力升级"><a href="#2-算力升级" class="headerlink" title="#2.算力升级"></a>#2.算力升级</h1><p>其实一开始我以为这题应该跟上一题的算力超群的难度差不多，只要看一下题目是怎么计算的，然后用指令读取flag，没想到还是卡了一段时间，此题出自菜狗杯的web题算力升级。</p>
 <p><img src="/images/QQ20251121-175940.png" alt="alt text"></p>
 <p><img src="/images/QQ20251121-180042.png" alt="alt text"></p>
 <ol>
@@ -158,276 +163,263 @@
 <p>其实我nt了，其实eval也可以用八进制转化，只是当时我先想到的是拼接法，所以就没改了。</p>
 <p>总体无伤大雅。</p>
 <p>至于为什么不用16进制，我也不知道，问了ai，说是16进制有0x，会出问题，说不定以后就会遇到16进制转化的题目呢，学费了。</p>
-<hr>
-<h1 id="3-base47"><a href="#3-base47" class="headerlink" title="###3.base47"></a>###3.base47</h1><p>这题我应该写在神秘小笔记里的，但是想到这是ctfshow菜狗杯的密码题，还是写在这里了。</p>
-<p>先看题目。</p>
-<p><img src="/images/QQ20251121-210922.png" alt="alt text"></p>
-<p>神必字符： <code>E9CV^T+HT5#X36RF4@LAU703+F$E-0N$@68LMXCVDRJJD5@MP#7MUZDTE?WWLG1S#L@+^66H@59KTWYK8TW0RV</code></p>
-<p>神必字典：0123456789ABCDEFGHJKLMNPQRSTUVWXYZ?!@#$%^&amp;*-+</p>
-<p>其实咋一眼我要直接映射了，这底下给的太像映射的题目了。</p>
-<p>不过看在base47，还是base解密吧。</p>
-<p>但是有一个问题，base只有45没有47。</p>
-<p>看了一下，底下的字典确实只有45个，缺少了I和O，估计这就是47的由来。</p>
-<p>正常的我要贴代码和解密过程了，但这一题，对我来说，算是一题搞清楚base体系的过程，所以我倒不想这么写。</p>
-<p>以前做题的时候并没有认真了解过base，所以基本都是直接丢工具与代码的，为了做题而使用。</p>
-<p>不过在做这一题的时候，我突发奇想就去了解了base，因此有了这一篇文章。</p>
-<h2 id="一-base64"><a href="#一-base64" class="headerlink" title="一.base64"></a>一.base64</h2><p><strong>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+&#x2F;</strong>  这是base64所用到的字典，极少数情况下不一样。</p>
-<p>正正好好64个，它的计算方式是将我们所输入的东西转化为二进制，以3个字节为一组，即24bit，然后平均的分成4组，每组6个bit，然后转化为十进制数字，对照base64表进行加密。</p>
-<p>解密方式即为逆向，查看base64得到二进制数据，全部放在一起后，以八个为一组 ，计算ascll码，然后得到原文。</p>
-<p>base64特别明显的特征是尾部会有&#x3D;&#x3D;或者&#x3D;，这是为了补足字节加的，base32也有这个情况。</p>
-<h2 id="二-base32"><a href="#二-base32" class="headerlink" title="二.base32"></a>二.base32</h2><p>base32我其实是没见过体型的，这里也做了解一下。</p>
-<p><strong>ABCDEFGHIJKLMNOPQRSTUVWXYZ234567</strong> 这是它的字典，最明显的特征就是只有大写字母加数字。</p>
-<p>同样的32个正正好好。</p>
-<p>它则是将我们输入的东西转化二进制数据，以两个字节为一组，即16bit，然后5bit为一组，分成4组，最后一组不够补0.</p>
-<p>得到四组数据后，查表得到加密后的数据。</p>
-<p>解密的方式就是倒过来，具体的我就不描述了。</p>
-<p>它的特征同样是尾部有&#x3D;，但它有时候可能会有很多个&#x3D;，目的同样是补齐。</p>
-<h2 id="三-base16"><a href="#三-base16" class="headerlink" title="三.base16"></a>三.base16</h2><p>这个就不讲了，四位一组的16进制转化。</p>
-<h2 id="四-base58"><a href="#四-base58" class="headerlink" title="四.base58"></a>四.base58</h2><p>这个挺有意思的，它是比特币负责人改良base64而来的，据说是为了防止转账时出现的失误。</p>
-<p>它是先将我们输入的明文转为0x类型的16进制，再将数字组合，形成一个更大的16进制。eg：Hi  0x48和0x69,组合从成0x4869&#x3D;18537(十进制)。  然后将这个十进制数据除以58，取余数，不断重复，直到商为0，余数为本身，然后将得来的余数按早晚的顺序，晚的在前，早的在后，即先除来的余数是排在后面的，这样排列之后得到一串数字，再根据base58表，一个余数一个余数的对应得到密文。</p>
-<p>它的字典是123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz。</p>
-<p>对了，有一点要注意，base58规定了索引0为1，所以如果是数字5，那对应的就是6。</p>
-<h2 id="五-base85"><a href="#五-base85" class="headerlink" title="五.base85"></a>五.base85</h2><p>base85会将我们输入的内容按4字节一组的分配，如果一组中只有一个字节，则在3其后补0.</p>
-<p>它的计算方式和base58无不同，都是转16进制，组合，转回10进制。</p>
-<p>然后除85取余数，然后倒序排列余数，对照映射表，base85的映射表是ASCII33(<code>!</code>)到117(<code>u</code>)。</p>
-<p>即!”#$%&amp;’()*+,-.&#x2F;0123456789:;&lt;&#x3D;&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_&#96;abcdefghijklmnopqrstu。</p>
-<p>然后得密文。</p>
-<p>base体系还有其他的，这边我就不全介绍了。</p>
-<hr>
-<h1 id="4-这个不好听"><a href="#4-这个不好听" class="headerlink" title="#####4.这个不好听"></a>#####4.这个不好听</h1><p>这一题我是没做出来的，所以，这一篇的文章并非wp类型，算是记录我在认真学习官方wp的日记吧。</p>
-<p><img src="/images/QQ20251124-190629.png" alt="alt text"></p>
-<p>题目给的附件是一个wav类型的音频。”C:\Users\G1731\Downloads\flag\flag.wav”</p>
-<p>如题目而言听是不能听的，完全是没有任何信息的。</p>
-<p>看到hint1，我第一印象居然是靶场的回归线方程，(捂脸)。</p>
-<p>这个印象深的勒。</p>
-<p>不说了，回到题目来。</p>
-<p><img src="/images/QQ20251124-191107.png" alt="alt text"></p>
-<p>我一开始是先用随波逐流看一下，这个音频是不是有什么隐藏文件，或者16进制存在信息，但非常的遗憾，什么也没有。</p>
-<p>这完全就是一个十分正常的音频，我又用010editor打开。</p>
-<p><img src="/images/QQ20251124-191340.png" alt="alt text"></p>
-<p><img src="/images/QQ20251124-191349.png" alt="alt text"></p>
-<p>依旧是什么信息没有，这个时候呢，我还不觉得这个会让我没有思路。</p>
-<p>我又想mp3隐写的工具看，但突然发现这个不是mp3文件啊，这个系列题目的上一题是MP3格式的，但这个不是。</p>
-<p>所以肯定不能用了。</p>
-<p>我又用wsl仔细看了看这个音频。</p>
-<p><strong>yu@localhost:&#x2F;mnt&#x2F;c&#x2F;Users&#x2F;G1731$ file &#x2F;mnt&#x2F;c&#x2F;Users&#x2F;G1731&#x2F;flag.wav</strong><br><strong>&#x2F;mnt&#x2F;c&#x2F;Users&#x2F;G1731&#x2F;flag.wav: RIFF (little-endian) data, WAVE audio, IEEE Float, mono 44100 Hz</strong></p>
-<p>完全没有东西。</p>
-<p>这个时候，我想，估计就是仔细看看音轨了。</p>
-<p>audicity打开。</p>
-<p><img src="/images/QQ20251124-192635.png" alt="alt text"></p>
-<p>哇！！！！真是一点信息都没有，我本身这个音频类型的misc题型遇到的就不多，而且misc在我看来，是一个极考验灵光咋现和题量的版块，它不像web或者pwn或者re，需要代码审计，函数理解之类的可以很直接查到的东西，如果直接搜音频隐写，那是真的大海捞针，但是一旦有了一个正确的思路，就可以直接顺着思路，秒杀misc，唉，完全不知道该怎么办了，要说不是文件隐藏，那万一它是个啥数据流的隐藏，我又找不到，要说音频没有其他信息，那它有，我也想不到，题目是怎么隐藏的。</p>
-<p><img src="/images/QQ20251124-193212.png" alt="alt text"></p>
-<p>唯一我感觉有用的也就是这个，调整音频频率找到的跟三角函数很像的图像 ，这个也跟hint1的提醒有所关联。</p>
-<p>但，怎么把这个轨道提取出来，放在能让我推算的画板上呢。</p>
-<p>这也是一个问题。</p>
-<p>思来想去，我是找不到方法解决的，本来想问学长的，想想看，还是自己想吧。</p>
-<p>大概是几分钟后，我就决定还是看wp吧，这个是真不行，即便能提取出来，我稍微左右滑动了几下，这样的轨道有好多个，我要是能提取出来得到![QQ20251124-193812](C:\Users\G1731\Pictures\QQ20251124-193812.png信息就罢了，万一思路又是堵的，浪费时间也多，估计最后也是wp，那何不如早点wp。</p>
-<p>所以我就去打开了官方wp。</p>
-<p><img src="/images/QQ20251124-193812.png" alt="alt text"></p>
-<p><img src="/images/QQ20251124-193822.png" alt="alt text"></p>
-<p><img src="/images/QQ20251124-193836.png" alt="alt text"></p>
-<p><img src="/images/QQ20251124-193845.png" alt="alt text"></p>
-<p><img src="/images/QQ20251124-193851.png" alt="alt text"></p>
-<p>研究了快三天，我大致理解这是什么原理了。</p>
-<p>这个音频每0.1s断开一次，一共是有8种不同的音频轨道，根据相位从小到大排列0-7.</p>
-<p>然后一个一个的对应，将整个音频从头开始，0.1s 0.1s的分开，然后根据这个音频轨道是8种轨道的哪一个对应着记录下数字。</p>
-<p>最后得到一串八进制数据，然后在转化成字符，最终得到flag。</p>
-<p>原理有了，那要怎么复现呢， 真要手敲，我感觉就寄了，这完全就不是能实现的操作。</p>
-<p>这个堪比当年做靶场黑与白的情况，那个300多张图片，手敲三次还是出了问题，这个还这么多，更不能手搓了。</p>
-<p>官方的wp也只是提供了思路，并没有一个确切的做法。</p>
-<p>所以我这边就在研究能不能用脚本来搞。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import scipy.io.wavfile as wav</span><br><span class="line">import libnum</span><br><span class="line"></span><br><span class="line"># 1. 设置文件路径 (根据你的截图改好了)</span><br><span class="line"></span><br><span class="line">file_path = r&quot;C:\Users\G1731\flag.wav&quot;</span><br><span class="line"></span><br><span class="line">print(f&quot;📂 正在读取文件: &#123;file_path&#125;&quot;)</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line"></span><br><span class="line">    # 使用 scipy 读取，Anaconda 默认自带这个库，绝对稳！</span><br><span class="line"></span><br><span class="line">​    sample_rate, data = wav.read(file_path)</span><br><span class="line">​    </span><br><span class="line"></span><br><span class="line">    # 如果是双声道，取左声道</span><br><span class="line"></span><br><span class="line">​    if len(data.shape) &gt; 1:</span><br><span class="line">​        data = data[:, 0]</span><br><span class="line">​        </span><br><span class="line">​    print(f&quot;✅ 读取成功！采样率: &#123;sample_rate&#125;&quot;)</span><br><span class="line">except Exception as e:</span><br><span class="line">​    print(f&quot;❌ 读取失败: &#123;e&#125;&quot;)</span><br><span class="line">​    exit()</span><br><span class="line"></span><br><span class="line"># 2. 准备变量</span><br><span class="line"></span><br><span class="line">flag_list = []</span><br><span class="line">step = sample_rate // 10  # 0.1秒切一段</span><br><span class="line"></span><br><span class="line">print(&quot;⚡️ 正在进行 FFT 相位分析...&quot;)</span><br><span class="line"></span><br><span class="line"># 3. 循环处理每一段</span><br><span class="line"></span><br><span class="line">for i in range(0, len(data), step):</span><br><span class="line">    window = data[i : i + step]</span><br><span class="line">    if len(window) &lt; step:</span><br><span class="line">        continue</span><br><span class="line"></span><br><span class="line">    # --- 核心算法 (完全复现题目原意) ---</span><br><span class="line"></span><br><span class="line">    # 这步计算是 Excel 做不到的，必须用 fft</span><br><span class="line"></span><br><span class="line">​    fft_res = np.fft.fft(window)</span><br><span class="line"></span><br><span class="line">    # 取第25个频率点的相位</span><br><span class="line"></span><br><span class="line">​    v = np.angle(fft_res[25])</span><br><span class="line">​    </span><br><span class="line"></span><br><span class="line">    # 4. 根据相位分类 (Writeup 里的阈值)</span><br><span class="line"></span><br><span class="line">​    val = 7</span><br><span class="line"></span><br><span class="line">    # 这些是相位角的阈值，不是电压</span><br><span class="line"></span><br><span class="line">​    thresholds = [-2.5, -1.7, -0.7, 0, 0.7, 1.5, 2.4]</span><br><span class="line">​    </span><br><span class="line">​    for t in thresholds:</span><br><span class="line">​        if v &lt; t:</span><br><span class="line">​            val -= 1</span><br><span class="line">​    flag_list.append(val)</span><br><span class="line"></span><br><span class="line"># 5. 解码</span><br><span class="line"></span><br><span class="line"># (j+4)%8 是题目特有的修正逻辑</span><br><span class="line"></span><br><span class="line">oct_str = &#x27;&#x27;.join([f&#x27;&#123;(j + 4) % 8&#125;&#x27; for j in flag_list])</span><br><span class="line"></span><br><span class="line">print(f&quot;🔢 提取到的8进制数据: &#123;oct_str&#125;&quot;)</span><br><span class="line"></span><br><span class="line"># 6. 转成文字 Flag</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    flag_bytes = libnum.n2s(int(oct_str, 8))</span><br><span class="line">    print(&quot;\n&quot; + &quot;=&quot;*40)</span><br><span class="line">    print(&quot;🎉 恭喜！Flag 是：&quot;)</span><br><span class="line">    print(flag_bytes.decode(&#x27;utf-8&#x27;))</span><br><span class="line">    print(&quot;=&quot;*40)</span><br><span class="line">except Exception as e:</span><br><span class="line">    print(f&quot;解码有点小问题: &#123;e&#125;&quot;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>这边是我通过ai得到的最终解题py代码，我还是写不来的。</p>
-<p>但这边我可以边分析边学习。</p>
-<p>前面引入库的代码以及读取文件的代码就不需要我分析了吧，重点来到我们的算法。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">    # 如果是双声道，取左声道</span><br><span class="line">    </span><br><span class="line">    if len(data.shape) &gt; 1:</span><br><span class="line">        data = data[:, 0]</span><br><span class="line">        </span><br><span class="line">    print(f&quot;✅ 读取成功！采样率: &#123;sample_rate&#125;&quot;)</span><br><span class="line"></span><br><span class="line">except Exception as e:</span><br><span class="line">    print(f&quot;❌ 读取失败: &#123;e&#125;&quot;)</span><br><span class="line">    exit()</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>对了这个，这个写法的由来是因为，我本来想试着用Excel搓数学模型失败后的产物。</p>
-<p><img src="/images/QQ20251125-203319.png" alt="alt text"></p>
-<p>我用工具提取线性数据，但还是没有成功搞到模型，所以这边就当是一个思路的辅助。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 2. 准备变量</span><br><span class="line"></span><br><span class="line">flag_list = []</span><br><span class="line">step = sample_rate // 10  # 0.1秒切一段</span><br><span class="line"></span><br><span class="line">print(&quot;⚡️ 正在进行 FFT 相位分析...&quot;)</span><br><span class="line"></span><br><span class="line"># 3. 循环处理每一段</span><br><span class="line"></span><br><span class="line">for i in range(0, len(data), step):</span><br><span class="line">    window = data[i : i + step]</span><br><span class="line">    if len(window) &lt; step:</span><br><span class="line">        continue</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>本身我们难以跟用代码来直接得到我们的目的，因此我们必须慢慢来，我们需要得到所有数据流，每一个数据流占0.1s。</p>
-<p>这些数据流我们可以把它们当成一个一个的小点，所以我们要计算得到1s内有多少的数据点，然后将其除以10，得到0.1s的数据点&#x2F;</p>
-<p>之后我们将整个音频分成含有固定数量数据点的0.1s片段。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># --- 核心算法 (完全复现题目原意) ---</span><br><span class="line"></span><br><span class="line"># 这步计算是 Excel 做不到的，必须用 fft</span><br><span class="line"></span><br><span class="line">fft_res = np.fft.fft(window)</span><br><span class="line"></span><br><span class="line"># 取第25个频率点的相位</span><br><span class="line"></span><br><span class="line">v = np.angle(fft_res[25])</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line"># 4. 根据相位分类 (Writeup 里的阈值)</span><br><span class="line"></span><br><span class="line">val = 7</span><br><span class="line"></span><br><span class="line"># 这些是相位角的阈值，不是电压</span><br><span class="line"></span><br><span class="line">thresholds = [-2.5, -1.7, -0.7, 0, 0.7, 1.5, 2.4]</span><br><span class="line"></span><br><span class="line">for t in thresholds:</span><br><span class="line">    if v &lt; t:</span><br><span class="line">        val -= 1</span><br><span class="line">flag_list.append(val)</span><br><span class="line">   </span><br><span class="line">   </span><br></pre></td></tr></table></figure>
-
-<p>这一步是用来确定每一组0.1s的数据流属于哪一个轨道的。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">\# 1. 变换到频域 </span><br><span class="line"># fft_res 是一个复数数组，长得像 [0+0j, 1+2j, 100+50j, ...] </span><br><span class="line"># 数组的下标代表频率。下标0是直流电，下标1是1Hz... </span><br><span class="line">fft_res = np.fft.fft(window)</span><br><span class="line"># 2. 锁定目标 # 为什么取 [25]？</span><br><span class="line"># 因为这段波在 0.1秒里震动了 25次（250Hz）。 </span><br><span class="line"># 经过 FFT 计算后，能量会集中在下标为 25 的那个格子里。 </span><br><span class="line"># 我们只关心主角，不关心其他的杂音。 </span><br><span class="line">target_complex_number = fft_res[25] </span><br><span class="line"># 3. 提取相位 # 这个复数可以用向量表示。np.angle 就是算这个向量和X轴的夹角。 </span><br><span class="line"># 结果 v 是一个弧度值，范围是 -3.14 到 +3.14。</span><br><span class="line">v = np.angle(target_complex_number)</span><br></pre></td></tr></table></figure>
-
-<p>这边就是完全不会的领域了。FFT 快速傅里叶变换，又是数学，大概理解就是，这个方法能够具体地得到，在这一组的0.1s 数据点，所拥有的能量，按它这边就是相位，这个就是提取这一组数据的相位，不是很好理解。</p>
-<p>这边用ai形象一下。</p>
-<hr>
-<h4 id="1-fft-res-np-fft-fft-window"><a href="#1-fft-res-np-fft-fft-window" class="headerlink" title="1. fft_res = np.fft.fft(window)"></a><em>1. <code>fft_res = np.fft.fft(window)</code></em></h4><ul>
-<li><em><strong>发生了什么？</strong></em><ul>
-<li><em><code>window</code> 里是一堆杂乱的时间点数据（比如：0.1秒时的电压、0.001秒时的电压…）。这时候我们只知道“他在跑”，但不知道他跑得快慢，也不知道他从哪起跑。</em></li>
-<li><em><code>fft</code> 把这些数据转换成了</em><em>“频率桶 (Bins)”**。</em></li>
-<li><em><code>fft_res</code> 是一个很长的数组。</em><ul>
-<li><em><code>fft_res[0]</code>：存的是“不动的人”（直流分量）。</em></li>
-<li><em><code>fft_res[1]</code>：存的是“在这段时间里刚好只跑了 <strong>1圈</strong> 的人”。</em></li>
-<li><em><code>fft_res[2]</code>：存的是“在这段时间里刚好跑了 <strong>2圈</strong> 的人”。</em></li>
-<li><em>…</em></li>
-<li><em><code>fft_res[N]</code>：存的是“跑了 N 圈的人”。</em></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="2-target-fft-res-25-——-为什么偏偏是-25？"><a href="#2-target-fft-res-25-——-为什么偏偏是-25？" class="headerlink" title="2. target = fft_res[25] —— 为什么偏偏是 25？"></a><em>2. <code>target = fft_res[25]</code> —— 为什么偏偏是 25？</em></h4><p><em>这是最关键的问题。</em></p>
-<ul>
-<li><em><strong>物理含义</strong>：</em><ul>
-<li><em>我们的时间窗口是 <strong>0.1秒</strong>。</em></li>
-<li><em>下标 <code>25</code> 的意思是：<strong>在这个窗口（0.1秒）内，这个信号完成了 25 个完整的周期。</strong></em></li>
-</ul>
-</li>
-<li><em><strong>换算一下</strong>：</em><ul>
-<li><em>0.1秒跑了25圈 -&gt; 1秒钟就能跑 250圈。</em></li>
-<li><em>说明这个信号的频率是 <strong>250 Hz</strong>。</em></li>
-</ul>
-</li>
-<li><em><strong>怎么知道是 25 的？</strong></em><ul>
-<li><em>这是出题人设定的。在这个题目里，信号的主载波频率就是 250Hz。</em></li>
-<li><em>如果你去画图（频谱图），你会发现只有在下标 <code>25</code> 的位置，柱子特别高（能量最大）。其他下标（比如 10, 30, 100）里虽然也有数，但都很小，是噪音。</em></li>
-<li><em><strong>所以我们只把“第25号选手”拎出来审问，其他人不管。</strong></em></li>
-</ul>
-</li>
-</ul>
-<h4 id="3-v-np-angle-target-——-复数与相位"><a href="#3-v-np-angle-target-——-复数与相位" class="headerlink" title="3. v = np.angle(target) —— 复数与相位"></a><em>3. <code>v = np.angle(target)</code> —— 复数与相位</em></h4><p><em>现在我们把 <code>fft_res[25]</code> 这个值拎出来了。 但这个值*<em>不是一个普通的数字</em></em>（比如 100），而是一个<strong>复数</strong>（比如 <code>3 + 4j</code>）。*</p>
-<p><em><strong>为什么要用复数？</strong> 因为描述一个正在跑圈的人，需要两个信息：</em></p>
-<ol>
-<li><em><strong>幅度 (Amplitude)</strong>：他跑得有多猛？（步子迈得有多大？信号有多强？）</em></li>
-<li><em><strong>相位 (Phase)</strong>：录像开始的那一瞬间（0.00秒），他在跑道的</em><em>哪个位置</em><em>？</em><ul>
-<li><em>是在起跑线（0度）？</em></li>
-<li><em>还是在半圈的位置（180度）？</em></li>
-<li><em>还是在刚出发一点点的位置（45度）？</em></li>
-</ul>
 </li>
 </ol>
-<p><em>一个普通的数字（标量）没法同时记下这两个信息。<strong>复数可以！</strong></em></p>
-<p><em>想象一个坐标系：</em></p>
-<ul>
-<li><em><strong>复数 <code>3 + 4j</code></strong> 就是坐标系上的点 <strong>(3, 4)</strong>。</em></li>
-<li><em><strong>原点到(3, 4)的距离</strong>：是幅度（我们这题不关心信号强弱，所以不看距离）。</em></li>
-<li><em><strong>原点连线与X轴的夹角</strong>：就是</em><em>相位</em><em>！</em></li>
-</ul>
-<p><em><strong><code>np.angle(...)</code> 是什么？</strong></em></p>
-<ul>
-<li><em>它就是一把*<em>量角器</em></em>。*</li>
-<li><em>它测量复数点 <code>(3, 4)</code> 在坐标系里的角度。</em></li>
-<li><em>它告诉我们：“哦，录像开始的时候，这个人在跑道的 <strong>0.93弧度</strong>（约53度）的位置。”</em></li>
-</ul>
 <hr>
-<pre><code># 4. 根据相位分类 (Writeup 里的阈值)
+<h1 id="3-base47"><a href="#3-base47" class="headerlink" title="#3.base47"></a>#3.base47</h1><p>   这题我应该写在神秘小笔记里的，但是想到这是ctfshow菜狗杯的密码题，还是写在这里了。</p>
+<p>   先看题目。</p>
+<p>   <img src="/images/QQ20251121-210922.png" alt="alt text"></p>
+<p>   神必字符： <code>E9CV^T+HT5#X36RF4@LAU703+F$E-0N$@68LMXCVDRJJD5@MP#7MUZDTE?WWLG1S#L@+^66H@59KTWYK8TW0RV</code></p>
+<p>   神必字典：0123456789ABCDEFGHJKLMNPQRSTUVWXYZ?!@#$%^&amp;*-+</p>
+<p>   其实咋一眼我要直接映射了，这底下给的太像映射的题目了。</p>
+<p>   不过看在base47，还是base解密吧。</p>
+<p>   但是有一个问题，base只有45没有47。</p>
+<p>   看了一下，底下的字典确实只有45个，缺少了I和O，估计这就是47的由来。</p>
+<p>   正常的我要贴代码和解密过程了，但这一题，对我来说，算是一题搞清楚base体系的过程，所以我倒不想这么写。</p>
+<p>   以前做题的时候并没有认真了解过base，所以基本都是直接丢工具与代码的，为了做题而使用。</p>
+<p>   不过在做这一题的时候，我突发奇想就去了解了base，因此有了这一篇文章。</p>
+<p>   一.base64</p>
+<p>   <strong>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+&#x2F;</strong>  这是base64所用到的字典，极少数情况下不一样。</p>
+<p>   正正好好64个，它的计算方式是将我们所输入的东西转化为二进制，以3个字节为一组，即24bit，然后平均的分成4组，每组6个bit，然后转化为十进制数字，对照base64表进行加密。</p>
+<p>   解密方式即为逆向，查看base64得到二进制数据，全部放在一起后，以八个为一组 ，计算ascll码，然后得到原文。</p>
+<p>   base64特别明显的特征是尾部会有&#x3D;&#x3D;或者&#x3D;，这是为了补足字节加的，base32也有这个情况。</p>
+<p>   二.base32</p>
+<p>   base32我其实是没见过体型的，这里也做了解一下。</p>
+<p>   <strong>ABCDEFGHIJKLMNOPQRSTUVWXYZ234567</strong> 这是它的字典，最明显的特征就是只有大写字母加数字。</p>
+<p>   同样的32个正正好好。</p>
+<p>   它则是将我们输入的东西转化二进制数据，以两个字节为一组，即16bit，然后5bit为一组，分成4组，最后一组不够补0.</p>
+<p>   得到四组数据后，查表得到加密后的数据。</p>
+<p>   解密的方式就是倒过来，具体的我就不描述了。</p>
+<p>   它的特征同样是尾部有&#x3D;，但它有时候可能会有很多个&#x3D;，目的同样是补齐。</p>
+<p>   三.base16</p>
+<p>   这个就不讲了，四位一组的16进制转化。</p>
+<p>   四.base58</p>
+<p>   这个挺有意思的，它是比特币负责人改良base64而来的，据说是为了防止转账时出现的失误。</p>
+<p>   它是先将我们输入的明文转为0x类型的16进制，再将数字组合，形成一个更大的16进制。eg：Hi  0x48和0x69,组合从成0x4869&#x3D;18537(十进制)。  然后将这个十进制数据除以58，取余数，不断重复，直到商为0，余数为本身，然后将得来的余数按早晚的顺序，晚的在前，早的在后，即先除来的余数是排在后面的，这样排列之后得到一串数字，再根据base58表，一个余数一个余数的对应得到密文。</p>
+<p>   它的字典是123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz。</p>
+<p>   对了，有一点要注意，base58规定了索引0为1，所以如果是数字5，那对应的就是6。</p>
+<p>   五.base85</p>
+<p>   base85会将我们输入的内容按4字节一组的分配，如果一组中只有一个字节，则在3其后补0.</p>
+<p>   它的计算方式和base58无不同，都是转16进制，组合，转回10进制。</p>
+<p>   然后除85取余数，然后倒序排列余数，对照映射表，base85的映射表是ASCII33(<code>!</code>)到117(<code>u</code>)。</p>
+<p>   即!”#$%&amp;’()*+,-.&#x2F;0123456789:;&lt;&#x3D;&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_&#96;abcdefghijklmnopqrstu。</p>
+<p>   然后得密文。</p>
+<p>   base体系还有其他的，这边我就不全介绍了。 </p>
+<hr>
+<h1 id="4-这个不好听"><a href="#4-这个不好听" class="headerlink" title="#4.这个不好听"></a>#4.这个不好听</h1><p>   这一题我是没做出来的，所以，这一篇的文章并非wp类型，算是记录我在认真学习官方wp的日记吧。</p>
+<p>   <img src="/images/QQ20251124-190629.png" alt="alt text"></p>
+<p>   题目给的附件是一个wav类型的音频。”C:\Users\G1731\Downloads\flag\flag.wav”</p>
+<p>   如题目而言听是不能听的，完全是没有任何信息的。</p>
+<p>   看到hint1，我第一印象居然是靶场的回归线方程，(捂脸)。</p>
+<p>   这个印象深的勒。</p>
+<p>   不说了，回到题目来。</p>
+<p>   <img src="/images/QQ20251124-191107.png" alt="alt text"></p>
+<p>   我一开始是先用随波逐流看一下，这个音频是不是有什么隐藏文件，或者16进制存在信息，但非常的遗憾，什么也没有。</p>
+<p>   这完全就是一个十分正常的音频，我又用010editor打开。</p>
+<p>   <img src="/images/QQ20251124-191340.png" alt="alt text"></p>
+<p>   <img src="/images/QQ20251124-191349.png" alt="alt text"></p>
+<p>   依旧是什么信息没有，这个时候呢，我还不觉得这个会让我没有思路。</p>
+<p>   我又想mp3隐写的工具看，但突然发现这个不是mp3文件啊，这个系列题目的上一题是MP3格式的，但这个不是。</p>
+<p>   所以肯定不能用了。</p>
+<p>   我又用wsl仔细看了看这个音频。</p>
+<p>   <strong>yu@localhost:&#x2F;mnt&#x2F;c&#x2F;Users&#x2F;G1731$ file &#x2F;mnt&#x2F;c&#x2F;Users&#x2F;G1731&#x2F;flag.wav</strong><br>   <strong>&#x2F;mnt&#x2F;c&#x2F;Users&#x2F;G1731&#x2F;flag.wav: RIFF (little-endian) data, WAVE audio, IEEE Float, mono 44100 Hz</strong></p>
+<p>   完全没有东西。</p>
+<p>   这个时候，我想，估计就是仔细看看音轨了。</p>
+<p>   audicity打开。</p>
+<p>   <img src="/images/QQ20251124-192635.png" alt="alt text"></p>
+<p>   哇！！！！真是一点信息都没有，我本身这个音频类型的misc题型遇到的就不多，而且misc在我看来，是一个极考验灵光咋现和题量的版块，它不像web或者pwn或者re，需要代码审计，函数理解之类的可以很直接查到的东西，如果直接搜音频隐写，那是真的大海捞针，但是一旦有了一个正确的思路，就可以直接顺着思路，秒杀misc，唉，完全不知道该怎么办了，要说不是文件隐藏，那万一它是个啥数据流的隐藏，我又找不到，要说音频没有其他信息，那它有，我也想不到，题目是怎么隐藏的。</p>
+<p>   <img src="/images/QQ20251124-193212.png" alt="alt text"></p>
+<p>   唯一我感觉有用的也就是这个，调整音频频率找到的跟三角函数很像的图像 ，这个也跟hint1的提醒有所关联。</p>
+<p>   但，怎么把这个轨道提取出来，放在能让我推算的画板上呢。</p>
+<p>   这也是一个问题。</p>
+<p>   思来想去，我是找不到方法解决的，本来想问学长的，想想看，还是自己想吧。</p>
+<p>   大概是几分钟后，我就决定还是看wp吧，这个是真不行，即便能提取出来，我稍微左右滑动了几下，这样的轨道有好多个，我要是能提取出来得到![QQ20251124-193812](C:\Users\G1731\Pictures\QQ20251124-193812.png信息就罢了，万一思路又是堵的，浪费时间也多，估计最后也是wp，那何不如早点wp。</p>
+<p>   所以我就去打开了官方wp。</p>
+<p>   <img src="/images/QQ20251124-193812.png" alt="alt text"></p>
+<p>   <img src="/images/QQ20251124-193822.png" alt="alt text"></p>
+<p>   <img src="/images/QQ20251124-193836.png" alt="alt text"></p>
+<p>   <img src="/images/QQ20251124-193845.png" alt="alt text"></p>
+<p>   <img src="/images/QQ20251124-193851.png" alt="alt text"></p>
+<p>   研究了快三天，我大致理解这是什么原理了。</p>
+<p>   这个音频每0.1s断开一次，一共是有8种不同的音频轨道，根据相位从小到大排列0-7.</p>
+<p>   然后一个一个的对应，将整个音频从头开始，0.1s 0.1s的分开，然后根据这个音频轨道是8种轨道的哪一个对应着记录下数字。</p>
+<p>   最后得到一串八进制数据，然后在转化成字符，最终得到flag。</p>
+<p>   原理有了，那要怎么复现呢， 真要手敲，我感觉就寄了，这完全就不是能实现的操作。</p>
+<p>   这个堪比当年做靶场黑与白的情况，那个300多张图片，手敲三次还是出了问题，这个还这么多，更不能手搓了。</p>
+<p>   官方的wp也只是提供了思路，并没有一个确切的做法。</p>
+<p>   所以我这边就在研究能不能用脚本来搞。</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import scipy.io.wavfile as wav</span><br><span class="line">import libnum</span><br><span class="line"></span><br><span class="line">1. 设置文件路径 (根据你的截图改好了)</span><br><span class="line"></span><br><span class="line">file_path = r&quot;C:\Users\G1731\flag.wav&quot;</span><br><span class="line"></span><br><span class="line">print(f&quot;📂 正在读取文件: &#123;file_path&#125;&quot;)</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line"></span><br><span class="line"> 使用 scipy 读取，Anaconda 默认自带这个库，绝对稳！</span><br><span class="line"></span><br><span class="line">​    sample_rate, data = wav.read(file_path)</span><br><span class="line">​    </span><br><span class="line"></span><br><span class="line"> 如果是双声道，取左声道</span><br><span class="line"></span><br><span class="line">​    if len(data.shape) &gt; 1:</span><br><span class="line">​        data = data[:, 0]</span><br><span class="line">​        </span><br><span class="line">​    print(f&quot;✅ 读取成功！采样率: &#123;sample_rate&#125;&quot;)</span><br><span class="line">except Exception as e:</span><br><span class="line">​    print(f&quot;❌ 读取失败: &#123;e&#125;&quot;)</span><br><span class="line">​    exit()</span><br><span class="line"></span><br><span class="line">2. 准备变量</span><br><span class="line"></span><br><span class="line">flag_list = []</span><br><span class="line">step = sample_rate // 10  # 0.1秒切一段</span><br><span class="line"></span><br><span class="line">print(&quot;⚡️ 正在进行 FFT 相位分析...&quot;)</span><br><span class="line"></span><br><span class="line">3. 循环处理每一段</span><br><span class="line"></span><br><span class="line">for i in range(0, len(data), step):</span><br><span class="line">    window = data[i : i + step]</span><br><span class="line">    if len(window) &lt; step:</span><br><span class="line">        continue</span><br><span class="line"></span><br><span class="line"> --- 核心算法 这步计算是 Excel 做不到的，必须用 fft</span><br><span class="line"></span><br><span class="line">​    fft_res = np.fft.fft(window)</span><br><span class="line"></span><br><span class="line">    取第25个频率点的相位</span><br><span class="line"></span><br><span class="line">​    v = np.angle(fft_res[25])</span><br><span class="line">​    </span><br><span class="line"></span><br><span class="line">    4. 根据相位分类 (Writeup 里的阈值)</span><br><span class="line"></span><br><span class="line">​    val = 7</span><br><span class="line"></span><br><span class="line">    这些是相位角的阈值，不是电压</span><br><span class="line"></span><br><span class="line">​    thresholds = [-2.5, -1.7, -0.7, 0, 0.7, 1.5, 2.4]</span><br><span class="line">​    </span><br><span class="line">​    for t in thresholds:</span><br><span class="line">​        if v &lt; t:</span><br><span class="line">​            val -= 1</span><br><span class="line">​    flag_list.append(val)</span><br><span class="line"></span><br><span class="line">5. 解码</span><br><span class="line"></span><br><span class="line">(j+4)%8 是题目特有的修正逻辑</span><br><span class="line"></span><br><span class="line">oct_str = &#x27;&#x27;.join([f&#x27;&#123;(j + 4) % 8&#125;&#x27; for j in flag_list])</span><br><span class="line"></span><br><span class="line">print(f&quot;🔢 提取到的8进制数据: &#123;oct_str&#125;&quot;)</span><br><span class="line"></span><br><span class="line">6. 转成文字 Flag</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    flag_bytes = libnum.n2s(int(oct_str, 8))</span><br><span class="line">    print(&quot;\n&quot; + &quot;=&quot;*40)</span><br><span class="line">    print(&quot;🎉 恭喜！Flag 是：&quot;)</span><br><span class="line">    print(flag_bytes.decode(&#x27;utf-8&#x27;))</span><br><span class="line">    print(&quot;=&quot;*40)</span><br><span class="line">except Exception as e:</span><br><span class="line">    print(f&quot;解码有点小问题: &#123;e&#125;&quot;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-val = 7
+<p>   这边是我通过ai得到的最终解题py代码，我还是写不来的。</p>
+<p>   但这边我可以边分析边学习。</p>
+<p>   前面引入库的代码以及读取文件的代码就不需要我分析了吧，重点来到我们的算法。</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">    如果是双声道，取左声道</span><br><span class="line">    </span><br><span class="line">    if len(data.shape) &gt; 1:</span><br><span class="line">        data = data[:, 0]</span><br><span class="line">        </span><br><span class="line">    print(f&quot;✅ 读取成功！采样率: &#123;sample_rate&#125;&quot;)</span><br><span class="line"></span><br><span class="line">except Exception as e:</span><br><span class="line">    print(f&quot;❌ 读取失败: &#123;e&#125;&quot;)</span><br><span class="line">    exit()</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-# 这些是相位角的阈值，不是电压
+<p>   对了这个，这个写法的由来是因为，我本来想试着用Excel搓数学模型失败后的产物。</p>
+<p>   <img src="/images/QQ20251125-203319.png" alt="alt text"></p>
+<p>   我用工具提取线性数据，但还是没有成功搞到模型，所以这边就当是一个思路的辅助。</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">2. 准备变量</span><br><span class="line"></span><br><span class="line">flag_list = []</span><br><span class="line">step = sample_rate // 10  # 0.1秒切一段</span><br><span class="line"></span><br><span class="line">print(&quot;⚡️ 正在进行 FFT 相位分析...&quot;)</span><br><span class="line"></span><br><span class="line">3. 循环处理每一段</span><br><span class="line"></span><br><span class="line">for i in range(0, len(data), step):</span><br><span class="line">    window = data[i : i + step]</span><br><span class="line">    if len(window) &lt; step:</span><br><span class="line">        continue</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-thresholds = [-2.5, -1.7, -0.7, 0, 0.7, 1.5, 2.4]
+<p>   本身我们难以跟用代码来直接得到我们的目的，因此我们必须慢慢来，我们需要得到所有数据流，每一个数据流占0.1s。</p>
+<p>   这些数据流我们可以把它们当成一个一个的小点，所以我们要计算得到1s内有多少的数据点，然后将其除以10，得到0.1s的数据点&#x2F;</p>
+<p>   之后我们将整个音频分成含有固定数量数据点的0.1s片段。</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">--- 核心算法 (完全复现题目原意) ---</span><br><span class="line"></span><br><span class="line">这步计算是 Excel 做不到的，必须用 fft</span><br><span class="line"></span><br><span class="line">fft_res = np.fft.fft(window)</span><br><span class="line"></span><br><span class="line">取第25个频率点的相位</span><br><span class="line"></span><br><span class="line">v = np.angle(fft_res[25])</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">4. 根据相位分类 (Writeup 里的阈值)</span><br><span class="line"></span><br><span class="line">val = 7</span><br><span class="line"></span><br><span class="line">这些是相位角的阈值，不是电压</span><br><span class="line"></span><br><span class="line">thresholds = [-2.5, -1.7, -0.7, 0, 0.7, 1.5, 2.4]</span><br><span class="line"></span><br><span class="line">for t in thresholds:</span><br><span class="line">    if v &lt; t:</span><br><span class="line">        val -= 1</span><br><span class="line">flag_list.append(val)</span><br><span class="line">   </span><br><span class="line">   </span><br></pre></td></tr></table></figure>
 
-for t in thresholds:
-    if v &lt; t:
-        val -= 1
-flag_list.append(val)
-</code></pre>
+<p>   这一步是用来确定每一组0.1s的数据流属于哪一个轨道的。</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1. 变换到频域 </span><br><span class="line"> fft_res 是一个复数数组，长得像 [0+0j, 1+2j, 100+50j, ...] </span><br><span class="line">数组的下标代表频率。下标0是直流电，下标1是1Hz... </span><br><span class="line"> fft_res = np.fft.fft(window)</span><br><span class="line"> 2. 锁定目标 # 为什么取 [25]？</span><br><span class="line">因为这段波在 0.1秒里震动了 25次（250Hz）。 </span><br><span class="line">经过 FFT 计算后，能量会集中在下标为 25 的那个格子里。 </span><br><span class="line">我们只关心主角，不关心其他的杂音。 </span><br><span class="line"> target_complex_number = fft_res[25] </span><br><span class="line">3. 提取相位 # 这个复数可以用向量表示。np.angle 就是算这个向量和X轴的夹角。 </span><br><span class="line">结果 v 是一个弧度值，范围是 -3.14 到 +3.14。</span><br><span class="line">v = np.angle(target_complex_number)</span><br></pre></td></tr></table></figure>
+
+<p>   这边就是完全不会的领域了。FFT 快速傅里叶变换，又是数学，大概理解就是，这个方法能够具体地得到，在这一组的0.1s 数据点，所拥有的能量，按它这边就是相位，这个就是提取这一组数据的相位，不是很好理解。</p>
+<p>   这边用ai形象一下。</p>
+<blockquote>
+<p>核心比喻：操场上的赛跑<br>想象一下：</p>
+<p>window (输入的波形数据)：这是0.1秒的一段录像。录像里有一个人在操场上跑圈（正弦波震动）。</p>
+<p>np.fft.fft (FFT变换)：这是一台**“超级分析仪”。它看完了这段录像，然后给出一份“体检报告”**。</p>
+<p>fft_res (报告结果)：这份报告里有无数行（数组），每一行对应不同的“跑圈速度”。</p>
+<p>fft_res[25]：这是报告的第25行，专门记录**“在这0.1秒内跑了25圈”**的那个人。</p>
+<p>详细拆解每一行代码</p>
+<ol>
+<li>fft_res &#x3D; np.fft.fft(window)<br>发生了什么？</li>
+</ol>
+<p>window 里是一堆杂乱的时间点数据（比如：0.1秒时的电压、0.001秒时的电压…）。这时候我们只知道“他在跑”，但不知道他跑得快慢，也不知道他从哪起跑。</p>
+<p>fft 把这些数据转换成了**“频率桶 (Bins)”**。</p>
+<p>fft_res 是一个很长的数组。</p>
+<p>fft_res[0]：存的是“不动的人”（直流分量）。</p>
+<p>fft_res[1]：存的是“在这段时间里刚好只跑了 1圈 的人”。</p>
+<p>fft_res[2]：存的是“在这段时间里刚好跑了 2圈 的人”。</p>
+<p>…</p>
+<p>fft_res[N]：存的是“跑了 N 圈的人”。</p>
+<ol start="2">
+<li>target &#x3D; fft_res[25] —— 为什么偏偏是 25？<br>这是最关键的问题。</li>
+</ol>
+<p>物理含义：</p>
+<p>我们的时间窗口是 0.1秒。</p>
+<p>下标 25 的意思是：在这个窗口（0.1秒）内，这个信号完成了 25 个完整的周期。</p>
+<p>换算一下：</p>
+<p>0.1秒跑了25圈 -&gt; 1秒钟就能跑 250圈。</p>
+<p>说明这个信号的频率是 250 Hz。</p>
+<p>怎么知道是 25 的？</p>
+<p>这是出题人设定的。在这个题目里，信号的主载波频率就是 250Hz。</p>
+<p>如果你去画图（频谱图），你会发现只有在下标 25 的位置，柱子特别高（能量最大）。其他下标（比如 10, 30, 100）里虽然也有数，但都很小，是噪音。</p>
+<p>所以我们只把“第25号选手”拎出来审问，其他人不管。</p>
+<ol start="3">
+<li>v &#x3D; np.angle(target) —— 复数与相位<br>现在我们把 fft_res[25] 这个值拎出来了。 但这个值不是一个普通的数字（比如 100），而是一个复数（比如 3 + 4j）。</li>
+</ol>
+<p>为什么要用复数？ 因为描述一个正在跑圈的人，需要两个信息：</p>
+<p>幅度 (Amplitude)：他跑得有多猛？（步子迈得有多大？信号有多强？）</p>
+<p>相位 (Phase)：录像开始的那一瞬间（0.00秒），他在跑道的哪个位置？</p>
+<p>是在起跑线（0度）？</p>
+<p>还是在半圈的位置（180度）？</p>
+<p>还是在刚出发一点点的位置（45度）？</p>
+<p>一个普通的数字（标量）没法同时记下这两个信息。复数可以！</p>
+<p>想象一个坐标系：</p>
+<p>复数 3 + 4j 就是坐标系上的点 (3, 4)。</p>
+<p>原点到(3, 4)的距离：是幅度（我们这题不关心信号强弱，所以不看距离）。</p>
+<p>原点连线与X轴的夹角：就是相位！</p>
+<p>np.angle(…) 是什么？</p>
+<p>它就是一把量角器。</p>
+<p>它测量复数点 (3, 4) 在坐标系里的角度。</p>
+<p>它告诉我们：“哦，录像开始的时候，这个人在跑道的 0.93弧度（约53度）的位置。”</p>
+</blockquote>
+<hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">4. 根据相位分类 (Writeup 里的阈值)</span><br><span class="line"></span><br><span class="line">val = 7</span><br><span class="line"></span><br><span class="line">这些是相位角的阈值，不是电压</span><br><span class="line"></span><br><span class="line">thresholds = [-2.5, -1.7, -0.7, 0, 0.7, 1.5, 2.4]</span><br><span class="line"></span><br><span class="line">for t in thresholds:</span><br><span class="line">    if v &lt; t:</span><br><span class="line">        val -= 1</span><br><span class="line">flag_list.append(val)</span><br></pre></td></tr></table></figure>
+
+<hr>
 <p>核心算法过了后，后面的都比较好理解了，通过相位计算属于的0-7之间的数字，然后最后得到一串八进制数据流，解码最后得到flag。</p>
 <p><strong>ctfshow{cd97fbc9-515f-496c-8c4f-d431a9ecc833}</strong></p>
 <p>总结:真是一场酣畅淋漓的学习之旅，整道题最核心的点莫过于对整个音频进行数据流的整理了，如果数据小一点，也不至于这么麻烦，我只能说misc真是大手子，轻易就干废了我。</p>
 <hr>
 <hr>
-<p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
-</li>
-</ol>
+<p>   版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
     </div>
 </article>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const contentDiv = document.getElementById('article-content');
-    if (!contentDiv) return;
+(function() {
+    function applyFolding() {
+        const contentDiv = document.getElementById('article-content');
+        // 防止重复执行
+        if (!contentDiv || contentDiv.dataset.processed === "true") return;
+        contentDiv.dataset.processed = "true";
 
-    const children = Array.from(contentDiv.children);
-    if (children.length === 0) return;
+        const children = Array.from(contentDiv.children);
+        if (children.length === 0) return;
 
-    const newContainer = document.createDocumentFragment();
-    let currentDetails = null;
-    let currentContentDiv = null;
+        const newContainer = document.createDocumentFragment();
+        let currentDetails = null;
+        let currentContentDiv = null;
 
-    // === V5 核心判定逻辑 ===
-    const getHeaderInfo = (el) => {
-        const text = el.innerText.trim();
-        const tagName = el.tagName.toLowerCase();
-        
-        // 1. 如果是 H1-H6 标签（说明 Markdown 里写了 # 且加了空格，如 "# 1. 题目"）
-        // 我们认为这肯定是标题
-        if (['h1','h2','h3','h4','h5','h6'].includes(tagName)) {
-             // 只有当它是数字开头时才折叠，避免把 "小结" 这种副标题也折叠了
-             // 如果你想折叠所有 H 标签，可以去掉这个正则判断
-             if (/^\d+/.test(text) || text.startsWith('#')) {
-                 return { isHeader: true, text: text };
-             }
-             return { isHeader: true, text: text };
-        }
-
-        // 2. 如果是 P 或 DIV 标签（说明 Markdown 写法不规范，如 "####4.题目" 没加空格）
-        // 关键点：只有以 # 开头的才算！这能完美避开正文里的 "1.if(...)"
-        if ((tagName === 'p' || tagName === 'div') && text.startsWith('#')) {
-            // 必须包含数字，防止误伤普通强调文本
-            if (/^#+\s*\d+/.test(text)) {
-                const cleanText = text.replace(/^#+\s*/, ''); // 去掉 # 号
-                return { isHeader: true, text: cleanText };
-            }
-        }
-        
-        return { isHeader: false };
-    };
-
-    children.forEach(el => {
-        const info = getHeaderInfo(el);
-
-        if (info.isHeader) {
-            // 🛑 遇到新标题：打包上一个
-            if (currentDetails) {
-                currentDetails.appendChild(currentContentDiv);
-                newContainer.appendChild(currentDetails);
-            }
-
-            // 创建新折叠框
-            currentDetails = document.createElement('details');
-            currentDetails.className = 'auto-collapse';
+        // === 判别函数 V11 ===
+        const isHeader = (el) => {
+            const text = el.innerText.trim();
+            const tagName = el.tagName.toLowerCase();
             
-            // 标题
-            const summary = document.createElement('summary');
-            summary.innerText = info.text;
-            currentDetails.appendChild(summary);
-
-            // 内容区
-            currentContentDiv = document.createElement('div');
-            currentContentDiv.className = 'collapse-content';
-        } else {
-            // 📄 正文内容（包括你的 1.if(...)）
-            if (currentContentDiv) {
-                currentContentDiv.appendChild(el);
-            } else {
-                newContainer.appendChild(el);
+            // 规则1: 只要是 H1-H6，就是标题 (不管里面写啥)
+            if (/^h[1-6]$/.test(tagName)) {
+                return { match: true, text: text.replace(/^[#＃\s]+/, '') };
             }
+
+            // 规则2: 【核心修改】不看标签类型了！
+            // 只要这一行的文字是 "#" 开头，且包含数字，就认为是标题！
+            // 匹配: #1. / ## 2. / ###3.base47 / ＃4.
+            if (/^[#＃]+\s*\d/.test(text)) {
+                // 安全检查：如果这行字特别长(比如代码里的一行注释)，忽略它
+                // 标题一般不会超过80个字
+                if (text.length < 80) {
+                     return { match: true, text: text.replace(/^[#＃\s]+/, '') };
+                }
+            }
+            
+            return { match: false };
+        };
+
+        children.forEach(el => {
+            const check = isHeader(el);
+
+            if (check.match) {
+                // 🛑 命中！是标题！
+                if (currentDetails) {
+                    currentDetails.appendChild(currentContentDiv);
+                    newContainer.appendChild(currentDetails);
+                }
+
+                // 创建折叠框
+                currentDetails = document.createElement('details');
+                currentDetails.className = 'auto-collapse';
+                
+                // 标题栏
+                const summary = document.createElement('summary');
+                summary.innerText = check.text; // 去掉 # 后的干净文字
+                currentDetails.appendChild(summary);
+
+                // 内容区
+                currentContentDiv = document.createElement('div');
+                currentContentDiv.className = 'collapse-content';
+            } else {
+                // 📄 普通内容
+                if (currentContentDiv) {
+                    currentContentDiv.appendChild(el);
+                } else {
+                    newContainer.appendChild(el);
+                }
+            }
+        });
+
+        if (currentDetails) {
+            currentDetails.appendChild(currentContentDiv);
+            newContainer.appendChild(currentDetails);
         }
-    });
 
-    // 处理最后一个
-    if (currentDetails) {
-        currentDetails.appendChild(currentContentDiv);
-        newContainer.appendChild(currentDetails);
+        if (newContainer.children.length > 0) {
+            contentDiv.innerHTML = '';
+            contentDiv.appendChild(newContainer);
+        }
     }
 
-    // 更新页面
-    if (newContainer.children.length > 0) {
-        contentDiv.innerHTML = '';
-        contentDiv.appendChild(newContainer);
-    }
-});
+    // 暴力监听：页面加载、内容变化都尝试触发
+    window.addEventListener("load", applyFolding);
+    document.addEventListener("DOMContentLoaded", applyFolding);
+})();
 </script>
 
         </div>
