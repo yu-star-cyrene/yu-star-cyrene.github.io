@@ -4,121 +4,55 @@
   <meta charset="utf-8">
   <title>白白毛毛</title>
   <link rel="stylesheet" href="/css/style.css">
-  <script src="/js/main.js" defer></script>
   <link rel="stylesheet" href="/css/_custom.css">
-  <style>
-    /* 侧边栏样式 */
-    .sidebar .post-list-container ul { list-style: none !important; padding: 0 !important; margin: 0 !important; }
-    .sidebar .post-list-container li { padding: 10px 15px !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
-    .sidebar .post-list-container a.post-title-link { 
-        text-decoration: none !important; 
-        color: #eee !important;
-        font-weight: bold !important;
-        font-size: 14px !important;
-        display: block !important;
-    }
-    .sidebar .post-list-container .post-date { font-size: 12px !important; color: #999 !important; margin-top: 4px !important; }
-    .sidebar .contact-section { display: block !important; margin: 20px 0 !important; }
-    
-    /* 自动折叠组件样式 */
-    details.auto-collapse { margin-bottom: 15px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-    details.auto-collapse summary { cursor: pointer; padding: 15px; background: #f8f9fa; font-weight: bold; color: #333; font-size: 1.1em; list-style: none; position: relative; transition: all 0.2s; border-left: 5px solid #007bff; display: flex; align-items: center; }
-    details.auto-collapse summary:hover { background: #e9ecef; }
-    details.auto-collapse summary::-webkit-details-marker { display: none; }
-    details.auto-collapse summary::after { content: '➕'; margin-left: auto; font-size: 0.8em; opacity: 0.6; }
-    details.auto-collapse[open] summary::after { content: '➖'; }
-    .collapse-content { padding: 20px; background: #fff; border-top: 1px solid #eee; }
-  </style>
 <meta name="generator" content="Hexo 8.1.1"></head>
-<body>
+<body class="bg-post">
 
-<div class="container">
-    <div class="sidebar">
-        <div class="header-info">
-            <img src="/images/avatar.jpg" class="avatar" alt="avatar">
-            <h1 class="site-title">白白毛毛</h1>
-            <nav class="nav">
-                <a href="/">首页</a>
-                <a href="/archives">归档</a>
-            </nav>
-        </div>
-
-        <div class="contact-section">
-            <p class="contact-intro">If you want find me:</p>
-            <div class="contact-item"><img src="/images/qq.png" class="contact-icon" style="width:20px;"><span>729626523</span></div>
-            <div class="contact-item"><img src="/images/GitHub.png" class="contact-icon" style="width:20px;"><span>yu-star-cyrene</span></div>
-            <div class="contact-item"><img src="/images/email.jpg" class="contact-icon" style="width:20px;"><span>y19350026593@gmail.com</span></div>
-        </div>
-
-        <div class="post-list-container" style="flex: 1; overflow-y: auto; border-top: 1px solid rgba(255,255,255,0.1);">
-            <ul>
-            
-                <li>
-                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
-                    <div class="post-date">2025-11-27</div>
-                </li>
-            
-                <li>
-                    <a href="/2025/11/11/nssctf%E5%AD%A6%E4%B9%A0%E4%B8%AD/" class="post-title-link">nssctf学习中</a>
-                    <div class="post-date">2025-11-26</div>
-                </li>
-            
-                <li>
-                    <a href="/2025/11/16/%E7%A5%9E%E7%A7%98%E5%B0%8F%E7%AC%94%E8%AE%B0/" class="post-title-link">神秘小笔记</a>
-                    <div class="post-date">2025-11-26</div>
-                </li>
-            
-                <li>
-                    <a href="/2025/11/11/buuctf%E4%B9%8B%E8%B7%AF/" class="post-title-link">buuctf之路</a>
-                    <div class="post-date">2025-11-26</div>
-                </li>
-            
-                <li>
-                    <a href="/2025/11/11/PS-%E6%84%9F%E8%A7%89%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%B8%AA/" class="post-title-link">PS:感觉可以做一个</a>
-                    <div class="post-date">2025-11-25</div>
-                </li>
-            
-            </ul>
-        </div>
+<div class="sidebar">
+    <div class="header-info">
+        <a href="/"><img src="/images/avatar.jpg" class="avatar"></a>
+        <div class="site-author">白白毛毛</div>
     </div>
-
-    <div class="content-area">
-        <div class="content-wrapper">
-            
-<style>
-    .article-content img, .article-content iframe {
-        max-width: 100% !important;
-        height: auto !important;
-        display: block;
-        margin: 20px auto;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    pre, code {
-        white-space: pre-wrap !important; 
-        word-wrap: break-word !important;
-    }
-    /* 给识别到的标题强制加一个深色背景，让你一眼看出来是否生效 */
-    details.auto-collapse summary {
-        background-color: #e3f2fd !important; /* 明显的浅蓝色 */
-    }
-</style>
-
-<article class="post-article" style="padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05);">
-    <h1 class="post-title" style="font-size: 2.2em; margin-bottom: 15px; color: #333;">ctfshow的试炼</h1>
-    <div class="post-meta" style="color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-        📅 发布于: 2025-11-16 16:01 
-        | 📝 更新于: 2025-11-27 19:02
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/categories">分类</a>
+        <a href="/archives">归档</a>
+    </nav>
+    <div class="contact-section">
+        <p>If you want find me:</p>
+        <div class="contact-item"><img src="/images/qq.png"> 729626523</div>
+        <div class="contact-item"><img src="/images/GitHub.png"> yu-star-cyrene</div>
+        <div class="contact-item"><img src="/images/email.jpg"> y19350026593</div>
     </div>
+</div>
+
+<div class="content-area">
     
-    <div class="article-content" id="article-content">
-        <p>ctfshow的做题之路，这边我会把我感觉对自己很有帮助的题目以及wp写出来。</p>
+<div style="height: 60px;"></div>
+<div class="content-wrapper">
+    <article class="post-article">
+        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">ctfshow的试炼</h1>
+        
+        <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
+            <span>📅 发布: 2025-11-16</span>
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-09</span>
+            
+            
+             <span style="margin: 0 15px;">|</span>
+             📂 刷题
+            
+        </div>
+        
+        <div class="article-content">
+            <p>ctfshow的做题之路，这边我会把我感觉对自己很有帮助的题目以及wp写出来。</p>
 <h1 id="1-签到·好玩的PHP"><a href="#1-签到·好玩的PHP" class="headerlink" title="#1.签到·好玩的PHP"></a>#1.签到·好玩的PHP</h1><p>这题目特别简洁但又难做，上代码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">  error_reporting(0);</span><br><span class="line">  highlight_file(__FILE__);</span><br><span class="line"></span><br><span class="line">  class ctfshow &#123;</span><br><span class="line">    private $d = &#x27;&#x27;;</span><br><span class="line">    private $s = &#x27;&#x27;;</span><br><span class="line">    private $b = &#x27;&#x27;;</span><br><span class="line">    private $ctf = &#x27;&#x27;;</span><br><span class="line"></span><br><span class="line">​    public function __destruct() &#123;</span><br><span class="line">​      $this-&gt;d = (string)$this-&gt;d;</span><br><span class="line">​      $this-&gt;s = (string)$this-&gt;s;</span><br><span class="line">​      $this-&gt;b = (string)$this-&gt;b;</span><br><span class="line"></span><br><span class="line">​      if (($this-&gt;d != $this-&gt;s) &amp;&amp; ($this-&gt;d != $this-&gt;b) &amp;&amp; ($this-&gt;s != $this-&gt;b)) &#123;</span><br><span class="line">​        $dsb = $this-&gt;d.$this-&gt;s.$this-&gt;b;</span><br><span class="line"></span><br><span class="line">​        if ((strlen($dsb) &lt;= 3) &amp;&amp; (strlen($this-&gt;ctf) &lt;= 3)) &#123;</span><br><span class="line">​          if (($dsb !== $this-&gt;ctf) &amp;&amp; ($this-&gt;ctf !== $dsb)) &#123;</span><br><span class="line">​            if (md5($dsb) === md5($this-&gt;ctf)) &#123;</span><br><span class="line">​              echo file_get_contents(&quot;/flag.txt&quot;);</span><br><span class="line">​            &#125;</span><br><span class="line">​          &#125;</span><br><span class="line">​        &#125;</span><br><span class="line">​      &#125;</span><br><span class="line">​    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  unserialize($_GET[&quot;dsbctf&quot;]);</span><br></pre></td></tr></table></figure>
 
 <p><strong>if (($this-&gt;d !&#x3D; $this-&gt;s) &amp;&amp; ($this-&gt;d !&#x3D; $this-&gt;b) &amp;&amp; ($this-&gt;s !&#x3D; $this-&gt;b))</strong></p>
 <p>(string)强制字符穿，弱比较三者，要求不等。</p>
 <p><strong>拼接 <code>$dsb = $this-&gt;d . $this-&gt;s . $this-&gt;b;</code></strong></p>
-<p>**if ((strlen($dsb) &lt;&#x3D; 3) &amp;&amp; (strlen($this-&gt;ctf) &lt;&#x3D; 3)) **</p>
+<p><code>**if ((strlen($dsb) &lt;= 3) &amp;&amp; (strlen($this-&gt;ctf) &lt;= 3)) **</code></p>
 <p>$dsb字符长度不超过3，$ctf同理。</p>
 <p><strong>if (($dsb !&#x3D;&#x3D; $this-&gt;ctf) &amp;&amp; ($this-&gt;ctf !&#x3D;&#x3D; $dsb))</strong></p>
 <p>两者绝对不相等。</p>
@@ -521,102 +455,40 @@ if __name__ == &quot;__main__&quot;:
 <p>ctfshow{6a9025fc-8cb0-4de4-90d6-d7275ac512b0}</p>
 <p>拿下。</p>
 <hr>
+<h1 id="6-ez-inject"><a href="#6-ez-inject" class="headerlink" title="#6.ez_inject"></a>#6.ez_inject</h1><p>这一题比上面一题简单，我大概花了20分钟的样子。</p>
+<p>闲话不说，上题目。</p>
+<p><img src="/images/QQ20251130-195320.png" alt="alt text"></p>
+<p><img src="/images/QQ20251130-195616.png" alt="alt text"></p>
+<p>一开始我的思路是命令执行或者SSTI，看起来很像那种白名单黑名单过滤的样子，毕竟我也做过好几次计算机类型的题目。</p>
+<p>但试了几次没有结果后，我又转向注册账号，然后用命令获得权限的方向。</p>
+<p><img src="/images/QQ20251130-195631.png" alt="alt text"></p>
+<p>随便注册了一个账号发现，又试了试，还是一样的结果，这个时候，我就再看了一下网页。</p>
+<p><img src="/images/QQ20251130-195638.png" alt="alt text"></p>
+<p>提示直接甩脸上了。</p>
+<p>注册界面的污染。</p>
+<p>那不就是JSON污染吗。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;username&quot;: user,</span><br><span class="line">    &quot;password&quot;: &quot;123&quot;,</span><br><span class="line">    &quot;__init__&quot;: &#123;</span><br><span class="line">        &quot;__globals__&quot;: &#123;</span><br><span class="line">            &quot;app&quot;: &#123;</span><br><span class="line">                &quot;static_folder&quot;: &quot;./../../../../&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接让网站去根目录找一下文件，最后直接拿下flag。</p>
+<p><strong>ctfshow{2fb222c8-f22d-4358-b452-07ea1c9376a5}</strong></p>
+<p>总结:这一题最大的漏洞应该就是网站注册后端存在递归函数，递归函数不断让我们跑到了整个服务器的根目录下，然后重新访问时候就能直接看到整个根目录下的文件。</p>
+<p>这里面能学到</p>
+<p><code>__init__</code>，初始化方法，所有对象都有。</p>
+<p><code>__globals__</code>，全局变量，函数都具有。</p>
+<p><code>function.__globals__</code>,全局命名空间字典。</p>
+<p>hasattr(     ,     ),代码检查。</p>
+<p>isinstance(     ,     ),判断类型。</p>
+<p>setattr(object, attribute, value),设置属性，赋值。</p>
+<hr>
+<hr>
 <p>   版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
-    </div>
-</article>
-
-<script>
-(function() {
-    function applyFolding() {
-        const contentDiv = document.getElementById('article-content');
-        // 防止重复执行
-        if (!contentDiv || contentDiv.dataset.processed === "true") return;
-        contentDiv.dataset.processed = "true";
-
-        const children = Array.from(contentDiv.children);
-        if (children.length === 0) return;
-
-        const newContainer = document.createDocumentFragment();
-        let currentDetails = null;
-        let currentContentDiv = null;
-
-        // === 判别函数 V11 ===
-        const isHeader = (el) => {
-            const text = el.innerText.trim();
-            const tagName = el.tagName.toLowerCase();
-            
-            // 规则1: 只要是 H1-H6，就是标题 (不管里面写啥)
-            if (/^h[1-6]$/.test(tagName)) {
-                return { match: true, text: text.replace(/^[#＃\s]+/, '') };
-            }
-
-            // 规则2: 【核心修改】不看标签类型了！
-            // 只要这一行的文字是 "#" 开头，且包含数字，就认为是标题！
-            // 匹配: #1. / ## 2. / ###3.base47 / ＃4.
-            if (/^[#＃]+\s*\d/.test(text)) {
-                // 安全检查：如果这行字特别长(比如代码里的一行注释)，忽略它
-                // 标题一般不会超过80个字
-                if (text.length < 80) {
-                     return { match: true, text: text.replace(/^[#＃\s]+/, '') };
-                }
-            }
-            
-            return { match: false };
-        };
-
-        children.forEach(el => {
-            const check = isHeader(el);
-
-            if (check.match) {
-                // 🛑 命中！是标题！
-                if (currentDetails) {
-                    currentDetails.appendChild(currentContentDiv);
-                    newContainer.appendChild(currentDetails);
-                }
-
-                // 创建折叠框
-                currentDetails = document.createElement('details');
-                currentDetails.className = 'auto-collapse';
-                
-                // 标题栏
-                const summary = document.createElement('summary');
-                summary.innerText = check.text; // 去掉 # 后的干净文字
-                currentDetails.appendChild(summary);
-
-                // 内容区
-                currentContentDiv = document.createElement('div');
-                currentContentDiv.className = 'collapse-content';
-            } else {
-                // 📄 普通内容
-                if (currentContentDiv) {
-                    currentContentDiv.appendChild(el);
-                } else {
-                    newContainer.appendChild(el);
-                }
-            }
-        });
-
-        if (currentDetails) {
-            currentDetails.appendChild(currentContentDiv);
-            newContainer.appendChild(currentDetails);
-        }
-
-        if (newContainer.children.length > 0) {
-            contentDiv.innerHTML = '';
-            contentDiv.appendChild(newContainer);
-        }
-    }
-
-    // 暴力监听：页面加载、内容变化都尝试触发
-    window.addEventListener("load", applyFolding);
-    document.addEventListener("DOMContentLoaded", applyFolding);
-})();
-</script>
-
         </div>
-    </div>
+    </article>
 </div>
 
+</div>
+
+<script src="/js/main.js"></script>
 </body>
 </html>

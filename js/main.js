@@ -1,28 +1,47 @@
 
-document.addEventListener("DOMContentLoaded", function () {
-    const items = document.querySelectorAll(".post-item");
-    const content = document.getElementById("post-content");
+document.addEventListener("DOMContentLoaded", function() {
+    const contentDiv = document.querySelector('.article-content');
+    if (contentDiv) {
+        const children = Array.from(contentDiv.children);
+        if (children.length === 0) return;
 
-    items.forEach(item => {
-        item.addEventListener("click", () => {
-            const path = item.getAttribute("data-path");
+        const newContainer = document.createDocumentFragment();
+        let currentDetails = null;
+        let currentContentDiv = null;
 
-            fetch(path)
-                .then(res => res.text())
-                .then(html => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, "text/html");
-                    const article = doc.querySelector("article");
-                    content.innerHTML = "";
-                    content.appendChild(article);
-                    
-                    // 添加淡入动画
-                    content.style.opacity = "0";
-                    content.style.transition = "opacity 0.3s ease";
-                    setTimeout(() => {
-                        content.style.opacity = "1";
-                    }, 50);
-                });
+        children.forEach(el => {
+            const isHeaderTag = /^H[1-6]$/.test(el.tagName);
+            const isTextHeader = el.innerText.trim().startsWith('#');
+
+            if (isHeaderTag || isTextHeader) {
+                if (currentDetails) {
+                    currentDetails.appendChild(currentContentDiv);
+                    newContainer.appendChild(currentDetails);
+                }
+                currentDetails = document.createElement('details');
+                currentDetails.className = 'auto-collapse';
+                
+                const summary = document.createElement('summary');
+                summary.innerText = el.innerText.replace(/^[#\s]+/, ''); 
+                currentDetails.appendChild(summary);
+
+                currentContentDiv = document.createElement('div');
+                currentContentDiv.className = 'collapse-content';
+            } else {
+                if (currentContentDiv) {
+                    currentContentDiv.appendChild(el);
+                } else {
+                    newContainer.appendChild(el);
+                }
+            }
         });
-    });
+        if (currentDetails) {
+            currentDetails.appendChild(currentContentDiv);
+            newContainer.appendChild(currentDetails);
+        }
+        if (newContainer.children.length > 0) {
+            contentDiv.innerHTML = '';
+            contentDiv.appendChild(newContainer);
+        }
+    }
 });

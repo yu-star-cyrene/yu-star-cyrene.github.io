@@ -4,120 +4,54 @@
   <meta charset="utf-8">
   <title>白白毛毛</title>
   <link rel="stylesheet" href="/css/style.css">
-  <script src="/js/main.js" defer></script>
   <link rel="stylesheet" href="/css/_custom.css">
-  <style>
-    /* 侧边栏样式 */
-    .sidebar .post-list-container ul { list-style: none !important; padding: 0 !important; margin: 0 !important; }
-    .sidebar .post-list-container li { padding: 10px 15px !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
-    .sidebar .post-list-container a.post-title-link { 
-        text-decoration: none !important; 
-        color: #eee !important;
-        font-weight: bold !important;
-        font-size: 14px !important;
-        display: block !important;
-    }
-    .sidebar .post-list-container .post-date { font-size: 12px !important; color: #999 !important; margin-top: 4px !important; }
-    .sidebar .contact-section { display: block !important; margin: 20px 0 !important; }
-    
-    /* 自动折叠组件样式 */
-    details.auto-collapse { margin-bottom: 15px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-    details.auto-collapse summary { cursor: pointer; padding: 15px; background: #f8f9fa; font-weight: bold; color: #333; font-size: 1.1em; list-style: none; position: relative; transition: all 0.2s; border-left: 5px solid #007bff; display: flex; align-items: center; }
-    details.auto-collapse summary:hover { background: #e9ecef; }
-    details.auto-collapse summary::-webkit-details-marker { display: none; }
-    details.auto-collapse summary::after { content: '➕'; margin-left: auto; font-size: 0.8em; opacity: 0.6; }
-    details.auto-collapse[open] summary::after { content: '➖'; }
-    .collapse-content { padding: 20px; background: #fff; border-top: 1px solid #eee; }
-  </style>
 <meta name="generator" content="Hexo 8.1.1"></head>
-<body>
+<body class="bg-post">
 
-<div class="container">
-    <div class="sidebar">
-        <div class="header-info">
-            <img src="/images/avatar.jpg" class="avatar" alt="avatar">
-            <h1 class="site-title">白白毛毛</h1>
-            <nav class="nav">
-                <a href="/">首页</a>
-                <a href="/archives">归档</a>
-            </nav>
-        </div>
-
-        <div class="contact-section">
-            <p class="contact-intro">If you want find me:</p>
-            <div class="contact-item"><img src="/images/qq.png" class="contact-icon" style="width:20px;"><span>729626523</span></div>
-            <div class="contact-item"><img src="/images/GitHub.png" class="contact-icon" style="width:20px;"><span>yu-star-cyrene</span></div>
-            <div class="contact-item"><img src="/images/email.jpg" class="contact-icon" style="width:20px;"><span>y19350026593@gmail.com</span></div>
-        </div>
-
-        <div class="post-list-container" style="flex: 1; overflow-y: auto; border-top: 1px solid rgba(255,255,255,0.1);">
-            <ul>
-            
-                <li>
-                    <a href="/2025/11/16/ctfshow%E7%9A%84%E8%AF%95%E7%82%BC/" class="post-title-link">ctfshow的试炼</a>
-                    <div class="post-date">2025-11-27</div>
-                </li>
-            
-                <li>
-                    <a href="/2025/11/11/nssctf%E5%AD%A6%E4%B9%A0%E4%B8%AD/" class="post-title-link">nssctf学习中</a>
-                    <div class="post-date">2025-11-26</div>
-                </li>
-            
-                <li>
-                    <a href="/2025/11/16/%E7%A5%9E%E7%A7%98%E5%B0%8F%E7%AC%94%E8%AE%B0/" class="post-title-link">神秘小笔记</a>
-                    <div class="post-date">2025-11-26</div>
-                </li>
-            
-                <li>
-                    <a href="/2025/11/11/buuctf%E4%B9%8B%E8%B7%AF/" class="post-title-link">buuctf之路</a>
-                    <div class="post-date">2025-11-26</div>
-                </li>
-            
-                <li>
-                    <a href="/2025/11/11/PS-%E6%84%9F%E8%A7%89%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%B8%AA/" class="post-title-link">PS:感觉可以做一个</a>
-                    <div class="post-date">2025-11-25</div>
-                </li>
-            
-            </ul>
-        </div>
+<div class="sidebar">
+    <div class="header-info">
+        <a href="/"><img src="/images/avatar.jpg" class="avatar"></a>
+        <div class="site-author">白白毛毛</div>
     </div>
-
-    <div class="content-area">
-        <div class="content-wrapper">
-            
-<style>
-    .article-content img, .article-content iframe {
-        max-width: 100% !important;
-        height: auto !important;
-        display: block;
-        margin: 20px auto;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    pre, code {
-        white-space: pre-wrap !important; 
-        word-wrap: break-word !important;
-    }
-    /* 给识别到的标题强制加一个深色背景，让你一眼看出来是否生效 */
-    details.auto-collapse summary {
-        background-color: #e3f2fd !important; /* 明显的浅蓝色 */
-    }
-</style>
-
-<article class="post-article" style="padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05);">
-    <h1 class="post-title" style="font-size: 2.2em; margin-bottom: 15px; color: #333;">nssctf学习中</h1>
-    <div class="post-meta" style="color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-        📅 发布于: 2025-11-11 13:27 
-        | 📝 更新于: 2025-11-26 19:15
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/categories">分类</a>
+        <a href="/archives">归档</a>
+    </nav>
+    <div class="contact-section">
+        <p>If you want find me:</p>
+        <div class="contact-item"><img src="/images/qq.png"> 729626523</div>
+        <div class="contact-item"><img src="/images/GitHub.png"> yu-star-cyrene</div>
+        <div class="contact-item"><img src="/images/email.jpg"> y19350026593</div>
     </div>
+</div>
+
+<div class="content-area">
     
-    <div class="article-content" id="article-content">
-        <p>这是一个基于nssctf做题的wp，本人纯新手。<br>做题没有顺序，基本是看我自己写哪一题，就写这题的wp，不分难度的。</p>
+<div style="height: 60px;"></div>
+<div class="content-wrapper">
+    <article class="post-article">
+        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">nssctf学习中</h1>
+        
+        <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
+            <span>📅 发布: 2025-11-11</span>
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-09</span>
+            
+            
+             <span style="margin: 0 15px;">|</span>
+             📂 刷题
+            
+        </div>
+        
+        <div class="article-content">
+            <p>这是一个基于nssctf做题的wp，本人纯新手。<br>做题没有顺序，基本是看我自己写哪一题，就写这题的wp，不分难度的。</p>
 <h1 id="1-NSSCTF-2022-Spring-Recruit-babyphp"><a href="#1-NSSCTF-2022-Spring-Recruit-babyphp" class="headerlink" title="#1.[NSSCTF 2022 Spring Recruit]babyphp"></a>#1.[NSSCTF 2022 Spring Recruit]babyphp</h1><p>题目内容:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">\&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">include_once(&#x27;flag.php&#x27;);</span><br><span class="line">if(isset($_POST[&#x27;a&#x27;])&amp;&amp;!preg_match(&#x27;/[0-9]/&#x27;,$_POST[&#x27;a&#x27;])&amp;&amp;intval($_POST[&#x27;a&#x27;]))&#123;</span><br><span class="line">    if(isset($_POST[&#x27;b1&#x27;])&amp;&amp;$_POST[&#x27;b2&#x27;])&#123;</span><br><span class="line">        if($_POST[&#x27;b1&#x27;]!=$_POST[&#x27;b2&#x27;]&amp;&amp;md5($_POST[&#x27;b1&#x27;])===md5($_POST[&#x27;b2&#x27;]))&#123;</span><br><span class="line">            if($_POST[&#x27;c1&#x27;]!=$_POST[&#x27;c2&#x27;]&amp;&amp;is_string($_POST[&#x27;c1&#x27;])&amp;&amp;is_string($_POST[&#x27;c2&#x27;])&amp;&amp;md5($_POST[&#x27;c1&#x27;])==md5($_POST[&#x27;c2&#x27;]))&#123;</span><br><span class="line">                echo $flag;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                echo &quot;yee&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            echo &quot;nop&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        echo &quot;go on&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    echo &quot;let&#x27;s get some php&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt; let&#x27;s get some php_</span><br></pre></td></tr></table></figure>
 
 
 
-<p>分析代码<br>首先，isset($_POST[‘a’]) &amp;&amp; !preg_match(‘&#x2F;[0-9]&#x2F;‘, $_POST[‘a’]) &amp;&amp; intval($_POST[‘a’])<br>存在a，a不含0-9的数字，intval($_POST[‘a’]) 必须为真<br>查询代码，intval() 在转换时会尝试从字符串开头提取数字，直到遇到非数字字符。<br>preg_match 是 PHP 中用于执行正则表达式匹配的函数。<br>所有a可以用数组a[]&#x3D;1<br>这样均满足 所有条件<br>第二，isset($_POST[‘b1’]) &amp;&amp; $_POST[‘b2’]<br>b1，b2有值且非空，然后比较md5<br>同样数组，MD5返回null<br>b1[]&#x3D;2,b2[]&#x3D;3<br>最后，$_POST[‘c1’] !&#x3D; $_POST[‘c2’] &amp;&amp; is_string($_POST[‘c1’]) &amp;&amp; is_string($_POST[‘c2’]) &amp;&amp; md5($_POST[‘c1’]) &#x3D;&#x3D; md5($_POST[‘c2’])<br>c1与c2均为字符串，且不同，又比较md5还是若比较，上网随便查一下，用科学计数法MD5，0e被当成0，随便找md5为0e开头的字符串。<br>所以 C:\Users\G1731&gt;curl -X POST -d “a[]&#x3D;1&amp;b1[]&#x3D;1&amp;b2[]&#x3D;2&amp;c1&#x3D;240610708&amp;c2&#x3D;QNKCDZO” <a target="_blank" rel="noopener" href="http://node4.anna.nssctf.cn:28382/">http://node4.anna.nssctf.cn:28382/</a><br>用curl执行post，<br>得到flag，NSSCTF{2fd7b1ec-41c5-4895-a5d3-bc56cb172231}</p>
+<p>分析代码<br>首先，<code>isset($_POST[&#39;a&#39;]) &amp;&amp; !preg_match(&#39;/[0-9]/&#39;, $_POST[&#39;a&#39;]) &amp;&amp; intval($_POST[&#39;a&#39;])</code><br>存在a，a不含0-9的数字，intval($_POST[‘a’]) 必须为真<br>查询代码，intval() 在转换时会尝试从字符串开头提取数字，直到遇到非数字字符。<br>preg_match 是 PHP 中用于执行正则表达式匹配的函数。<br>所有a可以用数组a[]&#x3D;1<br>这样均满足 所有条件<br>第二，isset($_POST[‘b1’]) &amp;&amp; $_POST[‘b2’]<br>b1，b2有值且非空，然后比较md5<br>同样数组，MD5返回null<br>b1[]&#x3D;2,b2[]&#x3D;3<br>最后，<code>$_POST[&#39;c1&#39;] != $_POST[&#39;c2&#39;] &amp;&amp; is_string($_POST[&#39;c1&#39;]) &amp;&amp; is_string($_POST[&#39;c2&#39;]) &amp;&amp; md5($_POST[&#39;c1&#39;]) == md5($_POST[&#39;c2&#39;])</code><br>c1与c2均为字符串，且不同，又比较md5还是若比较，上网随便查一下，用科学计数法MD5，0e被当成0，随便找md5为0e开头的字符串。<br>所以 C:\Users\G1731&gt;curl -X POST -d “a[]&#x3D;1&amp;b1[]&#x3D;1&amp;b2[]&#x3D;2&amp;c1&#x3D;240610708&amp;c2&#x3D;QNKCDZO” <a target="_blank" rel="noopener" href="http://node4.anna.nssctf.cn:28382/">http://node4.anna.nssctf.cn:28382/</a><br>用curl执行post，<br>得到flag，NSSCTF{2fd7b1ec-41c5-4895-a5d3-bc56cb172231}</p>
 <hr>
 <h1 id="2-HUBUCTF-2022-新生赛-checkin"><a href="#2-HUBUCTF-2022-新生赛-checkin" class="headerlink" title="#2.[HUBUCTF 2022 新生赛]checkin"></a>#2.[HUBUCTF 2022 新生赛]checkin</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">show_source(__FILE__);</span><br><span class="line">$username  = &quot;this_is_secret&quot;; </span><br><span class="line">$password  = &quot;this_is_not_known_to_you&quot;; </span><br><span class="line">include(&quot;flag.php&quot;);//here I changed those two </span><br><span class="line">$info = isset($_GET[&#x27;info&#x27;])? $_GET[&#x27;info&#x27;]: &quot;&quot; ;</span><br><span class="line">$data_unserialize = unserialize($info);</span><br><span class="line">if ($data_unserialize[&#x27;username&#x27;]==$username&amp;&amp;$data_unserialize[&#x27;password&#x27;]==$password)&#123;</span><br><span class="line">    echo $flag;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    echo &quot;username or password error!&quot;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
@@ -163,100 +97,12 @@
 <hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
-    </div>
-</article>
-
-<script>
-(function() {
-    function applyFolding() {
-        const contentDiv = document.getElementById('article-content');
-        // 防止重复执行
-        if (!contentDiv || contentDiv.dataset.processed === "true") return;
-        contentDiv.dataset.processed = "true";
-
-        const children = Array.from(contentDiv.children);
-        if (children.length === 0) return;
-
-        const newContainer = document.createDocumentFragment();
-        let currentDetails = null;
-        let currentContentDiv = null;
-
-        // === 判别函数 V11 ===
-        const isHeader = (el) => {
-            const text = el.innerText.trim();
-            const tagName = el.tagName.toLowerCase();
-            
-            // 规则1: 只要是 H1-H6，就是标题 (不管里面写啥)
-            if (/^h[1-6]$/.test(tagName)) {
-                return { match: true, text: text.replace(/^[#＃\s]+/, '') };
-            }
-
-            // 规则2: 【核心修改】不看标签类型了！
-            // 只要这一行的文字是 "#" 开头，且包含数字，就认为是标题！
-            // 匹配: #1. / ## 2. / ###3.base47 / ＃4.
-            if (/^[#＃]+\s*\d/.test(text)) {
-                // 安全检查：如果这行字特别长(比如代码里的一行注释)，忽略它
-                // 标题一般不会超过80个字
-                if (text.length < 80) {
-                     return { match: true, text: text.replace(/^[#＃\s]+/, '') };
-                }
-            }
-            
-            return { match: false };
-        };
-
-        children.forEach(el => {
-            const check = isHeader(el);
-
-            if (check.match) {
-                // 🛑 命中！是标题！
-                if (currentDetails) {
-                    currentDetails.appendChild(currentContentDiv);
-                    newContainer.appendChild(currentDetails);
-                }
-
-                // 创建折叠框
-                currentDetails = document.createElement('details');
-                currentDetails.className = 'auto-collapse';
-                
-                // 标题栏
-                const summary = document.createElement('summary');
-                summary.innerText = check.text; // 去掉 # 后的干净文字
-                currentDetails.appendChild(summary);
-
-                // 内容区
-                currentContentDiv = document.createElement('div');
-                currentContentDiv.className = 'collapse-content';
-            } else {
-                // 📄 普通内容
-                if (currentContentDiv) {
-                    currentContentDiv.appendChild(el);
-                } else {
-                    newContainer.appendChild(el);
-                }
-            }
-        });
-
-        if (currentDetails) {
-            currentDetails.appendChild(currentContentDiv);
-            newContainer.appendChild(currentDetails);
-        }
-
-        if (newContainer.children.length > 0) {
-            contentDiv.innerHTML = '';
-            contentDiv.appendChild(newContainer);
-        }
-    }
-
-    // 暴力监听：页面加载、内容变化都尝试触发
-    window.addEventListener("load", applyFolding);
-    document.addEventListener("DOMContentLoaded", applyFolding);
-})();
-</script>
-
         </div>
-    </div>
+    </article>
 </div>
 
+</div>
+
+<script src="/js/main.js"></script>
 </body>
 </html>
