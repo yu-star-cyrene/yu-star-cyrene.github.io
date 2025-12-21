@@ -115,7 +115,101 @@
 
 <p><strong>结果：</strong> <code>admin~123456, root~flag{congratulations}</code></p>
 <hr>
-<p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
+<p>除了数字型的，还有字符型的。</p>
+<p>两位的区别就是在于，获取参数的地方，字符型的，参数加上了单引号或双引号。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">假设后端代码是这样的：</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">// 注意：变量 $id 被单引号包裹</span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE id = &#x27;$id&#x27;&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>如果你还用数字型的 Payload：<code>id=-1 UNION SELECT 1, database(), 3</code>。</p>
+<p>拼接后的 SQL 变成了：<code>SELECT * FROM users WHERE id = &#39;-1 UNION SELECT 1, database(), 3&#39;</code></p>
+<p><strong>结果：</strong> 数据库把我们注入的整体当成了一个普通的字符串 ID。它会去查找 ID 为 <code>&quot;-1 UNION SELECT 1, database(), 3&quot;</code> 的用户。这显然查不到，但也不会报错，更不会执行你的命令。所以我们的注入就完全没有起到作用了。</p>
+<p>因此，在字符型中，我们就需要学会闭合，注释……</p>
+<p>比如说：</p>
+<h4 id="Payload"><a href="#Payload" class="headerlink" title="Payload:"></a>Payload:</h4><p><code>id=-1&#39; UNION SELECT 1, database(), 3 --+</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users WHERE id = &#x27;$id&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>SQL注入，拼接后得到： <code>SELECT * FROM users WHERE id = &#39;-1&#39; UNION SELECT 1, database(), 3 --+&#39;</code></p>
+<p><strong>注意</strong>：我们在-1后加了一个单引号，正好这个单引号跟源码中参数前面的单引号拼接成功，变成了   ‘-1’  ,所以前面就变成了 <code>SELECT * FROM users WHERE id = &#39;-1&#39;</code> 刚好完成了前面的闭合。所以我们的UNION就起到了作用。 但还有一个问题，参数后面还有一个单引号，–+就是在这里作用的， <code>--</code> 是 SQL 中的注释符，  <code>+</code> 在 URL 中代表空格（因为 <code>--</code> 后面必须加空格才生效），所以这个时候后面的单引号就被 –+ 注释掉了，并不会对我们的其他内容产生影响，我们的sql注入就从单引号里面逃逸出来了。</p>
+<p>其实%23和#也能起到跟–+起到相同的作用。</p>
+<h3 id="小总结：-1"><a href="#小总结：-1" class="headerlink" title="小总结："></a>小总结：</h3><p>字符型的大概流程其实跟数字型的差不多，只是多了一步逃逸。</p>
+<h4 id="Step-1-确认是字符型-判断闭合符"><a href="#Step-1-确认是字符型-判断闭合符" class="headerlink" title="Step 1: 确认是字符型 &amp; 判断闭合符"></a>Step 1: 确认是字符型 &amp; 判断闭合符</h4><p><strong>目标：</strong> 搞清楚程序员是用单引号 <code>&#39;</code> 还是双引号 <code>&quot;</code> 包裹参数的。</p>
+<ul>
+<li><strong>测试 1：</strong> 输入 <code>id=1&#39;</code> (加个单引号)<ul>
+<li><strong>现象：</strong> 页面报错 (Syntax error)。</li>
+<li><strong>推断：</strong> 很有可能是单引号注入。因为你输入的 <code>&#39;</code> 打破了原本的成对引号，变成了 3 个引号。</li>
+</ul>
+</li>
+<li><strong>测试 2：</strong> 输入 <code>id=1&#39; --+</code> (加单引号并注释)<ul>
+<li><strong>现象：</strong> 页面恢复正常。</li>
+<li><strong>结论：</strong> 确认是 <strong>单引号字符型注入</strong>。</li>
+</ul>
+</li>
+</ul>
+<p><em>(注：如果单引号不报错，试双引号 <code>id=1&quot;</code>，原理一样。)</em></p>
+<h4 id="Step-2-猜列数-ORDER-BY"><a href="#Step-2-猜列数-ORDER-BY" class="headerlink" title="Step 2: 猜列数 (ORDER BY)"></a>Step 2: 猜列数 (ORDER BY)</h4><p><strong>注意：</strong> 这里必须带上闭合符和注释符！</p>
+<ul>
+<li><strong>Payload:</strong> <code>id=1&#39; ORDER BY 3 --+</code><ul>
+<li><strong>拼接后：</strong> <code>... WHERE id = &#39;1&#39; ORDER BY 3 --+&#39;</code></li>
+<li><strong>原理解析：</strong> 如果不加 <code>&#39;</code> 和 <code>--+</code>，<code>ORDER BY</code> 就会被当成 ID 的一部分，导致报错。</li>
+</ul>
+</li>
+</ul>
+<h4 id="Step-3-找回显位-UNION-SELECT"><a href="#Step-3-找回显位-UNION-SELECT" class="headerlink" title="Step 3: 找回显位 (UNION SELECT)"></a>Step 3: 找回显位 (UNION SELECT)</h4><ul>
+<li><strong>Payload:</strong> <code>id=-1&#39; UNION SELECT 1, 2, 3 --+</code><ul>
+<li><strong>注意：</strong> 同样要有 <code>&#39;</code> 和 <code>--+</code>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="Step-4-5-6-爆数据"><a href="#Step-4-5-6-爆数据" class="headerlink" title="Step 4, 5, 6: 爆数据"></a>Step 4, 5, 6: 爆数据</h4><p>和数字型完全一样，只是每次都要记得在最前面加 <code>&#39;</code>，最后面加 <code>--+</code>。</p>
+<ul>
+<li><p>Payload 示例：</p>
+<p>id&#x3D;-1’ UNION SELECT 1, database(), 3 –+</p>
+</li>
+</ul>
+<hr>
+<h3 id="四、-常见的注释符-Cheat-Sheet"><a href="#四、-常见的注释符-Cheat-Sheet" class="headerlink" title="四、 常见的注释符 (Cheat Sheet)"></a>四、 常见的注释符 (Cheat Sheet)</h3><p>在 URL 或者输入框里，你可能会用到不同的注释符，记一下：</p>
+<ol>
+<li><strong><code>--+</code></strong> (最常用)<ul>
+<li>这是 <code>-- </code> (横杠横杠空格) 的 URL 编码形式。</li>
+</ul>
+</li>
+<li><strong><code>%23</code></strong> (常用)<ul>
+<li>这是 <code>#</code> (井号) 的 URL 编码。</li>
+<li><em>注意：直接输入 <code>#</code> 可能会被浏览器当成锚点截断，传不到服务器，所以要填 <code>%23</code>。</em></li>
+</ul>
+</li>
+<li><strong><code>#</code></strong> (POST 注入常用)<ul>
+<li>如果是输入框直接提交（不是在 URL 里），可以直接用 <code>#</code>。</li>
+</ul>
+</li>
+</ol>
+<h3 id="总结一张对比图"><a href="#总结一张对比图" class="headerlink" title="总结一张对比图"></a>总结一张对比图</h3><table>
+<thead>
+<tr>
+<th><strong>注入类型</strong></th>
+<th><strong>原始代码 (模拟)</strong></th>
+<th><strong>你的核心 Payload 结构</strong></th>
+<th><strong>关键动作</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>数字型</strong></td>
+<td><code>id = $id</code></td>
+<td><code>id=-1 UNION ...</code></td>
+<td>直接拼接，简单粗暴</td>
+</tr>
+<tr>
+<td><strong>字符型</strong></td>
+<td><code>id = &#39;$id&#39;</code></td>
+<td><code>id=-1&#39; UNION ... --+</code></td>
+<td><strong>闭合</strong>左引号，<strong>注释</strong>右引号</td>
+</tr>
+</tbody></table>
+<p>现在你理解为什么我说字符型注入就像是“三明治”了吗？</p>
+<p>左边一片面包（’），右边一片面包（–+），中间夹着你的攻击代码（UNION）。</p>
+<hr>
+<ul>
+<li>版权声明：本文由白白毛毛创作，转载请注明出处。</li>
+</ul>
 
         </div>
     </article>
