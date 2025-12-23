@@ -132,3 +132,120 @@ details.code-fold figure.highlight {
     padding: 15px !important;
     overflow-x: auto;
 }
+
+/* ========== V5 折叠组件增强样式 ========== */
+/* 基础外观 */
+details.auto-collapse {
+    margin: 10px 0;
+    background: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+/* 标题栏 */
+details.auto-collapse summary {
+    padding: 12px 15px;
+    background: #f6f8fa;
+    cursor: pointer;
+    font-weight: 600;
+    color: #24292e;
+    list-style: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+details.auto-collapse summary:hover {
+    background: #e1e4e8;
+}
+
+/* 箭头图标 */
+details.auto-collapse summary::-webkit-details-marker { display: none; }
+details.auto-collapse summary::after {
+    content: '+';
+    position: absolute;
+    right: 15px;
+    color: #6a737d;
+    font-weight: bold;
+}
+details.auto-collapse[open] summary::after {
+    content: '-';
+}
+
+/* 内容区 */
+.collapse-content {
+    padding: 20px;
+    background: #fff;
+    border-top: 1px solid #e1e4e8;
+}
+
+/* === 核心：嵌套缩进 === */
+/* 如果折叠框在另一个折叠框的内容里，给它加缩进 */
+.collapse-content details.auto-collapse {
+    margin-left: 20px; /* 左侧缩进 */
+    border-left: 4px solid #007bff; /* 左侧加蓝条区分 */
+}
+
+/* ========== V6 层级折叠样式 ========== */
+details.auto-collapse {
+    margin: 8px 0;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+/* 标题栏 */
+details.auto-collapse > summary {
+    padding: 10px 15px;
+    background: #f6f8fa;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #1b1f23;
+    position: relative;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s;
+}
+details.auto-collapse > summary:hover {
+    background: #e1e4e8;
+}
+
+/* 去掉默认三角 */
+details.auto-collapse > summary::-webkit-details-marker { display: none; }
+
+/* 右侧加号/减号 */
+details.auto-collapse > summary::after {
+    content: '+';
+    position: absolute;
+    right: 15px;
+    font-size: 1.2em;
+    color: #0366d6;
+    font-weight: bold;
+}
+details.auto-collapse[open] > summary::after {
+    content: '-';
+    color: #d73a49;
+}
+
+/* 内容区域 */
+.collapse-content {
+    padding: 15px;
+    border-top: 1px solid #e1e4e8;
+}
+
+/* === 核心：无限嵌套缩进 === */
+/* 每一层嵌套，左边都加宽缩进，产生阶梯感 */
+.collapse-content details.auto-collapse {
+    margin-left: 20px; 
+    border-left: 4px solid #0366d6; /* 蓝色竖线表示子级 */
+}
+.collapse-content .collapse-content details.auto-collapse {
+    margin-left: 20px;
+    border-left: 4px solid #28a745; /* 绿色竖线表示孙级 */
+}

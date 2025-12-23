@@ -1,37 +1,27 @@
 
 document.addEventListener("DOMContentLoaded", function () {
+    console.log("[Twings] V6 严格嵌套脚本已加载");
+
     const contentId = "article-content";
     const contentClass = ".article-content"; 
 
-    // 1. 代码块折叠 (保持不变)
+    // --- 代码块折叠 (保持不变) ---
     function initCodeFolding(root) {
         if (!root) return;
-        const blocks = root.querySelectorAll('figure.highlight, pre');
-        
-        blocks.forEach(block => {
+        root.querySelectorAll('figure.highlight, pre').forEach(block => {
             if (block.closest('details.code-fold')) return;
-
             const details = document.createElement('details');
             details.className = 'code-fold';
-            
             let lang = "CODE";
-            if (block.tagName === 'FIGURE' && block.className.includes('highlight')) {
-                const classes = block.className.split(' ');
-                const langClass = classes.find(c => c !== 'highlight' && c !== 'hljs');
-                if (langClass) lang = langClass.toUpperCase();
-            } else if (block.tagName === 'PRE') {
-                const code = block.querySelector('code');
-                if (code && code.className) lang = code.className.replace('language-', '').toUpperCase();
+            if (block.className.includes('highlight')) {
+                lang = block.className.split(' ').find(c => c!='highlight' && c!='hljs') || "CODE";
             }
-
             const summary = document.createElement('summary');
-            summary.innerText = lang;
-            
+            summary.innerText = lang.toUpperCase();
             block.parentNode.insertBefore(details, block);
             details.appendChild(summary);
             details.appendChild(block);
-
-            details.open = true;
+            details.open = true; // 代码块默认展开
             if (block.offsetHeight > 300) {
                 details.open = false;
                 summary.innerText += " (点击展开)";
@@ -39,127 +29,110 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 2. 标题折叠 (严格模式：只认 # 号)
+    // --- 核心：标题严格嵌套 ---
     function initHeaderFolding(root) {
         if (!root) return;
-        if (root.dataset.headerProcessed === "true") return;
-        root.dataset.headerProcessed = "true";
+        if (root.dataset.v6Processed === "true") return;
+        root.dataset.v6Processed = "true";
 
+        // 将所有直接子元素转为数组
         const children = Array.from(root.children);
         if (children.length === 0) return;
 
         const newContainer = document.createDocumentFragment();
-        let currentDetails = null;
-        let currentContentDiv = null;
+        
+        // 【栈】用于追踪当前的“父级”链条
+        // 例子: [H1容器, H2容器]
+        const stack = []; 
 
-        // === 判别规则 (已修改) ===
-        const isHeader = (el) => {
+        const getHeaderLevel = (el) => {
+            const tagName = el.tagName.toUpperCase();
+            const match = tagName.match(/^H([1-6])$/);
+            if (!match) return 0; // 不是标题
+            
+            // 检查内容是否包含 # (兼容有空格和没空格的情况)
             const text = el.innerText.trim();
-            
-            // 【核心修改】
-            // 只有当文字内容以 # 或 ＃ 开头时，才认为是折叠标题！
-            // 即使它是 H1/H2 标签，如果没有 #，也不折叠。
             if (text.startsWith('#') || text.startsWith('＃')) {
-                 // 稍微限制一下长度，防止把整段以#开头的代码注释也折叠了
-                 if (text.length < 100) {
-                     return { match: true, text: text.replace(/^[#＃\s]+/, '') };
-                 }
+                 return parseInt(match[1]); // 返回 1, 2, 3...
             }
-            
-            return { match: false };
+            return 0; // 是标题但没加 #，当普通文字处理
         };
 
         children.forEach(el => {
-            const check = isHeader(el);
+            const level = getHeaderLevel(el);
 
-            if (check.match) {
-                // 命中带 # 的标题 -> 开启新折叠
-                if (currentDetails) {
-                    currentDetails.appendChild(currentContentDiv);
-                    newContainer.appendChild(currentDetails);
+            if (level > 0) {
+                // === 遇到了一个带 # 的标题 ===
+                
+                // 1. 找到它的正确位置 (Pop)
+                // 比如现在栈里是 [H1, H2, H3]，现在来了一个 H2
+                // 因为 H2 不能装在 H3 里，也不能装在 H2 里，所以要把 H3 和 H2 踢出栈
+                // 直到栈顶是 H1 (因为 H1 < H2，H1 可以装 H2)
+                while (stack.length > 0 && stack[stack.length - 1].level >= level) {
+                    stack.pop();
                 }
 
-                currentDetails = document.createElement('details');
-                currentDetails.className = 'auto-collapse';
+                // 2. 创建新的折叠组件
+                const details = document.createElement('details');
+                details.className = 'auto-collapse';
+                // 【关键】默认关闭！必须点开才能看子内容
+                details.open = false; 
                 
                 const summary = document.createElement('summary');
-                summary.innerText = check.text;
-                currentDetails.appendChild(summary);
+                // 去掉标题里的 # 号显示
+                summary.innerText = el.innerText.replace(/^[#＃\s]+/, '');
+                details.appendChild(summary);
 
-                currentContentDiv = document.createElement('div');
-                currentContentDiv.className = 'collapse-content';
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'collapse-content';
+                details.appendChild(contentDiv);
+
+                // 3. 放入父级 (Push DOM)
+                if (stack.length > 0) {
+                    // 放入栈顶元素的 contentDiv 中
+                    stack[stack.length - 1].container.appendChild(details);
+                } else {
+                    // 没有父级，直接放最外层
+                    newContainer.appendChild(details);
+                }
+
+                // 4. 入栈 (成为新的潜在父级)
+                stack.push({ level: level, container: contentDiv });
+
             } else {
-                // 普通内容 (包括不带 # 的普通标题) -> 放入当前折叠块(如果有)或直接显示
-                if (currentContentDiv) {
-                    currentContentDiv.appendChild(el);
+                // === 普通内容 (包括不带 # 的标题) ===
+                // 放入当前栈顶的容器里
+                if (stack.length > 0) {
+                    stack[stack.length - 1].container.appendChild(el);
                 } else {
                     newContainer.appendChild(el);
                 }
             }
         });
 
-        if (currentDetails) {
-            currentDetails.appendChild(currentContentDiv);
-            newContainer.appendChild(currentDetails);
-        }
-
-        if (newContainer.children.length > 0) {
-            root.innerHTML = '';
-            root.appendChild(newContainer);
-        }
+        // 替换页面内容
+        root.innerHTML = '';
+        root.appendChild(newContainer);
     }
 
-    // 3. 初始化与监听
-    function getArticleRoot() {
-        return document.getElementById(contentId) || document.querySelector(contentClass);
-    }
-
+    // 初始化
     function initAll() {
-        const root = getArticleRoot();
+        const root = document.getElementById(contentId) || document.querySelector(contentClass);
         if (root) {
             initHeaderFolding(root);
             initCodeFolding(root);
         }
     }
 
-    initAll();
+    setTimeout(initAll, 100);
 
-    // 侧边栏点击监听 (无刷新加载)
+    // 侧边栏监听
     const sidebar = document.querySelector('.sidebar');
     if (sidebar) {
-        sidebar.addEventListener('click', function(e) {
+        sidebar.addEventListener('click', (e) => {
             const link = e.target.closest('a');
-            if (!link) return;
-            const href = link.getAttribute('href');
-            if (!href || href.startsWith('#') || href.includes('javascript')) return;
-            if (href.includes('/archives') || href.includes('/categories') || href.includes('http')) return;
-
-            e.preventDefault();
-            const container = document.querySelector('.content-wrapper');
-            if(container) container.style.opacity = "0.5";
-
-            fetch(href)
-                .then(res => res.text())
-                .then(html => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, "text/html");
-                    let newArticle = doc.querySelector("article") || doc.querySelector(".article-content");
-                    const targetArea = document.querySelector(".content-wrapper");
-
-                    if (newArticle && targetArea) {
-                        targetArea.innerHTML = "";
-                        targetArea.appendChild(newArticle);
-                        setTimeout(() => {
-                            const newRoot = targetArea.querySelector(".article-content") || targetArea.querySelector("#article-content") || targetArea;
-                            initHeaderFolding(newRoot);
-                            initCodeFolding(newRoot);
-                        }, 10);
-                    } else {
-                        window.location.href = href;
-                    }
-                    if(container) container.style.opacity = "1";
-                })
-                .catch(() => window.location.href = href);
+            if (!link || !link.href.includes('.html')) return;
+            setTimeout(initAll, 500);
         });
     }
 });

