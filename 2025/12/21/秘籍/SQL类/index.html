@@ -31,12 +31,12 @@
 <div style="height: 60px;"></div>
 <div class="content-wrapper">
     <article class="post-article">
-        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">命令与脚本</h1>
+        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">SQL类</h1>
         
         <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
             <span>📅 发布: 2025-12-21</span>
             <span style="margin: 0 15px;">|</span>
-            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-26</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-27</span>
             
             
              <span style="margin: 0 15px;">|</span>
@@ -45,7 +45,26 @@
         </div>
         
         <div class="article-content">
-            <h1 id="SQL类："><a href="#SQL类：" class="headerlink" title="#SQL类："></a>#SQL类：</h1><hr>
+            <h1 id="SQLmap学习中："><a href="#SQLmap学习中：" class="headerlink" title="#SQLmap学习中："></a>#SQLmap学习中：</h1><hr>
+<h2 id="一-知道库名，表名："><a href="#一-知道库名，表名：" class="headerlink" title="#一.知道库名，表名："></a>#一.知道库名，表名：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-2/?id=1&quot; --batch -D security -T users --columns --dump</span><br></pre></td></tr></table></figure>
+
+<p>根据sql lab的前四关，我们可以总结出一个秒杀的指令。</p>
+<p>使用结构为：</p>
+<p><strong>一</strong> ：</p>
+<p>sqlmap -u + “           “	<strong>(指定url和id)</strong></p>
+<p><strong>二</strong> ：</p>
+<p>–batch	<strong>(自动化设置)</strong></p>
+<p><strong>三</strong> ：</p>
+<p>-D security	<strong>(指定数据库)</strong></p>
+<p><strong>四</strong> ：</p>
+<p>-T users	<strong>(指定表名)</strong></p>
+<p><strong>五</strong> ：</p>
+<p>–colums	<strong>(获取列名)</strong></p>
+<p><strong>六</strong> ：</p>
+<p>–dump	<strong>(导出数据)</strong></p>
+<hr>
+<h2 id="二"><a href="#二" class="headerlink" title="#二."></a>#二.</h2><hr>
+<h1 id="SQL类："><a href="#SQL类：" class="headerlink" title="#SQL类："></a>#SQL类：</h1><hr>
 <h2 id="数字型："><a href="#数字型：" class="headerlink" title="#数字型："></a>#数字型：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">源码:</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
 
 <p><code>id=1 ORDER BY ?</code> <strong>(爆列)</strong></p>
@@ -76,7 +95,14 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = (&#x27;$id&#x27;)&quot;;</span><br></pre></td></tr></table></figure>
 
 <p>闭合类型为 ‘) 。</p>
+<ol start="2">
+<li></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = (&quot;$id&quot;)&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>闭合类型为”)。</p>
 <hr>
+<h2 id="报错型："><a href="#报错型：" class="headerlink" title="#报错型："></a>#报错型：</h2><hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
         </div>
@@ -85,6 +111,6 @@
 
 </div>
 
-<script src="/js/main.js?v=1766747402701"></script>
+<script src="/js/main.js?v=1766837724662"></script>
 </body>
 </html>

